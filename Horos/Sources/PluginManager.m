@@ -1741,47 +1741,6 @@ NSInteger sortPluginArray(id plugin1, id plugin2, void *context)
 }
 
 
-- (IBAction)checkForUpdates:(id)sender
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-    [NSThread currentThread].name = @"Check for plugins updates";
-    
-	[NSThread sleepForTimeInterval: 10];
-	
-    NSMutableArray* pluginsToUpdate = [NSMutableArray arrayWithArray:[self checkForHorosPluginsUpdates:sender]];
-    [pluginsToUpdate addObjectsFromArray:[self checkForOsiriXPluginsUpdates:sender]];
-        
-    //ici
-    if([pluginsToUpdate count])
-    {
-        NSString *title;
-        NSMutableString *message = [NSMutableString string];
-        
-        if([pluginsToUpdate count]==1)
-        {
-            title = NSLocalizedString(@"Plugin Update Available", @"");
-            [message appendFormat:NSLocalizedString(@"A new version of the plugin \"%@\" is available.", @""), [[pluginsToUpdate objectAtIndex:0] objectForKey:@"name"]];
-        }
-        else
-        {
-            title = NSLocalizedString(@"Plugin Updates Available", @"");
-            [message appendString:NSLocalizedString(@"New versions of the following plugins are available:\n", @"")];
-            for (NSDictionary *plugin in pluginsToUpdate)
-            {
-                [message appendFormat:@"%@, ", [plugin objectForKey:@"name"]];
-            }
-            message = [NSMutableString stringWithString:[message substringToIndex:[message length]-2]];
-        }
-								
-        NSDictionary *messageDictionary = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:title, message, pluginsToUpdate, nil] forKeys:[NSArray arrayWithObjects:@"title", @"body", @"plugins", nil]];
-        
-        [self performSelectorOnMainThread:@selector(displayUpdateMessage:) withObject:messageDictionary waitUntilDone: NO];
-    }
-
-	
-	[pool release];
-}
 
 
 

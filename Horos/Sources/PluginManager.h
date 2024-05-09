@@ -91,7 +91,6 @@
 + (void)createDirectory:(NSString*)directoryPath;
 + (NSArray*)availabilities;
 
-- (IBAction)checkForUpdates:(id)sender;
 - (void)displayUpdateMessage:(NSDictionary*)messageDictionary;
 
 #endif

@@ -195,9 +195,6 @@ extern AppController* OsiriX;
 - (IBAction) about:(id)sender; /**< Display the about window */
 - (IBAction) showPreferencePanel:(id)sender; /**< Show Preferences window */
 #ifndef OSIRIX_LIGHT
-#ifndef MACAPPSTORE
-- (IBAction) checkForUpdates:(id) sender;  /**< Check for update */
-#endif
 - (IBAction) autoQueryRefresh:(id)sender;
 #endif
 //===============WINDOW========================

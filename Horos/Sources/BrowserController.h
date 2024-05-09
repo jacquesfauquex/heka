@@ -343,7 +343,6 @@ extern NSString * const O2PasteboardTypeDatabaseObjectXIDs;
 - (IBAction) saveAlbums:(id) sender;
 - (IBAction) addAlbums:(id) sender;
 - (IBAction) defaultAlbums: (id) sender;
-- (IBAction) clickBanner:(id) sender;
 - (IBAction) refreshPACSOnDemandResults:(id)sender;
 - (IBAction) drawerToggle: (id)sender;
 - (void) openDatabasePath: (NSString*) path;

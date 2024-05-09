@@ -137,13 +137,8 @@
 #import "WADOXML.h"
 #import "DicomDir.h"
 #import "CPRVolumeData.h"
-#import "O2HMigrationAssistant.h"
-#import "ICloudDriveDetector.h"
 #import "NSException+N2.h"
 
-#if defined(USEHOMEPHONE)
-#import "homephone/HorosHomePhone.h"
-#endif
 
 #import "url.h"
 
@@ -291,7 +286,6 @@ static NSString*	ViewersToolbarItemIdentifier	= @"windows.tif";
 static NSString*	WebServerSingleNotification	= @"Safari.tif";
 static NSString*	AddStudiesToUserItemIdentifier	= @"NSUserAccounts";
 static NSString*    ResetSplitViewsItemIdentifier = @"Reset.pdf";
-static NSString*    HorosMigrationAssistantIdentifier = @"O2HMigrationAssistant.png";
 
 static NSTimeInterval gLastActivity = 0;
 static BOOL dontShowOpenSubSeries = NO;
@@ -14454,15 +14448,6 @@ static NSArray*	openSubSeriesArray = nil;
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"autoRetrieving"];
 #endif
         
-#ifdef WITH_BANNER
-        [NSThread detachNewThreadSelector: @selector(checkForBanner:) toTarget: self withObject: nil];
-        
-        CGFloat position = bannerSplit.frame.size.height - (banner.image.size.height+3);
-        [bannerSplit setPosition: position ofDividerAtIndex: 0];
-#else
-       // [[[bannerSplit subviews] objectAtIndex:1] setHidden:YES];
-#endif
-        
         [[self window] setAnimationBehavior: NSWindowAnimationBehaviorNone];
         
         // Responder chain
@@ -14529,70 +14514,14 @@ static NSArray*	openSubSeriesArray = nil;
     
     
     
-    if (firstTimeExecution == YES && foundNotValidatedOsiriXPlugins == YES)
-    {
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert addButtonWithTitle:NSLocalizedString(@"OK",nil)];
-        [alert setMessageText:NSLocalizedString(@"Not validated OsiriX plugins were detected!",nil)];
-        [alert setInformativeText:NSLocalizedString(@"Not validated OsiriX plugins may cause Horos run-time errors. In case of problems, you can disable/uninstall them in [Plugins => Plugin Manager]. A brand new Horos plugin database is being built for you.",nil)];
-        [alert setAlertStyle:NSWarningAlertStyle];
-        [alert runModal];
-        [alert release];
-    }
-    
-    
     NSUserDefaults *userDefaults= [NSUserDefaults standardUserDefaults];
     if ([[[userDefaults dictionaryRepresentation] allKeys] containsObject:@"ROIColorRotation"] == NO)
     {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ROIColorRotation"];
     }
-    
-#if defined(USEHOMEPHONE)
-    [[HorosHomePhone sharedHomePhone] callHomeInformingFunctionType:HOME_PHONE_HOROS_STARTED detail:@"{}"];
-#endif
-    
-    [ICloudDriveDetector performStartupICloudDriveTasks:self];
-    [O2HMigrationAssistant performStartupO2HTasks:self];
 }
 
-- (IBAction) clickBanner:(id) sender
-{
-#ifdef WITH_BANNER
-    if( [[self window] isKeyWindow])
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_CLICK_BANNER]];
-#endif
-}
 
-- (void) installBanner: (NSImage*) bannerImage
-{
-#ifdef WITH_BANNER
-    [banner setImage: bannerImage];
-    [bannerSplit setPosition: bannerSplit.frame.size.height - (banner.image.size.height+3) ofDividerAtIndex: 0];
-#endif
-}
-
-// This gets executed in a separate thread
-- (void) checkForBanner: (id) sender
-{
-#ifdef WITH_BANNER
-    NSAutoreleasePool *pool = [NSAutoreleasePool new];
-    NSError *error = nil;
-    NSURLResponse *urlResponse = nil;
-    
-    NSURLRequest *request = [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString:URL_HOROS_BANNER] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval: 30] autorelease];
-    NSData *imageData = [NSURLConnection sendSynchronousRequest: request returningResponse: &urlResponse error: &error];
-    
-    if( imageData && error == nil && [urlResponse.MIMEType isEqualToString: @"image/png"])
-    {
-        NSImage *bannerImage = [[[NSImage alloc] initWithData: imageData] autorelease];
-        
-        if( bannerImage)
-            [self performSelectorOnMainThread: @selector(installBanner:) withObject: bannerImage waitUntilDone: NO modes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
-    }
-    
-    [pool release];
-#endif
-}
 
 -(void)dealloc
 {
@@ -19398,15 +19327,6 @@ restart:
         [toolbarItem setTarget: self];
         [toolbarItem setAction: @selector(restoreWindowState:)];
     }
-    else if ([itemIdent isEqualToString: HorosMigrationAssistantIdentifier])
-    {
-        [toolbarItem setLabel: NSLocalizedString(@"Migration Assistant",nil)];
-        [toolbarItem setPaletteLabel: NSLocalizedString(@"Migration Assistant",nil)];
-        [toolbarItem setToolTip: NSLocalizedString(@"Open Horos Migration Assistant",nil)];
-        [toolbarItem setImage: [NSImage imageNamed: HorosMigrationAssistantIdentifier]];
-        [toolbarItem setTarget: self];
-        [toolbarItem setAction: @selector(openHorosMigrationAssistant:)];
-    }
     else
     {
         // Is it a plugin menu item?
@@ -19449,22 +19369,6 @@ restart:
     return toolbarItem;
 }
 
-
-- (void) openHorosMigrationAssistant:(id) sender
-{
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"O2H_MIGRATION_USER_ACTION"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-
-    if ([O2HMigrationAssistant isOsiriXInstalled] == NO)
-    {
-        NSRunInformationalAlertPanel(NSLocalizedString(@"Horos Migration Assistant", nil),
-                                     NSLocalizedString(@"It seems you don't have OsiriX installed.", nil),
-                                     NSLocalizedString(@"Return",nil), nil, nil);
-        return;
-    }
-    
-    [O2HMigrationAssistant performStartupO2HTasks:self];
-}
 
 
 - (void)spaceEvenly:(NSSplitView *)splitView
@@ -19625,7 +19529,6 @@ restart:
                              ReportToolbarItemIdentifier,
                              ToggleDrawerToolbarItemIdentifier,
                              ResetSplitViewsItemIdentifier,
-                             HorosMigrationAssistantIdentifier,
                              nil];
     
     NSArray*		allPlugins = [[PluginManager pluginsDict] allKeys];

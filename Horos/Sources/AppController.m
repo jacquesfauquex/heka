@@ -3411,8 +3411,6 @@ static BOOL initialized = NO;
 	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"SingleProcessMultiThreadedListener"] == NO)
 		NSLog( @"----- %@", NSLocalizedString( @"DICOM Listener is multi-processes mode.", nil));
 	
-	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"hideListenerError"])
-		[[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"checkForUpdatesPlugins"];
 	
     [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"USEALWAYSTOOLBARPANEL2"];
     [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"syncPreviewList"];
@@ -3420,29 +3418,7 @@ static BOOL initialized = NO;
 //    [[NSUserDefaults standardUserDefaults] setBool: NO  forKey: @"AUTOHIDEMATRIX"];
     
     
-	#ifndef MACAPPSTORE
-	#ifndef OSIRIX_LIGHT
-	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"checkForUpdatesPlugins"])
-		[NSThread detachNewThreadSelector:@selector(checkForUpdates:) toTarget:pluginManager withObject:pluginManager];
-	
-    
-    // If Horos crashed before...
-    NSString *HorosCrashed = @"/tmp/HorosCrashed";
-    
-    if( [[NSFileManager defaultManager] fileExistsAtPath: HorosCrashed]) // Activate check for update !
-    {
-        [[NSFileManager defaultManager] removeItemAtPath: HorosCrashed error: nil];
-        
-        if( [[NSUserDefaults standardUserDefaults] boolForKey: @"CheckHorosUpdates"] == NO)
-        {
-            if( [[NSUserDefaults standardUserDefaults] boolForKey: @"hideListenerError"] == NO)
-                [NSThread detachNewThreadSelector: @selector(checkForUpdates:) toTarget: self withObject: @"crash"];
-        }
-    }
-    else [NSThread detachNewThreadSelector: @selector(checkForUpdates:) toTarget:self withObject: self];
-    
-	#endif
-	#endif
+
     
     // Remove PluginManager items...
     #ifdef MACAPPSTORE
@@ -4263,110 +4239,6 @@ static BOOL initialized = NO;
 
 	return wait;
 }
-
-#ifndef OSIRIX_LIGHT
-#ifndef MACAPPSTORE
-
-- (IBAction) checkForUpdatesDisabled: (id) sender
-{
-    if ([[NSUserDefaults standardUserDefaults] boolForKey: @"CheckHorosUpdates"] != NO)
-    {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [NSThread detachNewThreadSelector:@selector(checkForUpdates:) toTarget:self withObject:self];
-            });
-        });
-    }
-    else
-    {
-        double delayInSeconds = 60;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [NSThread detachNewThreadSelector:@selector(checkForUpdatesDisabled:) toTarget:self withObject:self];
-            });
-        });
-    }
-}
-
-- (IBAction) checkForUpdates: (id) sender
-{
-	NSURL *url;
-	if( sender != self)
-        verboseUpdateCheck = YES;
-	else
-        verboseUpdateCheck = NO;
-	
-    BOOL verboseAfterCrash = NO;
-    
-    if( [sender isKindOfClass:[NSString class]] && [sender isEqualToString: @"crash"])
-        verboseAfterCrash = YES;
-    
-    url = [NSURL URLWithString:URL_HOROS_VERSION];
-	
-	if( url)
-	{
-		NSString *currVersionNumber = [[[NSBundle bundleForClass:[self class]] infoDictionary] objectForKey:@"CFBundleVersion"];
-		NSDictionary *productVersionDict = [NSDictionary dictionaryWithContentsOfURL: url];
-		NSString *latestVersionNumber = [productVersionDict valueForKey:@"Horos"];
-		
-		if (productVersionDict && currVersionNumber && latestVersionNumber)
-		{
-			if ([latestVersionNumber intValue] <= [currVersionNumber intValue])
-			{
-				if (verboseUpdateCheck && verboseAfterCrash == NO)
-				{
-					[self performSelectorOnMainThread:@selector(displayUpdateMessage:) withObject:@"UPTODATE" waitUntilDone: YES];
-				}
-			}
-			else
-			{
-				if( ([[NSUserDefaults standardUserDefaults] boolForKey: @"CheckHorosUpdates"] == YES && [[NSUserDefaults standardUserDefaults] boolForKey: @"hideListenerError"] == NO) || verboseUpdateCheck == YES)
-				{
-                    if( verboseAfterCrash)
-                        [self performSelectorOnMainThread:@selector(displayUpdateMessage:) withObject:@"UPDATECRASH" waitUntilDone: YES];
-                    else
-                        [self performSelectorOnMainThread:@selector(displayUpdateMessage:) withObject:@"UPDATE" waitUntilDone: YES];
-				}
-			}
-		}
-		else
-		{
-			if (verboseUpdateCheck)
-			{
-				[self performSelectorOnMainThread:@selector(displayUpdateMessage:) withObject:@"ERROR" waitUntilDone: YES];
-			}
-		}
-	}
-	
-    if (verboseUpdateCheck)
-    {
-        return;
-    }
-
-    if ([[NSUserDefaults standardUserDefaults] boolForKey: @"CheckHorosUpdates"] != NO)
-    {
-        double delayInSeconds = 3600;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [NSThread detachNewThreadSelector:@selector(checkForUpdates:) toTarget:self withObject:self];
-            });
-        });
-    }
-    else
-    {
-        double delayInSeconds = 60;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [NSThread detachNewThreadSelector:@selector(checkForUpdatesDisabled:) toTarget:self withObject:self];
-            });
-        });
-    }
-}
-#endif
-#endif
 
 - (void) URL: (NSURL*) sender resourceDidFailLoadingWithReason: (NSString*) reason
 {

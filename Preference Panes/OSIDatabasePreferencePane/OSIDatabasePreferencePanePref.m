@@ -44,7 +44,6 @@
 #import "DicomDatabase.h"
 #import "DicomFile.h"
 #import "WaitRendering.h"
-#import "ICloudDriveDetector.h"
 
 @implementation OSIDatabasePreferencePanePref
 
