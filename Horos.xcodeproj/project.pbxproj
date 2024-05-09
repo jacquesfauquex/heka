@@ -7,17 +7,6 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		4A2F5931078D148300C514A2 /* Unzip Binaries */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 7E76BECF085757B70073649A /* Build configuration list for PBXAggregateTarget "Unzip Binaries" */;
-			buildPhases = (
-				4A2F5930078D148300C514A2 /* Unzip Binaries */,
-			);
-			dependencies = (
-			);
-			name = "Unzip Binaries";
-			productName = "Unzip Binaries";
-		};
 		5F1E2A682411AE7E00365A0C /* DCMTK */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 5F1E2A6F2411AE7E00365A0C /* Build configuration list for PBXAggregateTarget "DCMTK" */;
@@ -710,7 +699,6 @@
 		9966A1B51AE0B6EE00F2D81A /* DCM.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 844719AF0FD8EF50003BFDF8 /* DCM.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9966A2E71AE0C55600F2D81A /* DCM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 844719AF0FD8EF50003BFDF8 /* DCM.framework */; };
 		9966BCB51CEB5BA50086A8D7 /* osirixplugin.icns in Resources */ = {isa = PBXBuildFile; fileRef = 9966BCB41CEB5BA50086A8D7 /* osirixplugin.icns */; };
-		9980BA351FF545BC001D7779 /* COPYING.LESSER in Resources */ = {isa = PBXBuildFile; fileRef = 9980BA341FF545BC001D7779 /* COPYING.LESSER */; };
 		998309111BB62D4100CAB197 /* JRSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 9983090F1BB62D4100CAB197 /* JRSwizzle.h */; };
 		998309121BB62D4100CAB197 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 998309101BB62D4100CAB197 /* JRSwizzle.m */; };
 		998B52E21AE0890300D317CF /* Horos.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 998B52E11AE0890300D317CF /* Horos.sdef */; };
@@ -3037,7 +3025,6 @@
 		F35B0D8F28954862008ABE3E /* FeedbackReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F35B0D8E28954830008ABE3E /* FeedbackReporter.framework */; };
 		F35B0D9028954862008ABE3E /* FeedbackReporter.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = F35B0D8E28954830008ABE3E /* FeedbackReporter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F3C3F0712893A429004B2F61 /* Horos.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F3C3F0702893A429004B2F61 /* Horos.xcconfig */; };
-		F3D78C9E2892994600148FE5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F3D78C9D2892994600148FE5 /* Config.xcconfig */; };
 		F3E3E6CD289527220037A247 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3E3E6CA289527220037A247 /* UserNotifications.framework */; };
 /* End PBXBuildFile section */
 
@@ -3265,13 +3252,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 71A5231C2021D2B50065793A;
 			remoteInfo = OpenJPEG;
-		};
-		99FE27FC1CF4A442003C32AB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4A2F5931078D148300C514A2;
-			remoteInfo = "Unzip Binaries";
 		};
 		F35B0D7E289535B6008ABE3E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -3995,7 +3975,6 @@
 		9966A1AA1AE09D7C00F2D81A /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		9966A1AF1AE09FFE00F2D81A /* Osirix.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Osirix.icns; sourceTree = "<group>"; };
 		9966BCB41CEB5BA50086A8D7 /* osirixplugin.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = osirixplugin.icns; sourceTree = "<group>"; };
-		9980BA341FF545BC001D7779 /* COPYING.LESSER */ = {isa = PBXFileReference; lastKnownFileType = text; path = COPYING.LESSER; sourceTree = "<group>"; };
 		9983090F1BB62D4100CAB197 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
 		998309101BB62D4100CAB197 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSwizzle.m; sourceTree = "<group>"; };
 		998B52E11AE0890300D317CF /* Horos.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Horos.sdef; sourceTree = "<group>"; };
@@ -4004,7 +3983,6 @@
 		999B0B611BB70F0800AF018A /* O2HMigrationAssistant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = O2HMigrationAssistant.m; path = Horos.xcodeproj/../O2HMigrationAssistant.m; sourceTree = "<group>"; };
 		999B0B661BB711ED00AF018A /* CurvedArrowGrayLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CurvedArrowGrayLeft.png; sourceTree = "<group>"; };
 		99BA4CD620A4BDDA00B5CD02 /* HorosCloud.horosplugin.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = HorosCloud.horosplugin.zip; path = Binaries/EmbeddedPlugins/HorosCloud.horosplugin.zip; sourceTree = SOURCE_ROOT; };
-		99C0EE22202A70CB00D88E8D /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A085E103141E53210072BF0D /* DCMUSRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMUSRegion.h; sourceTree = "<group>"; };
 		A085E104141E53210072BF0D /* DCMUSRegion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMUSRegion.m; sourceTree = "<group>"; };
 		A90202BA0B980CD60001A00B /* PluginManagerController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PluginManagerController.h; sourceTree = "<group>"; };
@@ -5686,7 +5664,6 @@
 		F35B0D8E28954830008ABE3E /* FeedbackReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FeedbackReporter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3A24302289570ED00E2547B /* Changelog.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Changelog.md; sourceTree = "<group>"; };
 		F3C3F0702893A429004B2F61 /* Horos.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Horos.xcconfig; path = Horos/Horos.xcconfig; sourceTree = "<group>"; };
-		F3D78C9D2892994600148FE5 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		F3E3E6CA289527220037A247 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		F3EFB87A2895825C0012A622 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -5852,11 +5829,8 @@
 		29B97314FDCFA39411CA2CEA /* OsiriX */ = {
 			isa = PBXGroup;
 			children = (
-				99C0EE22202A70CB00D88E8D /* LICENSE */,
-				9980BA341FF545BC001D7779 /* COPYING.LESSER */,
 				F3EFB87A2895825C0012A622 /* README.md */,
 				F3A24302289570ED00E2547B /* Changelog.md */,
-				F3D78C9D2892994600148FE5 /* Config.xcconfig */,
 				F3C3F0702893A429004B2F61 /* Horos.xcconfig */,
 				71C99EA41D1A7E9F00208F3B /* Info.plist */,
 				710EF1F51FD014E8000B555B /* Horos */,
@@ -10029,7 +10003,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				99FE27FD1CF4A442003C32AB /* PBXTargetDependency */,
 				71A523172021D2390065793A /* PBXTargetDependency */,
 				71A523332021D3840065793A /* PBXTargetDependency */,
 				71A523052021B6D50065793A /* PBXTargetDependency */,
@@ -10132,7 +10105,6 @@
 				7E0B3A3E067526CD00908593 /* DCM */,
 				AB0F3A2B1046BD2B004129DD /* API */,
 				AB724F300ADE6ECB00A212A0 /* Decompress */,
-				4A2F5931078D148300C514A2 /* Unzip Binaries */,
 				BF7486A50CC6AA5C00198387 /* Documentation */,
 				71A5234420220F780065793A /* VTK */,
 				71A523342021DB180065793A /* ITK */,
@@ -10284,7 +10256,6 @@
 				CE5487410989346800CF4C60 /* BrushPalette.tif in Resources */,
 				CE54877A0989363200CF4C60 /* Brush.tif in Resources */,
 				CEDCDD5B099C8AA20026AA4B /* ROIManager.pdf in Resources */,
-				F3D78C9E2892994600148FE5 /* Config.xcconfig in Resources */,
 				ABEF846A09A23EF5006CEC3E /* ReportTemplate.doc in Resources */,
 				AB46648D09A331DF005A2766 /* Report.icns in Resources */,
 				AB9DCD7B09A9C47800AA19E7 /* ReportTemplate.rtf in Resources */,
@@ -10511,7 +10482,6 @@
 				A9701A6615C958020019EE55 /* burn_iris05.tif in Resources */,
 				A9701A6815C958020019EE55 /* burn_iris06.tif in Resources */,
 				A9701A6A15C958020019EE55 /* burn_iris07.tif in Resources */,
-				9980BA351FF545BC001D7779 /* COPYING.LESSER in Resources */,
 				A9701A6C15C958020019EE55 /* burn_iris08.tif in Resources */,
 				A9701A6E15C958020019EE55 /* burn_iris09.tif in Resources */,
 				A9701A7015C958020019EE55 /* burn_iris10.tif in Resources */,
@@ -10579,20 +10549,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4A2F5930078D148300C514A2 /* Unzip Binaries */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Unzip Binaries";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "sh \"Horos/Scripts/Horos/Unzip.sh\"\n";
-		};
 		59BDEE70117CB3A6007F1F2C /* Zip Horos Launcher into Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -12725,11 +12681,6 @@
 			target = 71A5231C2021D2B50065793A /* OpenJPEG */;
 			targetProxy = 99C0EE23202A825800D88E8D /* PBXContainerItemProxy */;
 		};
-		99FE27FD1CF4A442003C32AB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4A2F5931078D148300C514A2 /* Unzip Binaries */;
-			targetProxy = 99FE27FC1CF4A442003C32AB /* PBXContainerItemProxy */;
-		};
 		F35B0D7D289535B6008ABE3E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 71E6C0B01FBAD31E00FF75B6 /* Submodules */;
@@ -13343,7 +13294,6 @@
 /* Begin XCBuildConfiguration section */
 		43E98D191A32BF6A001B9E51 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F3D78C9D2892994600148FE5 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -13480,14 +13430,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_PREFIX).dcm";
 				PRODUCT_NAME = DCM;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-			};
-			name = Release;
-		};
-		43E98D1D1A32BF6A001B9E51 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				PRODUCT_NAME = "Unzip Binaries";
 			};
 			name = Release;
 		};
@@ -13773,17 +13715,8 @@
 			};
 			name = Debug;
 		};
-		7E76BED0085757B70073649A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				PRODUCT_NAME = "Unzip Binaries";
-			};
-			name = Debug;
-		};
 		7E76BED9085757B70073649A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F3D78C9D2892994600148FE5 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -14014,15 +13947,6 @@
 			buildConfigurations = (
 				7E76BEC7085757B70073649A /* Debug */,
 				43E98D1A1A32BF6A001B9E51 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7E76BECF085757B70073649A /* Build configuration list for PBXAggregateTarget "Unzip Binaries" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7E76BED0085757B70073649A /* Debug */,
-				43E98D1D1A32BF6A001B9E51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
