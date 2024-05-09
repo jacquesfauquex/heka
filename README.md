@@ -27,5 +27,3 @@ The build process takes care of these dependencies, but you can invoke the steps
 
 - To unzip the binaries, you can build the target `Unzip Binaries`
 - To initialize the submodules: `git submodule update --init --recursive`
-
-For more information on this code, visit [horosproject.org](https://horosproject.org/get-involved/)

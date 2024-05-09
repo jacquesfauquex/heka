@@ -139,18 +139,6 @@
 			name = Documentation;
 			productName = Documentation;
 		};
-		F35B0D7C289535B6008ABE3E /* FeedbackReporter */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = F35B0D85289535B6008ABE3E /* Build configuration list for PBXAggregateTarget "FeedbackReporter" */;
-			buildPhases = (
-				F35B0D84289535B6008ABE3E /* Make */,
-			);
-			dependencies = (
-				F35B0D7D289535B6008ABE3E /* PBXTargetDependency */,
-			);
-			name = FeedbackReporter;
-			productName = FeedbackReporter;
-		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -189,7 +177,6 @@
 		434B47A21A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */; };
 		434B47A41A1A194F008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */; };
 		434B47A51A1A1951008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */; };
-		439B8C141A19CCC300F396D7 /* 3DconnexionClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439B8C131A19CCC300F396D7 /* 3DconnexionClient.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4F00A9E4139A778000ABD529 /* CPRStretchedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00A9E3139A778000ABD529 /* CPRStretchedView.m */; };
 		4F00A9E8139A779200ABD529 /* CPRStretchedView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F00A9E7139A779200ABD529 /* CPRStretchedView.h */; };
 		4F1FCE1B143092DC008683F9 /* OSIPlanarBrushROI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F1FCE19143092DC008683F9 /* OSIPlanarBrushROI.h */; };
@@ -519,7 +506,6 @@
 		71AD676E1FC4256E00A1E2F8 /* Tiling3x3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71E6C0A91FB59A9000FF75B6 /* Tiling3x3.pdf */; };
 		71CE3C19157F489C00AC0112 /* List.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71CE3C18157F489C00AC0112 /* List.pdf */; };
 		71E6C0801FB5943B00FF75B6 /* O2HMigrationAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71E6C0821FB5943B00FF75B6 /* O2HMigrationAssistant.xib */; };
-		71E6C0AF1FB5B0BF00FF75B6 /* 3DconnexionClient.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 439B8C131A19CCC300F396D7 /* 3DconnexionClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		71EB83C016DCB7FF00D48646 /* O2DicomPredicateEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 71EB83B216DCB7FF00D48646 /* O2DicomPredicateEditor.h */; };
 		71EB83C116DCB7FF00D48646 /* O2DicomPredicateEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EB83B316DCB7FF00D48646 /* O2DicomPredicateEditor.m */; };
 		71EB83C216DCB7FF00D48646 /* O2DicomPredicateEditorCodeStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = 71EB83B416DCB7FF00D48646 /* O2DicomPredicateEditorCodeStrings.h */; };
@@ -659,7 +645,6 @@
 		84C4510B10033B8100138F70 /* OSIWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C450F51003384000138F70 /* OSIWindow.m */; };
 		84C4510C10033B8200138F70 /* OSIWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C450F41003384000138F70 /* OSIWindow.h */; };
 		84C6329516B945CD00F0EA89 /* ContextCleaner.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C6329416B945CD00F0EA89 /* ContextCleaner.h */; };
-		84CD250D11EC5564004669D6 /* OsiriXDB_Previous_DataModel2.4.mom in Resources */ = {isa = PBXBuildFile; fileRef = 84CD250C11EC5564004669D6 /* OsiriXDB_Previous_DataModel2.4.mom */; };
 		84CD254C11ECB49A004669D6 /* OsiriXDB_DataModel.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = CE51BAF711E2289C006D180E /* OsiriXDB_DataModel.xcdatamodel */; };
 		84D7BBE3154A941A007B5A86 /* NSNotificationCenter+N2.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D7BBE1154A941A007B5A86 /* NSNotificationCenter+N2.h */; };
 		84D7BBE5154A941A007B5A86 /* NSNotificationCenter+N2.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84D7BBE2154A941A007B5A86 /* NSNotificationCenter+N2.mm */; };
@@ -667,8 +652,6 @@
 		84E191FB1369966A008DCFC8 /* WADODownload.h in Headers */ = {isa = PBXBuildFile; fileRef = 84E191F91369966A008DCFC8 /* WADODownload.h */; };
 		84E191FC1369966A008DCFC8 /* WADODownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E191FA1369966A008DCFC8 /* WADODownload.m */; };
 		991B8B5C1BB8B279006AF439 /* O2HMigrationAssistant.png in Resources */ = {isa = PBXBuildFile; fileRef = 991B8B5B1BB8B279006AF439 /* O2HMigrationAssistant.png */; };
-		992264FA2028CE63004C4995 /* homephone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 992264F92028CE62004C4995 /* homephone.framework */; };
-		992264FB2028CE79004C4995 /* homephone.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 992264F92028CE62004C4995 /* homephone.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		992335882009A75A000E10BA /* Horos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0F3A2C1046BD2B004129DD /* Horos.framework */; };
 		992335892009A75A000E10BA /* Horos.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AB0F3A2C1046BD2B004129DD /* Horos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9939F7A91BCB0BF8009FEB69 /* FVTiff.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE73FC808F44724002A395F /* FVTiff.m */; };
@@ -1456,12 +1439,6 @@
 		AB94E72606343D91003E4C48 /* MutableArrayCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = AB94E72406343D91003E4C48 /* MutableArrayCategory.h */; };
 		AB95C0390A2B08ED00380C65 /* FileNotFound.tif in Resources */ = {isa = PBXBuildFile; fileRef = AB95C0380A2B08ED00380C65 /* FileNotFound.tif */; };
 		AB9693C00E823E3A00F09EEA /* ROIsAndKeys.tif in Resources */ = {isa = PBXBuildFile; fileRef = AB9693BF0E823E3A00F09EEA /* ROIsAndKeys.tif */; };
-		AB9723950C684B4E00DC727C /* OsiriXDB_Previous_DataModel1.1.mom in Resources */ = {isa = PBXBuildFile; fileRef = AB9723890C684B4E00DC727C /* OsiriXDB_Previous_DataModel1.1.mom */; };
-		AB9723960C684B4E00DC727C /* OsiriXDB_Previous_DataModel1.5.mom in Resources */ = {isa = PBXBuildFile; fileRef = AB97238A0C684B4E00DC727C /* OsiriXDB_Previous_DataModel1.5.mom */; };
-		AB9723970C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.0.mom in Resources */ = {isa = PBXBuildFile; fileRef = AB97238B0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.0.mom */; };
-		AB9723980C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.1.mom in Resources */ = {isa = PBXBuildFile; fileRef = AB97238C0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.1.mom */; };
-		AB9723990C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.2.mom in Resources */ = {isa = PBXBuildFile; fileRef = AB97238D0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.2.mom */; };
-		AB97239A0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.3.mom in Resources */ = {isa = PBXBuildFile; fileRef = AB97238E0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.3.mom */; };
 		AB9DCD7B09A9C47800AA19E7 /* ReportTemplate.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AB9DCD7A09A9C47800AA19E7 /* ReportTemplate.rtf */; };
 		AB9E05470B30107A00661F7E /* key.png in Resources */ = {isa = PBXBuildFile; fileRef = AB9E05460B30107A00661F7E /* key.png */; };
 		ABB218B905CF1E9300D8B619 /* WaitRendering.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB218B705CF1E9300D8B619 /* WaitRendering.h */; };
@@ -3022,8 +2999,6 @@
 		DB5961390CAB447B00809190 /* OSIVoxel.m in Sources */ = {isa = PBXBuildFile; fileRef = DB5961370CAB447B00809190 /* OSIVoxel.m */; };
 		EC9BD81C11EDF349007421B2 /* FlyAssistant.h in Headers */ = {isa = PBXBuildFile; fileRef = EC9BD81A11EDF349007421B2 /* FlyAssistant.h */; };
 		EC9BD81D11EDF349007421B2 /* FlyAssistant.mm in Sources */ = {isa = PBXBuildFile; fileRef = EC9BD81B11EDF349007421B2 /* FlyAssistant.mm */; };
-		F35B0D8F28954862008ABE3E /* FeedbackReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F35B0D8E28954830008ABE3E /* FeedbackReporter.framework */; };
-		F35B0D9028954862008ABE3E /* FeedbackReporter.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = F35B0D8E28954830008ABE3E /* FeedbackReporter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F3C3F0712893A429004B2F61 /* Horos.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F3C3F0702893A429004B2F61 /* Horos.xcconfig */; };
 		F3E3E6CD289527220037A247 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3E3E6CA289527220037A247 /* UserNotifications.framework */; };
 /* End PBXBuildFile section */
@@ -3253,20 +3228,6 @@
 			remoteGlobalIDString = 71A5231C2021D2B50065793A;
 			remoteInfo = OpenJPEG;
 		};
-		F35B0D7E289535B6008ABE3E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 71E6C0B01FBAD31E00FF75B6;
-			remoteInfo = Submodules;
-		};
-		F35B0D8828953DE9008ABE3E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F35B0D7C289535B6008ABE3E;
-			remoteInfo = FeedbackReporter;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -3307,10 +3268,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F35B0D9028954862008ABE3E /* FeedbackReporter.framework in Copy Frameworks */,
-				992264FB2028CE79004C4995 /* homephone.framework in Copy Frameworks */,
 				992335892009A75A000E10BA /* Horos.framework in Copy Frameworks */,
-				71E6C0AF1FB5B0BF00FF75B6 /* 3DconnexionClient.framework in Copy Frameworks */,
 				9966A1B51AE0B6EE00F2D81A /* DCM.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -5704,11 +5662,9 @@
 				AB28B93305B79D5B00A9906C /* Cocoa.framework in Frameworks */,
 				AB28B93405B79D5C00A9906C /* ApplicationServices.framework in Frameworks */,
 				AB28B93505B79D5D00A9906C /* IOKit.framework in Frameworks */,
-				F35B0D8F28954862008ABE3E /* FeedbackReporter.framework in Frameworks */,
 				AB28B93705B79D5E00A9906C /* Accelerate.framework in Frameworks */,
 				F3E3E6CD289527220037A247 /* UserNotifications.framework in Frameworks */,
 				CEF0E6DC06AEF5CB001FF9E5 /* Carbon.framework in Frameworks */,
-				992264FA2028CE63004C4995 /* homephone.framework in Frameworks */,
 				7E3E38660715FFDC0049E72E /* PreferencePanes.framework in Frameworks */,
 				7E54303D07A05E7100500ABB /* DiscRecording.framework in Frameworks */,
 				7E54303E07A05E7100500ABB /* DiscRecordingUI.framework in Frameworks */,
@@ -5720,7 +5676,6 @@
 				8406956310B6800E00C37AD0 /* SystemConfiguration.framework in Frameworks */,
 				A997B15710E0C412004C5BB1 /* SecurityInterface.framework in Frameworks */,
 				841524C5113D6BDB008250E6 /* QuartzCore.framework in Frameworks */,
-				439B8C141A19CCC300F396D7 /* 3DconnexionClient.framework in Frameworks */,
 				9966A2E71AE0C55600F2D81A /* DCM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -10009,7 +9964,6 @@
 				71A5234B20220F910065793A /* PBXTargetDependency */,
 				71A5233D2021DB6C0065793A /* PBXTargetDependency */,
 				5F31DAC6241AE12300573589 /* PBXTargetDependency */,
-				F35B0D8928953DE9008ABE3E /* PBXTargetDependency */,
 				71C99E991D19A7FB00208F3B /* PBXTargetDependency */,
 				71C99E9B1D19A7FD00208F3B /* PBXTargetDependency */,
 				71C99EA11D19A80A00208F3B /* PBXTargetDependency */,
@@ -10115,7 +10069,6 @@
 				9920CBEC202A0BA600FE0A2A /* Grok */,
 				71E6C0B01FBAD31E00FF75B6 /* Submodules */,
 				5F1E2A682411AE7E00365A0C /* DCMTK */,
-				F35B0D7C289535B6008ABE3E /* FeedbackReporter */,
 			);
 		};
 /* End PBXProject section */
@@ -10308,12 +10261,6 @@
 				CE27BA100C113BBA00BDC9B3 /* 3DPresetsPanel.tif in Resources */,
 				CE897DD50C21D951005C669E /* texture.tif in Resources */,
 				A922F3BB0C631F3C0007AB98 /* CustomImageAnnotations.png in Resources */,
-				AB9723950C684B4E00DC727C /* OsiriXDB_Previous_DataModel1.1.mom in Resources */,
-				AB9723960C684B4E00DC727C /* OsiriXDB_Previous_DataModel1.5.mom in Resources */,
-				AB9723970C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.0.mom in Resources */,
-				AB9723980C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.1.mom in Resources */,
-				AB9723990C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.2.mom in Resources */,
-				AB97239A0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.3.mom in Resources */,
 				9952F26E2020C1010020CCD4 /* ICloudDriveDetector.xib in Resources */,
 				841B0B3C18980EFF0007E5C5 /* 3DCutWrite.png in Resources */,
 				CEC4B5C10C7DF2D600AF5A76 /* 3DPRESETS in Resources */,
@@ -10421,7 +10368,6 @@
 				5997897F11B7B423002DB107 /* AnonymizationView.xib in Resources */,
 				5926822411CF60BD00CFA81F /* ThreadModalForWindow.xib in Resources */,
 				CE8A5017181BA499009A453B /* Horos Report.pages in Resources */,
-				84CD250D11EC5564004669D6 /* OsiriXDB_Previous_DataModel2.4.mom in Resources */,
 				A9A80E3811F73E22009F54B9 /* Activity_Stop.tif in Resources */,
 				A9A80E3911F73E22009F54B9 /* Activity_StopPressed.tif in Resources */,
 				9966BCB51CEB5BA50086A8D7 /* osirixplugin.icns in Resources */,
@@ -10958,21 +10904,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#test with codesign -vvv\n#\n#chmod -R 777 \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/\"\n#\n#if [[ ${CONFIGURATION} == \"Release\" ]]; then\n# -f means force to re-sign even if already signed\n#codesign -f -s \"Developer ID Application\" \"$TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/HorosAPI.framework\"\n#codesign --resource-rules Rules.plist -f -s \"Developer ID Application\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/\"\n#echo \"code signed\"\n#fi\n";
-		};
-		F35B0D84289535B6008ABE3E /* Make */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Make;
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/FeedbackReporter.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "sh \"Horos/Scripts/$TARGET_NAME/Make.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -12681,16 +12612,6 @@
 			target = 71A5231C2021D2B50065793A /* OpenJPEG */;
 			targetProxy = 99C0EE23202A825800D88E8D /* PBXContainerItemProxy */;
 		};
-		F35B0D7D289535B6008ABE3E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 71E6C0B01FBAD31E00FF75B6 /* Submodules */;
-			targetProxy = F35B0D7E289535B6008ABE3E /* PBXContainerItemProxy */;
-		};
-		F35B0D8928953DE9008ABE3E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F35B0D7C289535B6008ABE3E /* FeedbackReporter */;
-			targetProxy = F35B0D8828953DE9008ABE3E /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -13842,22 +13763,6 @@
 			};
 			name = Debug;
 		};
-		F35B0D86289535B6008ABE3E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		F35B0D87289535B6008ABE3E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -13992,15 +13897,6 @@
 			buildConfigurations = (
 				BF7486A60CC6AA5D00198387 /* Debug */,
 				43E98D201A32BF6A001B9E51 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F35B0D85289535B6008ABE3E /* Build configuration list for PBXAggregateTarget "FeedbackReporter" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F35B0D86289535B6008ABE3E /* Debug */,
-				F35B0D87289535B6008ABE3E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
