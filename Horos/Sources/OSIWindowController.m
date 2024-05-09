@@ -565,7 +565,11 @@ static BOOL protectedReentryWindowDidResize = NO;
 	}
 
     // Override toolbar style
-    self.window.toolbarStyle = NSWindowToolbarStyleExpanded;
+    if (@available(macOS 11.0, *)) {
+        self.window.toolbarStyle = NSWindowToolbarStyleExpanded;
+    } else {
+        //JF Fallback on earlier versions
+    }
 
 	return self;
 }
