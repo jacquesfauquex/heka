@@ -427,7 +427,7 @@
                         }
                         else if( [DCMAbstractSyntaxUID isCDA: seriesSOPClassUID])
                         {
-                            thumbnail = [NSImage imageNamed: @"cdaIcon.jpg"];
+                            thumbnail = [NSImage imageNamed: @"cdaIcon.tif"];
                             thumbnailData = [[thumbnail TIFFRepresentation] retain]; // autoreleased when returning
                         }
                         else if( [DCMAbstractSyntaxUID isStructuredReport: seriesSOPClassUID] || [DCMAbstractSyntaxUID isPDF: seriesSOPClassUID])
