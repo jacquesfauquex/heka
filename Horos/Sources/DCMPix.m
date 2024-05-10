@@ -5923,7 +5923,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
         [pool release];
         return YES;
     } // end encapsulatedPDF
-    else if ([SOPClassUID isEqualToString:[DCMAbstractSyntaxUID EncapsulatedCDAStorage]])
+    else if ([SOPClassUID isEqualToString:[DCMAbstractSyntaxUID cdaStorageClassUID]])
     {
 #ifdef OSIRIX_VIEWER
         [self loadCustomImageAnnotationsPapyLink:-1 DCMLink:dcmObject];

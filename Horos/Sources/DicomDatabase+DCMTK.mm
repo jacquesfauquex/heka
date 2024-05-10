@@ -100,7 +100,7 @@
             // See Decompress.mm for these exceptions
             if( [DCMAbstractSyntaxUID isImageStorage: SOPClassUID] == YES &&
                [SOPClassUID isEqualToString:[DCMAbstractSyntaxUID pdfStorageClassUID]] == NO &&
-               [SOPClassUID isEqualToString:[DCMAbstractSyntaxUID EncapsulatedCDAStorage]] == NO &&
+               [SOPClassUID isEqualToString:[DCMAbstractSyntaxUID cdaStorageClassUID]] == NO &&
                [DCMAbstractSyntaxUID isStructuredReport: SOPClassUID] == NO)
             {
                 int resolution = 0;

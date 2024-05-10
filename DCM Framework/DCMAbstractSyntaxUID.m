@@ -260,7 +260,7 @@ static NSString *DCM_Verification = @"1.2.840.10008.1.1";
 	
 	// PDF storage
 	static NSString *PDFStorageClassUID = @"1.2.840.10008.5.1.4.1.1.104.1";
-	static NSString *EncapsulatedCDAStorage = @"1.2.840.10008.5.1.4.1.1.104.2";
+	static NSString *CDAStorageClassUID = @"1.2.840.10008.5.1.4.1.1.104.2";
 	
 	//Printing
 	static NSString *BasicGrayscalePrintManagementMetaSOPClassUID = @"1.2.840.10008.5.1.1.9";
@@ -605,7 +605,7 @@ static NSString *DCM_Verification = @"1.2.840.10008.1.1";
 		    PETImageStorage ,
 		    RTImageStorage ,
 			PDFStorageClassUID ,
-            EncapsulatedCDAStorage,
+         CDAStorageClassUID,
 			OphthalmicPhotography8BitImageStorage,
 			OphthalmicPhotography16BitImageStorage,
 			OphthalmicTomographyImageStorage,
@@ -904,8 +904,9 @@ static NSString *DCM_Verification = @"1.2.840.10008.1.1";
 		    || [DCMAbstractSyntaxUID isRadiotherapy:sopClassUID]
 		    || [DCMAbstractSyntaxUID isSpectroscopy:sopClassUID]
 		    || [DCMAbstractSyntaxUID isRawData:sopClassUID]
-			|| [DCMAbstractSyntaxUID isPDF:sopClassUID]
-            || [DCMAbstractSyntaxUID isHiddenImageStorage:sopClassUID]
+			 || [DCMAbstractSyntaxUID isPDF:sopClassUID]
+          || [DCMAbstractSyntaxUID isCDA:sopClassUID]
+          || [DCMAbstractSyntaxUID isHiddenImageStorage:sopClassUID]
 		;
 	}
 	
@@ -929,12 +930,16 @@ static NSString *DCM_Verification = @"1.2.840.10008.1.1";
 	return PDFStorageClassUID;
 }
 
-+ (NSString *)EncapsulatedCDAStorage{
-	return EncapsulatedCDAStorage;
++ (NSString *)cdaStorageClassUID{
+	return CDAStorageClassUID;
 }
  
 + (BOOL)isPDF:(NSString *)sopClassUID{
 	return [sopClassUID isEqualToString:PDFStorageClassUID];
+}
+
++ (BOOL)isCDA:(NSString *)sopClassUID{
+  return [sopClassUID isEqualToString:CDAStorageClassUID];
 }
 
 - (id)initWithUID:(NSString *)uid  name:(NSString *)name  type:(NSString *)type{

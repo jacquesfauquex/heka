@@ -161,7 +161,7 @@ htt://www.pixelmed.com
 + (NSString *)studyRootQueryRetrieveInformationModelMove;
 
 + (NSString *)pdfStorageClassUID;
-+ (NSString *)EncapsulatedCDAStorage;
++ (NSString *)cdaStorageClassUID;
 
 - (id)initWithUID:(NSString *)uid  name:(NSString *)name  type:(NSString *)type;
 - (NSString *)uid;
@@ -178,6 +178,7 @@ htt://www.pixelmed.com
 - (BOOL) isRawData;
 - (BOOL) isNonImageStorage;
 + (BOOL)isPDF:(NSString *)sopClassUID;
++ (BOOL)isCDA:(NSString *)sopClassUID;
 + (NSString *)basicGrayscalePrintManagementMetaSOPClassUID;
 + (NSString *)basicColorPrintManagementMetaSOPClassUID;
 

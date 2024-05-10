@@ -425,6 +425,11 @@
                             thumbnail = [NSImage imageNamed: @"SpectroIcon.jpg"];
                             thumbnailData = [[thumbnail TIFFRepresentation] retain]; // autoreleased when returning
                         }
+                        else if( [DCMAbstractSyntaxUID isCDA: seriesSOPClassUID])
+                        {
+                            thumbnail = [NSImage imageNamed: @"cdaIcon.jpg"];
+                            thumbnailData = [[thumbnail TIFFRepresentation] retain]; // autoreleased when returning
+                        }
                         else if( [DCMAbstractSyntaxUID isStructuredReport: seriesSOPClassUID] || [DCMAbstractSyntaxUID isPDF: seriesSOPClassUID])
                         {
                             NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFileType: @"txt"];
