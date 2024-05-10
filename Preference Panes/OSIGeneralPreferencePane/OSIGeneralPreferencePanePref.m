@@ -105,11 +105,6 @@ static NSArray *languagesToMoveWhenQuitting = nil;
 	return self;
 }
 
-- (NSUInteger) kakaduAvailable
-{
-	return [AppController isKDUEngineAvailable];
-}
-
 - (NSUInteger) JP2KWriter
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey: @"useDCMTKForJP2K"];
@@ -130,13 +125,11 @@ static NSArray *languagesToMoveWhenQuitting = nil;
 {	
 	if( val == 1) // Kakadu
 	{
-		[[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"UseKDUForJPEG2000"];
 		[[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"UseOpenJpegForJPEG2000"];
 	}
 	
 	if( val == 0) // OpenJPEG
 	{
-		[[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"UseKDUForJPEG2000"];
 		[[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"UseOpenJpegForJPEG2000"];
 	}
 	
@@ -149,15 +142,8 @@ static NSArray *languagesToMoveWhenQuitting = nil;
 
 - (NSUInteger) JP2KEngine
 {
-	if( [AppController isKDUEngineAvailable] == 1 && [[NSUserDefaults standardUserDefaults] boolForKey: @"UseKDUForJPEG2000"])
-	{
-		return 1; // Kakadu
-	}
 	
-	if( [AppController isKDUEngineAvailable] == 0 && [[NSUserDefaults standardUserDefaults] boolForKey: @"UseKDUForJPEG2000"])
-	{
-		return 0; // OpenJPEG
-	}
+
 	
 	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"UseOpenJpegForJPEG2000"])
 	{

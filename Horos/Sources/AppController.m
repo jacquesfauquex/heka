@@ -69,8 +69,6 @@
 #import "NSString+SymlinksAndAliases.h"
 #include <OpenGL/OpenGL.h>
 
-#include <kdu_OsiriXSupport.h>
-
 #include <execinfo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -96,8 +94,6 @@ static NSInvocation *fill12BitBufferInvocation = nil;
 BOOL					NEEDTOREBUILD = NO;
 BOOL					COMPLETEREBUILD = NO;
 BOOL					USETOOLBARPANEL = NO;
-//short					Altivec = 1;
-short                   Use_kdu_IfAvailable = 0;
 AppController			*appController = nil;
 DCMTKQueryRetrieveSCP   *dcmtkQRSCP = nil, *dcmtkQRSCPTLS = nil;
 NSRecursiveLock			*PapyrusLock = nil, *STORESCP = nil, *STORESCPTLS = nil;			// Papyrus is NOT thread-safe
@@ -810,11 +806,6 @@ void exceptionHandler(NSException *exception)
 }
 #endif
 
-+ (BOOL) isKDUEngineAvailable
-{
-	return kdu_available();
-}
-
 + (void) checkForPreferencesUpdate: (BOOL) b
 {
 	checkForPreferencesUpdate = b;
@@ -1439,11 +1430,6 @@ void exceptionHandler(NSException *exception)
             NSLog( @"%@", e);
         }
         
-        Use_kdu_IfAvailable = [[NSUserDefaults standardUserDefaults] boolForKey:@"UseKDUForJPEG2000"];
-        
-        #ifndef OSIRIX_LIGHT
-        [DCMPixelDataAttribute setUse_kdu_IfAvailable: Use_kdu_IfAvailable];
-        #endif
         
         [[BrowserController currentBrowser] setNetworkLogs];
         [DicomFile resetDefaults];
@@ -3146,44 +3132,6 @@ static BOOL initialized = NO;
                 
                 [path writeToFile:path atomically:NO encoding: NSUTF8StringEncoding error: nil];
 				
-				Use_kdu_IfAvailable = [[NSUserDefaults standardUserDefaults] boolForKey:@"UseKDUForJPEG2000"];
-				
-				#ifndef OSIRIX_LIGHT
-                [Reports checkForWordTemplates];
-				[Reports checkForPagesTemplate];
-				[DCMPixelDataAttribute setUse_kdu_IfAvailable: Use_kdu_IfAvailable];
-				#endif
-				
-				// CHECK FOR THE HTML TEMPLATES DIRECTORY
-//				
-//				NSString *htmlTemplatesDirectory = [[DicomDatabase defaultBaseDirPath] stringByAppendingPathComponent:@"/HTML_TEMPLATES/"];
-//				if ([[NSFileManager defaultManager] fileExistsAtPath:htmlTemplatesDirectory] == NO)
-//					[[NSFileManager defaultManager] createDirectoryAtPath:htmlTemplatesDirectory attributes:nil];
-//				
-//				// CHECK FOR THE HTML TEMPLATES
-//				
-//				NSString *templateFile;
-//				
-//				templateFile = [htmlTemplatesDirectory stringByAppendingPathComponent:@"QTExportPatientsTemplate.html"];
-//				NSLog(templateFile);
-//				if ([[NSFileManager defaultManager] fileExistsAtPath:templateFile] == NO)
-//					[[NSFileManager defaultManager] copyPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/QTExportPatientsTemplate.html"] toPath:templateFile handler:nil];
-//
-//				templateFile = [htmlTemplatesDirectory stringByAppendingPathComponent:@"QTExportStudiesTemplate.html"];
-//				NSLog(templateFile);
-//				if ([[NSFileManager defaultManager] fileExistsAtPath:templateFile] == NO)
-//					[[NSFileManager defaultManager] copyPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/QTExportStudiesTemplate.html"] toPath:templateFile handler:nil];
-//					
-//				// CHECK FOR THE HTML EXTRA DIRECTORY
-//				
-//				NSString *htmlExtraDirectory = [htmlTemplatesDirectory stringByAppendingPathComponent:@"html-extra/"];
-//				if ([[NSFileManager defaultManager] fileExistsAtPath:htmlExtraDirectory] == NO)
-//					[[NSFileManager defaultManager] createDirectoryAtPath:htmlExtraDirectory attributes:nil];
-//					
-//				// CSS file
-//				NSString *cssFile = [htmlExtraDirectory stringByAppendingPathComponent:@"style.css"];
-//				if ([[NSFileManager defaultManager] fileExistsAtPath:cssFile] == NO)
-//					[[NSFileManager defaultManager] copyPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/QTExportStyle.css"] toPath:cssFile handler:nil];				
 			}
 		}
 	}
@@ -3997,7 +3945,6 @@ static BOOL initialized = NO;
 		
 	[[NSUserDefaults standardUserDefaults] setBool: [AppController hasMacOSXSnowLeopard] forKey: @"hasMacOSXSnowLeopard"];
 	
-    [[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"UseKDUForJPEG2000"];
     [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"UseOpenJpegForJPEG2000"];
     [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"useDCMTKForJP2K"];
     
@@ -4042,10 +3989,7 @@ static BOOL initialized = NO;
 	
 //	[html2pdf pdfFromURL: @"http://zimbra.latour.ch"];
 
-	if( [AppController isKDUEngineAvailable])
-		NSLog( @"/*\\ /*\\ KDU Engine AVAILABLE /*\\ /*\\");
-    }
-
+}
 - (IBAction) updateViews:(id) sender
 {
 	NSArray *winList = [NSApp windows];

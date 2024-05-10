@@ -174,7 +174,6 @@
 		434B461E1A19F631008CF8CF /* OPJSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 434B461C1A19F631008CF8CF /* OPJSupport.h */; };
 		434B461F1A19F640008CF8CF /* OPJSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B461B1A19F631008CF8CF /* OPJSupport.cpp */; };
 		434B46201A19F642008CF8CF /* OPJSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B461B1A19F631008CF8CF /* OPJSupport.cpp */; };
-		434B47A21A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */; };
 		434B47A41A1A194F008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */; };
 		434B47A51A1A1951008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */; };
 		4AF8F5472BEECFA300AF4A5D /* DCKV in Headers */ = {isa = PBXBuildFile; fileRef = 4AF8F50E2BEECEDF00AF4A5D /* DCKV */; };
@@ -623,7 +622,6 @@
 		849B44BD1552B2D800194728 /* OsiriXNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 849B44BA1552B2D800194728 /* OsiriXNotificationCenter.m */; };
 		84A220E80F25E41800C6C3EB /* ROIs.tif in Resources */ = {isa = PBXBuildFile; fileRef = 84A220E60F25E41800C6C3EB /* ROIs.tif */; };
 		84A220E90F25E41800C6C3EB /* Keys.tif in Resources */ = {isa = PBXBuildFile; fileRef = 84A220E70F25E41800C6C3EB /* Keys.tif */; };
-		84A9D49612F7F90700DA1F99 /* kdu_OsiriXSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 84A9D49312F7F90700DA1F99 /* kdu_OsiriXSupport.h */; };
 		84A9D49C12F7F90700DA1F99 /* kdu_OsiriXSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 84A9D49312F7F90700DA1F99 /* kdu_OsiriXSupport.h */; };
 		84ADF472115B622D00FE18B2 /* SRController+StereoVision.h in Headers */ = {isa = PBXBuildFile; fileRef = 84ADF460115B622D00FE18B2 /* SRController+StereoVision.h */; };
 		84ADF473115B622D00FE18B2 /* SRController+StereoVision.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84ADF461115B622D00FE18B2 /* SRController+StereoVision.mm */; };
@@ -9745,7 +9743,6 @@
 				CE90550F12F5B64300263AB6 /* CPRUnsignedInt16ImageRep.h in Headers */,
 				CE90551112F5B64300263AB6 /* CPRStraightenedView.h in Headers */,
 				CE90551312F5B64300263AB6 /* CPRVolumeData.h in Headers */,
-				84A9D49612F7F90700DA1F99 /* kdu_OsiriXSupport.h in Headers */,
 				59E8352712F9ABAC006B930A /* N2ManagedDatabase.h in Headers */,
 				59E83A1312FC6556006B930A /* NSManagedObject+N2.h in Headers */,
 				4F8A1A851302C72300A022D9 /* N3BezierCore.h in Headers */,
@@ -11252,7 +11249,6 @@
 				BF432BDC09E31B9B00AC322E /* DCMTKStudyQueryNode.mm in Sources */,
 				BF432BE609E31BE800AC322E /* DCMTKSeriesQueryNode.mm in Sources */,
 				BF432BF209E31C0F00AC322E /* DCMTKImageQueryNode.mm in Sources */,
-				434B47A21A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */,
 				BF432BFD09E31CD800AC322E /* DCMTKRootQueryNode.mm in Sources */,
 				BFBCD8A809E4C2E40078ABB6 /* DCMTKServiceClassUser.mm in Sources */,
 				BF83CD8D09E741BC002041F3 /* ReportPluginFilter.m in Sources */,

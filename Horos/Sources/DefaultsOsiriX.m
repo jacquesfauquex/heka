@@ -1011,7 +1011,6 @@ static NSHost *currentHost = nil;
     [defaultValues setObject: @"3" forKey:@"NoOfMultipleAssociationsRetrieve"];
 	[defaultValues setObject: @"0" forKey: @"WINDOWSIZEVIEWER"];
 	[defaultValues setObject: @"1" forKey: @"UseOpenJpegForJPEG2000"];
-//	[defaultValues setObject: @"0" forKey: @"UseKDUForJPEG2000"];
 	[defaultValues setObject: @"0" forKey: @"KeepStudiesTogetherOnSameScreen"];
 	[defaultValues setObject: @"1" forKey: @"ShowErrorMessagesForAutorouting"];
 	[defaultValues setObject: @"1" forKey: @"SAMESTUDY"];

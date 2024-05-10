@@ -35,8 +35,8 @@ The Horos Project was based originally upon the OsiriX Project which at the time
      PURPOSE.
  ============================================================================*/
 
-#include "kdu_OsiriXSupport.h"
-
+//#include "kdu_OsiriXSupport.h"
+/*
 extern "C" int kdu_available()
 {
 	return 0;
@@ -56,3 +56,4 @@ extern "C" void* kdu_compressJPEG2K( void *data, int samplesPerPixel, int rows, 
 {
 	return 0L;
 }
+*/

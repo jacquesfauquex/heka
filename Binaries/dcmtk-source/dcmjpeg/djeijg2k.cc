@@ -57,8 +57,6 @@
 
 // KDU support
 #include <CoreServices/CoreServices.h>
-#include "kdu_OsiriXSupport.h"
-extern short Use_kdu_IfAvailable;
 
 #include "OPJSupport.h"
 #include <OpenJPEG/openjpeg.h>
@@ -312,66 +310,7 @@ OFCondition DJCompressJP2K::encode(
     
     int rate = 0;
     
-#ifdef WITH_KDU_JP2K
-    //	if( Use_kdu_IfAvailable && kdu_available())
-    //	{
-    ////		printf( "JP2K KDU-DCMTK-Encode ");
-    //
-    ////		int precision = bitsstored;
-    //
-    //		switch( quality)
-    //		{
-    //			case DCMLosslessQuality:
-    //				rate = 0;
-    //				break;
-    //
-    //			case DCMHighQuality:
-    //				rate = 5;
-    //				break;
-    //
-    //			case DCMMediumQuality:
-    //				if( columns <= 600 || rows <= 600) rate = 6;
-    //				else rate = 8;
-    //				break;
-    //
-    //			case DCMLowQuality:
-    //				rate = 16;
-    //				break;
-    //
-    //			default:
-    //				printf( "****** warning unknown compression rate -> lossless : %d", quality);
-    //				rate = 0;
-    //				break;
-    //		}
-    //
-    //		long compressedLength = 0;
-    //
-    //		int processors = 0;
-    //
-    //		if( rows*columns > 256*1024) // 512 * 512
-    //        {
-    //            int mib[2] = {CTL_HW, HW_NCPU};
-    //            size_t dataLen = sizeof(int); // 'num' is an 'int'
-    //            int result = sysctl(mib, 2, &processors, &dataLen, NULL, 0);
-    //            if (result == -1)
-    //                processors = 1;
-    //            if( processors > 8)
-    //                processors = 8;
-    //        }
-    //
-    //		void *outBuffer = kdu_compressJPEG2K( (void*) image_buffer, samplesPerPixel, rows, columns, bitsstored, false, rate, &compressedLength, processors);
-    //		
-    //		if( outBuffer)
-    //		{
-    //			to = new Uint8[ compressedLength];
-    //			memcpy( to, outBuffer, compressedLength);
-    //			length = compressedLength;
-    //		
-    //			free( outBuffer);
-    //		}
-    //	}
-    //	else
-#endif
+
     {
         switch (quality)
         {

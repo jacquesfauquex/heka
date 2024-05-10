@@ -25,8 +25,7 @@
 
 // KDU support
 #include <CoreServices/CoreServices.h>
-#include "kdu_OsiriXSupport.h"
-extern short Use_kdu_IfAvailable;
+
 
 BEGIN_EXTERN_C
 #define boolean ijg_boolean

@@ -51,81 +51,8 @@
 #import "Accelerate/Accelerate.h"
 
 #import "OPJSupport.h"
-//#import "jasper.h"
-
-static int Use_kdu_IfAvailable = 0;
-
-// KDU support
-#include "kdu_OsiriXSupport.h"
-
-#if __ppc__
-
-union vectorShort {
-    vector short shortVec;
-    short scalar[8];
-};
-
-union vectorChar {
-    vector unsigned char byteVec;
-    unsigned scalar[16];
-};
 
 
-union vectorLong {
-    vector int longVec;
-    short scalar[4];
-};
-
-union  vectorFloat {
-    vector float floatVec;
-    float scalar[4];
-};
-
-
-void SwapShorts( vector unsigned short *unaligned_input, long size)
-{
-    long						i = size / 8;
-    vector unsigned char		identity = vec_lvsl(0, (int*) NULL );
-    vector unsigned char		byteSwapShorts = vec_xor( identity, vec_splat_u8(sizeof( short) - 1) );
-    
-    while(i-- > 0)
-    {
-        *unaligned_input++ = vec_perm( *unaligned_input, *unaligned_input, byteSwapShorts);
-    }
-}
-
-void SwapLongs( vector unsigned int *unaligned_input, long size)
-{
-    long i = size / 4;
-    vector unsigned char identity = vec_lvsl(0, (int*) NULL );
-    vector unsigned char byteSwapLongs = vec_xor( identity, vec_splat_u8(sizeof( int )- 1 ) );
-    while(i-- > 0)
-    {
-        *unaligned_input++ = vec_perm( *unaligned_input, *unaligned_input, byteSwapLongs);
-    }
-}
-
-#endif
-
-////altivec
-//#define dcmHasAltiVecMask    ( 1 << gestaltPowerPCHasVectorInstructions )  // used in  looking for a g4
-//
-//short DCMHasAltiVec()
-//{
-//	Boolean hasAltiVec = 0;
-//	OSErr      err;
-//	SInt32      ppcFeatures;
-//
-//	err = Gestalt ( gestaltPowerPCProcessorFeatures, &ppcFeatures );
-//	if ( err == noErr)
-//	{
-//		if ( ( ppcFeatures & dcmHasAltiVecMask) != 0 )
-//		{
-//			hasAltiVec = 1;
-//		}
-//	}
-//	return hasAltiVec;
-//}
 
 unsigned short readUint16(const unsigned char *data)
 {
@@ -622,11 +549,6 @@ void info_callback(const char *msg, void *a) {
 @synthesize isShort = _isShort;
 @synthesize compression = _compression;
 @synthesize isDecoded = _isDecoded;
-
-+ (void) setUse_kdu_IfAvailable:(int) b
-{
-    Use_kdu_IfAvailable = b;
-}
 
 - (void)dealloc
 {
@@ -1466,58 +1388,6 @@ void info_callback(const char *msg, void *a) {
 {
     int rate = 0;
     
-#ifdef WITH_KDU_JP2K
-    if( Use_kdu_IfAvailable && kdu_available())
-    {
-        int precision = [[_dcmObject attributeValueWithName:@"BitsStored"] intValue];
-        
-        switch( quality)
-        {
-            case DCMLosslessQuality:
-                rate = 0;
-                break;
-                
-            case DCMHighQuality:
-                rate = 5;
-                break;
-                
-            case DCMMediumQuality:
-                if( _columns <= 600 || _rows <= 600) rate = 6;
-                else rate = 8;
-                break;
-                
-            case DCMLowQuality:
-                rate = 16;
-                break;
-                
-            default:
-                NSLog( @"****** warning unknown compression rate -> lossless : %d", quality);
-                rate = 0;
-                break;
-        }
-        
-        long compressedLength = 0;
-        
-        int processors = 0;
-        
-        if( _rows*_columns > 256*1024) // 512 * 512
-            processors = [[NSProcessInfo processInfo] processorCount]/2;
-        
-        if( processors > 8)
-            processors = 8;
-        
-        void *outBuffer = kdu_compressJPEG2K( (void*) [data bytes], _samplesPerPixel, _rows, _columns, precision, false, rate, &compressedLength, processors);
-        
-        NSMutableData *jpeg2000Data = [NSMutableData dataWithBytesNoCopy: outBuffer length: compressedLength freeWhenDone: YES];
-        
-        char zero = 0;
-        if ([jpeg2000Data length] % 2)
-            [jpeg2000Data appendBytes:&zero length:1];
-        
-        return jpeg2000Data;
-    }
-    else
-#endif // WITH_KDU_JP2K
         
     {
         switch (quality)

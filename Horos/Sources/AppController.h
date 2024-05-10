@@ -173,7 +173,6 @@ extern AppController* OsiriX;
 + (void) pause __deprecated;
 + (ThumbnailsListPanel*)thumbnailsListPanelForScreen:(NSScreen*)screen;
 + (NSString*)printStackTrace:(NSException*)e __deprecated; // use -[NSException printStackTrace] from NSException+N2
-+ (BOOL) isKDUEngineAvailable;
 
 #pragma mark-
 #pragma mark HTML Templates

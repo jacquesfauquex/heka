@@ -239,7 +239,6 @@ int main(int argc, const char *argv[])
 		if( [what isEqualToString:@"compress"])
 		{
 			UseOpenJpeg = [[dict objectForKey:@"UseOpenJpegForJPEG2000"] intValue];
-			Use_kdu_IfAvailable = [[dict objectForKey:@"UseKDUForJPEG2000"] intValue];
 			
 			NSArray *compressionSettings = [dict valueForKey: @"CompressionSettings"];
 			NSArray *compressionSettingsLowRes = [dict valueForKey: @"CompressionSettingsLowRes"];
@@ -367,7 +366,6 @@ int main(int argc, const char *argv[])
                             {
 //                                if( useDCMTKForJP2K == NO && compression == compression_JPEG2000)
 //                                {
-//                                    [DCMPixelDataAttribute setUse_kdu_IfAvailable: [[dict objectForKey:@"UseKDUForJPEG2000"] intValue]];
 //                                    DCMObject *dcmObject = [[DCMObject alloc] initWithContentsOfFile: curFile decodingPixelData: NO];
 //                                    
 //                                    BOOL succeed = NO;
@@ -572,10 +570,8 @@ int main(int argc, const char *argv[])
 # pragma mark testFiles
 		if( [what isEqualToString: @"testFiles"])
 		{			
-			//[DCMPixelDataAttribute setUse_kdu_IfAvailable: [[dict objectForKey:@"UseKDUForJPEG2000"] intValue]];
 			
 			UseOpenJpeg = [[dict objectForKey:@"UseOpenJpegForJPEG2000"] intValue];
-			Use_kdu_IfAvailable = [[dict objectForKey:@"UseKDUForJPEG2000"] intValue];
 			
 			for(int i = (int)fileListFirstItemIndex; i < argc ; i++)
 			{
@@ -607,7 +603,6 @@ int main(int argc, const char *argv[])
 				destDirec = path;
 			
 			UseOpenJpeg = [[dict objectForKey:@"UseOpenJpegForJPEG2000"] intValue];
-			Use_kdu_IfAvailable = [[dict objectForKey:@"UseKDUForJPEG2000"] intValue];
 			
 			for(int i = (int)fileListFirstItemIndex; i < argc ; i++)
 			{
@@ -668,7 +663,6 @@ int main(int argc, const char *argv[])
 						
 //						if( useDCMTKForJP2K == NO && (filexfer.getXfer() == EXS_JPEG2000LosslessOnly || filexfer.getXfer() == EXS_JPEG2000))
 //						{
-//                          [DCMPixelDataAttribute setUse_kdu_IfAvailable: [[dict objectForKey:@"UseKDUForJPEG2000"]; intValue]];
 //							DCMObject *dcmObject = [[DCMObject alloc] initWithContentsOfFile: curFile decodingPixelData: NO];
 //							@try
 //							{
