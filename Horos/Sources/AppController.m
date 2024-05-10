@@ -5568,26 +5568,4 @@ static NSMutableDictionary* _receivingDict = nil;
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-#pragma mark -
-#pragma FeedbackReporter
-
-/*
-- (void) crash
-{
-    NSLog(@"crash");
-    char *c = 0;
-    *c = 0;
-}
-
-
-- (BOOL) setupCrashReporter
-{
-    NSLog(@"Unicode test: مرحبا - 你好 - שלום");
-
-    return NO;
-}
-*/
 @end
