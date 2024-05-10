@@ -174,8 +174,6 @@
 		434B461E1A19F631008CF8CF /* OPJSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 434B461C1A19F631008CF8CF /* OPJSupport.h */; };
 		434B461F1A19F640008CF8CF /* OPJSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B461B1A19F631008CF8CF /* OPJSupport.cpp */; };
 		434B46201A19F642008CF8CF /* OPJSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B461B1A19F631008CF8CF /* OPJSupport.cpp */; };
-		434B47A41A1A194F008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */; };
-		434B47A51A1A1951008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */; };
 		4AF8F5472BEECFA300AF4A5D /* DCKV in Headers */ = {isa = PBXBuildFile; fileRef = 4AF8F50E2BEECEDF00AF4A5D /* DCKV */; };
 		4F00A9E4139A778000ABD529 /* CPRStretchedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00A9E3139A778000ABD529 /* CPRStretchedView.m */; };
 		4F00A9E8139A779200ABD529 /* CPRStretchedView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F00A9E7139A779200ABD529 /* CPRStretchedView.h */; };
@@ -622,7 +620,6 @@
 		849B44BD1552B2D800194728 /* OsiriXNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 849B44BA1552B2D800194728 /* OsiriXNotificationCenter.m */; };
 		84A220E80F25E41800C6C3EB /* ROIs.tif in Resources */ = {isa = PBXBuildFile; fileRef = 84A220E60F25E41800C6C3EB /* ROIs.tif */; };
 		84A220E90F25E41800C6C3EB /* Keys.tif in Resources */ = {isa = PBXBuildFile; fileRef = 84A220E70F25E41800C6C3EB /* Keys.tif */; };
-		84A9D49C12F7F90700DA1F99 /* kdu_OsiriXSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 84A9D49312F7F90700DA1F99 /* kdu_OsiriXSupport.h */; };
 		84ADF472115B622D00FE18B2 /* SRController+StereoVision.h in Headers */ = {isa = PBXBuildFile; fileRef = 84ADF460115B622D00FE18B2 /* SRController+StereoVision.h */; };
 		84ADF473115B622D00FE18B2 /* SRController+StereoVision.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84ADF461115B622D00FE18B2 /* SRController+StereoVision.mm */; };
 		84ADF474115B622D00FE18B2 /* SRFlyThruAdapter+StereoVision.h in Headers */ = {isa = PBXBuildFile; fileRef = 84ADF462115B622D00FE18B2 /* SRFlyThruAdapter+StereoVision.h */; };
@@ -3363,7 +3360,6 @@
 		434B46151A19F2A3008CF8CF /* options.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = options.h; sourceTree = "<group>"; };
 		434B461B1A19F631008CF8CF /* OPJSupport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OPJSupport.cpp; sourceTree = "<group>"; };
 		434B461C1A19F631008CF8CF /* OPJSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPJSupport.h; sourceTree = "<group>"; };
-		434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kdu_OsiriX_NO_Support.cpp; sourceTree = "<group>"; };
 		439B8C131A19CCC300F396D7 /* 3DconnexionClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = 3DconnexionClient.framework; path = Binaries/3DconnexionClient.framework; sourceTree = "<group>"; };
 		4AF8F2612BECD6CB00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/iChatHelper.xib; sourceTree = "<group>"; };
 		4AF8F2622BECD6CB00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/3DPosition.xib; sourceTree = "<group>"; };
@@ -3868,7 +3864,6 @@
 		849B44BA1552B2D800194728 /* OsiriXNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OsiriXNotificationCenter.m; sourceTree = "<group>"; };
 		84A220E60F25E41800C6C3EB /* ROIs.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ROIs.tif; sourceTree = "<group>"; };
 		84A220E70F25E41800C6C3EB /* Keys.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Keys.tif; sourceTree = "<group>"; };
-		84A9D49312F7F90700DA1F99 /* kdu_OsiriXSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kdu_OsiriXSupport.h; sourceTree = "<group>"; };
 		84ADF460115B622D00FE18B2 /* SRController+StereoVision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRController+StereoVision.h"; sourceTree = "<group>"; };
 		84ADF461115B622D00FE18B2 /* SRController+StereoVision.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "SRController+StereoVision.mm"; sourceTree = "<group>"; };
 		84ADF462115B622D00FE18B2 /* SRFlyThruAdapter+StereoVision.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SRFlyThruAdapter+StereoVision.h"; sourceTree = "<group>"; };
@@ -6128,7 +6123,6 @@
 		719D3F1A1FB461CA004CFB27 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				84A9D44712F7F8BE00DA1F99 /* KDU */,
 				434B461A1A19F4E4008CF8CF /* OpenJPEG */,
 				BFBF3AAF09B6820C00545F5E /* DCMTK */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -6481,15 +6475,6 @@
 			);
 			name = Tiling;
 			path = Icons/Tiling;
-			sourceTree = "<group>";
-		};
-		84A9D44712F7F8BE00DA1F99 /* KDU */ = {
-			isa = PBXGroup;
-			children = (
-				434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */,
-				84A9D49312F7F90700DA1F99 /* kdu_OsiriXSupport.h */,
-			);
-			name = KDU;
 			sourceTree = "<group>";
 		};
 		84AA013C104EA39E0091E49B /* Log Window */ = {
@@ -9032,7 +9017,6 @@
 				CE4440FF1165D1B70034BF18 /* jpegint8.h in Headers */,
 				CE4441001165D1B70034BF18 /* jpeglib8.h in Headers */,
 				CE4441041165D1B70034BF18 /* jversion8.h in Headers */,
-				84A9D49C12F7F90700DA1F99 /* kdu_OsiriXSupport.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11098,7 +11082,6 @@
 				CE4440E71165D1B70034BF18 /* jdmerge.c in Sources */,
 				CE4440E81165D1B70034BF18 /* jdphuff.c in Sources */,
 				CE4440E91165D1B70034BF18 /* jdpostct.c in Sources */,
-				434B47A41A1A194F008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */,
 				CE4440EA1165D1B70034BF18 /* jdpred.c in Sources */,
 				CE4440EB1165D1B70034BF18 /* jdsample.c in Sources */,
 				CE4440EC1165D1B70034BF18 /* jdscale.c in Sources */,
@@ -12241,7 +12224,6 @@
 				AB7251880ADE786400A212A0 /* diargimg.cc in Sources */,
 				AB7251890ADE786400A212A0 /* dicmyimg.cc in Sources */,
 				AB72518A0ADE786600A212A0 /* dicoimg.cc in Sources */,
-				434B47A51A1A1951008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */,
 				AB72518B0ADE786700A212A0 /* dicoopx.cc in Sources */,
 				AB72518C0ADE786700A212A0 /* dicopx.cc in Sources */,
 				AB72518D0ADE786800A212A0 /* diyp2img.cc in Sources */,

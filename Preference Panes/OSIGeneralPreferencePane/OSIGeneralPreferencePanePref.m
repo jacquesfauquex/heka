@@ -110,48 +110,8 @@ static NSArray *languagesToMoveWhenQuitting = nil;
 	return [[NSUserDefaults standardUserDefaults] boolForKey: @"useDCMTKForJP2K"];
 }
 
-- (void) setJP2KWriter:(NSUInteger) v
-{
-	[[NSUserDefaults standardUserDefaults] setBool: v forKey: @"useDCMTKForJP2K"];
-	
-	[self willChangeValueForKey: @"JP2KWriter"];
-	[self didChangeValueForKey: @"JP2KWriter"];
-	
-	[self willChangeValueForKey: @"JP2KEngine"];
-	[self didChangeValueForKey: @"JP2KEngine"];
-}
 
-- (void) setJP2KEngine: (NSUInteger) val;
-{	
-	if( val == 1) // Kakadu
-	{
-		[[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"UseOpenJpegForJPEG2000"];
-	}
-	
-	if( val == 0) // OpenJPEG
-	{
-		[[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"UseOpenJpegForJPEG2000"];
-	}
-	
-	[self willChangeValueForKey: @"JP2KWriter"];
-	[self didChangeValueForKey: @"JP2KWriter"];
-	
-	[self willChangeValueForKey: @"JP2KEngine"];
-	[self didChangeValueForKey: @"JP2KEngine"];
-}
 
-- (NSUInteger) JP2KEngine
-{
-	
-
-	
-	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"UseOpenJpegForJPEG2000"])
-	{
-		return 0; // OpenJPEG
-	}
-	
-	return 0; // OpenJPEG
-}
 
 - (IBAction) resetPreferences: (id) sender
 {

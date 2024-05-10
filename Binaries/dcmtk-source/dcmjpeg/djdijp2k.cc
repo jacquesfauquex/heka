@@ -23,10 +23,6 @@
 #undef HAVE_STDDEF_H
 #endif
 
-// KDU support
-#include <CoreServices/CoreServices.h>
-
-
 BEGIN_EXTERN_C
 #define boolean ijg_boolean
 #include "jpeglib16.h"

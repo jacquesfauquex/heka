@@ -55,9 +55,6 @@
 #undef HAVE_STDDEF_H
 #endif
 
-// KDU support
-#include <CoreServices/CoreServices.h>
-
 #include "OPJSupport.h"
 #include <OpenJPEG/openjpeg.h>
 
