@@ -42,18 +42,6 @@
                                         <binding destination="167" name="hidden" keyPath="values.MACAPPSTORE" id="391"/>
                                     </connections>
                                 </button>
-                                <button toolTip="Connect to Horos and check for latest version." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BXs-xj-ZZ5">
-                                    <rect key="frame" x="15" y="10" width="416" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Display Notifications (Growl required)" bezelStyle="regularSquare" imagePosition="left" alignment="left" scrollable="YES" lineBreakMode="clipping" inset="2" id="eOV-F7-aFg">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="167" name="hidden" keyPath="values.MACAPPSTORE" id="eL0-yS-EcF"/>
-                                        <binding destination="167" name="value" keyPath="values.displayGrowlNotification" id="02o-xj-aMf"/>
-                                    </connections>
-                                </button>
                                 <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="341">
                                     <rect key="frame" x="11" y="101" width="202" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>

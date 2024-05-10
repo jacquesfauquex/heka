@@ -177,6 +177,7 @@
 		434B47A21A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */; };
 		434B47A41A1A194F008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */; };
 		434B47A51A1A1951008CF8CF /* kdu_OsiriX_NO_Support.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */; };
+		4AF8F5472BEECFA300AF4A5D /* DCKV in Headers */ = {isa = PBXBuildFile; fileRef = 4AF8F50E2BEECEDF00AF4A5D /* DCKV */; };
 		4F00A9E4139A778000ABD529 /* CPRStretchedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00A9E3139A778000ABD529 /* CPRStretchedView.m */; };
 		4F00A9E8139A779200ABD529 /* CPRStretchedView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F00A9E7139A779200ABD529 /* CPRStretchedView.h */; };
 		4F1FCE1B143092DC008683F9 /* OSIPlanarBrushROI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F1FCE19143092DC008683F9 /* OSIPlanarBrushROI.h */; };
@@ -3431,6 +3432,7 @@
 		4AF8F29F2BECD6CD00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OSIAutoroutingPreferencePanePref.xib; sourceTree = "<group>"; };
 		4AF8F2A02BECD6CD00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OSI3DPreferencePanePref.xib; sourceTree = "<group>"; };
 		4AF8F2A12BECD6CD00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AYDicomPrintPref.xib; sourceTree = "<group>"; };
+		4AF8F50E2BEECEDF00AF4A5D /* DCKV */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DCKV; path = Horos/DCKV; sourceTree = "<group>"; };
 		4F00A9E3139A778000ABD529 /* CPRStretchedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPRStretchedView.m; sourceTree = "<group>"; };
 		4F00A9E7139A779200ABD529 /* CPRStretchedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPRStretchedView.h; sourceTree = "<group>"; };
 		4F1FCE19143092DC008683F9 /* OSIPlanarBrushROI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIPlanarBrushROI.h; sourceTree = "<group>"; };
@@ -5772,6 +5774,7 @@
 		29B97314FDCFA39411CA2CEA /* OsiriX */ = {
 			isa = PBXGroup;
 			children = (
+				4AF8F50E2BEECEDF00AF4A5D /* DCKV */,
 				F3EFB87A2895825C0012A622 /* README.md */,
 				F3A24302289570ED00E2547B /* Changelog.md */,
 				F3C3F0702893A429004B2F61 /* Horos.xcconfig */,
@@ -9039,6 +9042,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AF8F5472BEECFA300AF4A5D /* DCKV in Headers */,
 				AB28B8D005B79D1000A9906C /* MyOutlineView.h in Headers */,
 				AB28B8D705B79D1500A9906C /* NSFont_OpenGL.h in Headers */,
 				AB28B8E005B79D1D00A9906C /* NSFullScreenWindow.h in Headers */,
