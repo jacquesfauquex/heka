@@ -16,10 +16,10 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <menu title="MainMenu" systemMenu="main" id="29" userLabel="MainMenu">
             <items>
-                <menuItem title="OsiriX" id="56">
-                    <menu key="submenu" title="OsiriX" systemMenu="apple" id="57">
+                <menuItem title="heka" id="56">
+                    <menu key="submenu" title="heka" systemMenu="apple" id="57">
                         <items>
-                            <menuItem title="About Horos" id="58">
+                            <menuItem title="About heka" id="58">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="about:" target="694" id="1115"/>
@@ -33,7 +33,7 @@
                             <menuItem isSeparatorItem="YES" id="143">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Hide Horos" keyEquivalent="h" id="134">
+                            <menuItem title="Hide heka" keyEquivalent="h" id="134">
                                 <connections>
                                     <action selector="hide:" target="-2" id="152"/>
                                 </connections>
@@ -52,7 +52,7 @@
                             <menuItem isSeparatorItem="YES" id="149">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Quit Horos" keyEquivalent="q" id="136">
+                            <menuItem title="Quit heka" keyEquivalent="q" id="136">
                                 <connections>
                                     <action selector="terminate:" target="694" id="1722"/>
                                 </connections>

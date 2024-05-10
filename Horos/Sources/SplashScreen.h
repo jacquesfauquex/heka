@@ -50,11 +50,8 @@
 	int         versionType;
     
     IBOutlet    WebView *aboutWebView;
-    IBOutlet    WebView *partnersWebView;
-    IBOutlet    WebView *releaseNotesWebView;
 }
 
 - (void) affiche;
-- (IBAction) switchVersion:(id) sender;
-- (IBAction) openHorosWebsite:(id) sender;
+- (IBAction) opendicomwww:(id) sender;
 @end
