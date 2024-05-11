@@ -54,7 +54,6 @@
 #import "DCMPix.h"
 #import "VRController.h"
 #import "BrowserController.h"
-#import "BonjourBrowser.h"
 #import "DicomFileDCMTKCategory.h"
 #import "DICOMToNSString.h"
 #import "XMLControllerDCMTKCategory.h"
@@ -2153,7 +2152,6 @@ static NSRecursiveLock *dbModifyLock = nil;
                     {
                         if (![[DicomDatabase databaseForContext:self.managedObjectContext] isLocal])
                         {
-                            // Not modified on the 'bonjour client side'?
                             if( [[i valueForKey:@"inDatabaseFolder"] boolValue])
                             {
                                 // The ROI file was maybe changed on the server -> delete it
@@ -2192,7 +2190,6 @@ static NSRecursiveLock *dbModifyLock = nil;
         
         if(![[DicomDatabase databaseForContext:self.managedObjectContext] isLocal])
         {
-            // Not modified on the 'bonjour client side'?
             if( [[[found lastObject] valueForKey:@"inDatabaseFolder"] boolValue])
             {
                 // The ROI file was maybe changed on the server -> delete it

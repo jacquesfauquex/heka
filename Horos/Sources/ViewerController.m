@@ -103,7 +103,6 @@
 #import "EndoscopySegmentationController.h"
 #import "HornRegistration.h"
 #import "N2Stuff.h"
-#import "BonjourBrowser.h"
 #import "PluginManager.h"
 #import "DCMObject.h"
 #import "DCMAttributeTag.h"
@@ -4214,7 +4213,7 @@ static volatile int numberOfThreadsForRelisce = 0;
                             {
                                 @try
                                 {
-                                    DCMPix* dcmPix = [[DCMPix alloc] initWithPath: [[images objectAtIndex: i] valueForKey:@"completePath"] :0 :0 :nil :0 :[[[images objectAtIndex: i] valueForKeyPath:@"series.id"] intValue] isBonjour:[[BrowserController currentBrowser] isCurrentDatabaseBonjour] imageObj:[images objectAtIndex: i]];
+                                    DCMPix* dcmPix = [[DCMPix alloc] initWithPath: [[images objectAtIndex: i] valueForKey:@"completePath"] :0 :0 :nil :0 :[[[images objectAtIndex: i] valueForKeyPath:@"series.id"] intValue] isBonjour:false imageObj:[images objectAtIndex: i]];
                                     
                                     [dcmPix CheckLoad];
                                     
@@ -5392,7 +5391,7 @@ static volatile int numberOfThreadsForRelisce = 0;
                             {
                                 @try
                                 {
-                                    DCMPix* dcmPix = [[DCMPix alloc] initWithPath: [[images objectAtIndex: i] valueForKey:@"completePath"] :0 :0 :nil :0 :[[[images objectAtIndex: i] valueForKeyPath:@"series.id"] intValue] isBonjour:[[BrowserController currentBrowser] isCurrentDatabaseBonjour] imageObj:[images objectAtIndex: i]];
+                                    DCMPix* dcmPix = [[DCMPix alloc] initWithPath: [[images objectAtIndex: i] valueForKey:@"completePath"] :0 :0 :nil :0 :[[[images objectAtIndex: i] valueForKeyPath:@"series.id"] intValue] isBonjour:false imageObj:[images objectAtIndex: i]];
                                     
                                     [dcmPix CheckLoad];
                                     
@@ -16384,10 +16383,6 @@ static float oldsetww, oldsetwl;
     {
         [[fileList[curMovieIndex] objectAtIndex:[imageView curImage]] setValue:composedMenuTitle forKeyPath:@"series.comment"];
         
-        if([[BrowserController currentBrowser] isCurrentDatabaseBonjour])
-        {
-            [(RemoteDicomDatabase *)[[BrowserController currentBrowser] database] object:[fileList[curMovieIndex] objectAtIndex:[imageView curImage]] setValue:[CommentsEditField stringValue] forKey:@"series.comment"];
-        }
         
         [[[BrowserController currentBrowser] databaseOutline] reloadData];
         
@@ -22000,10 +21995,6 @@ static float oldsetww, oldsetwl;
     {
         [[fileList[curMovieIndex] objectAtIndex:[imageView curImage]] setValue:[NSNumber numberWithBool:[sender state]] forKey:@"isKeyImage"];
         
-        if([[BrowserController currentBrowser] isCurrentDatabaseBonjour])
-        {
-            [(RemoteDicomDatabase *)[[BrowserController currentBrowser] database] object:[fileList[curMovieIndex] objectAtIndex:[imageView curImage]] setValue:[NSNumber numberWithBool:[sender state]] forKey:@"isKeyImage"];
-        }
         
         [self willChangeValueForKey: @"KeyImageCounter"];
         [self didChangeValueForKey: @"KeyImageCounter"];
@@ -22247,19 +22238,6 @@ static float oldsetww, oldsetwl;
         }
     }
     
-    if([[BrowserController currentBrowser] isCurrentDatabaseBonjour])
-    {
-        for( int x = 0 ; x < maxMovieIndex ; x++)
-        {
-            for( int i = 0 ; i < [fileList[ x] count] ; i++)
-            {
-                NSManagedObject *o = [fileList[ x] objectAtIndex: i];
-                if( [[roiList[ x] objectAtIndex: i] count])
-                    [(RemoteDicomDatabase *)[[BrowserController currentBrowser] database] object:o setValue:yes forKey:@"isKeyImage"];
-            }
-        }
-    }
-    
     [self buildMatrixPreview: NO];
     [imageView setNeedsDisplay:YES];
     [[[BrowserController currentBrowser] database] save:nil];
@@ -22281,12 +22259,6 @@ static float oldsetww, oldsetwl;
         for( NSManagedObject *o in fileList[ x])
             [o setValue: yes forKey:@"isKeyImage"];
     
-    if([[BrowserController currentBrowser] isCurrentDatabaseBonjour])
-    {
-        for( int x = 0 ; x < maxMovieIndex ; x++)
-            for( NSManagedObject *o in fileList[ x])
-                [(RemoteDicomDatabase *)[[BrowserController currentBrowser] database] object:o setValue:yes forKey:@"isKeyImage"];
-    }
     
     [self willChangeValueForKey: @"KeyImageCounter"];
     [self didChangeValueForKey: @"KeyImageCounter"];
@@ -22312,12 +22284,6 @@ static float oldsetww, oldsetwl;
         for( NSManagedObject *o in fileList[ x])
             [o setValue: yes forKey:@"isKeyImage"];
     
-    if([[BrowserController currentBrowser] isCurrentDatabaseBonjour])
-    {
-        for( int x = 0 ; x < maxMovieIndex ; x++)
-            for( NSManagedObject *o in fileList[ x])
-                [(RemoteDicomDatabase *)[[BrowserController currentBrowser] database] object:o setValue:yes forKey:@"isKeyImage"];
-    }
     
     [self willChangeValueForKey: @"KeyImageCounter"];
     [self didChangeValueForKey: @"KeyImageCounter"];
@@ -22410,8 +22376,6 @@ static float oldsetww, oldsetwl;
     {
         [[fileList[ curMovieIndex] objectAtIndex:[imageView curImage]] setValue:[CommentsEditField stringValue] forKeyPath:@"series.comment"];
         
-        if([[BrowserController currentBrowser] isCurrentDatabaseBonjour])
-            [(RemoteDicomDatabase *)[[BrowserController currentBrowser] database] object:[fileList[curMovieIndex] objectAtIndex:[imageView curImage]] setValue:[CommentsEditField stringValue] forKey:@"series.comment"];
         
         [[[BrowserController currentBrowser] databaseOutline] reloadData];
         
@@ -22421,8 +22385,6 @@ static float oldsetww, oldsetwl;
     {
         [[fileList[ curMovieIndex] objectAtIndex:[imageView curImage]] setValue:[CommentsEditField stringValue] forKeyPath:@"series.study.comment"];
         
-        if([[BrowserController currentBrowser] isCurrentDatabaseBonjour])
-            [(RemoteDicomDatabase *)[[BrowserController currentBrowser] database] object:[fileList[curMovieIndex] objectAtIndex:[imageView curImage]] setValue:[CommentsEditField stringValue] forKey:@"series.study.comment"];
         
         [[[BrowserController currentBrowser] databaseOutline] reloadData];
         
@@ -22454,10 +22416,6 @@ static float oldsetww, oldsetwl;
     {
         [[fileList[ curMovieIndex] objectAtIndex:[imageView curImage]] setValue:[NSNumber numberWithInt: statusValueToApply] forKeyPath:@"series.study.stateText"];
         
-        if([[BrowserController currentBrowser] isCurrentDatabaseBonjour])
-        {
-            [(RemoteDicomDatabase *)[[BrowserController currentBrowser] database] object:[fileList[curMovieIndex] objectAtIndex:[imageView curImage]] setValue:[NSNumber numberWithInt: statusValueToApply] forKey:@"series.study.stateText"];
-        }
         
         [StatusPopup selectItemWithTag: statusValueToApply];
         

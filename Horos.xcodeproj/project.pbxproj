@@ -174,7 +174,9 @@
 		434B461E1A19F631008CF8CF /* OPJSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 434B461C1A19F631008CF8CF /* OPJSupport.h */; };
 		434B461F1A19F640008CF8CF /* OPJSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B461B1A19F631008CF8CF /* OPJSupport.cpp */; };
 		434B46201A19F642008CF8CF /* OPJSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B461B1A19F631008CF8CF /* OPJSupport.cpp */; };
-		4AF8F5472BEECFA300AF4A5D /* DCKV in Headers */ = {isa = PBXBuildFile; fileRef = 4AF8F50E2BEECEDF00AF4A5D /* DCKV */; };
+		4A4DDD182BEF70B0005BBA89 /* hekaBadge.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4A4DDD162BEF70B0005BBA89 /* hekaBadge.icns */; };
+		4A4DDD192BEF70B0005BBA89 /* heka.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4A4DDD172BEF70B0005BBA89 /* heka.icns */; };
+		4AF8F58B2BEEDA6200AF4A5D /* log.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AF8F58A2BEEDA6100AF4A5D /* log.h */; };
 		4F00A9E4139A778000ABD529 /* CPRStretchedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00A9E3139A778000ABD529 /* CPRStretchedView.m */; };
 		4F00A9E8139A779200ABD529 /* CPRStretchedView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F00A9E7139A779200ABD529 /* CPRStretchedView.h */; };
 		4F1FCE1B143092DC008683F9 /* OSIPlanarBrushROI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F1FCE19143092DC008683F9 /* OSIPlanarBrushROI.h */; };
@@ -681,11 +683,9 @@
 		998309111BB62D4100CAB197 /* JRSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 9983090F1BB62D4100CAB197 /* JRSwizzle.h */; };
 		998309121BB62D4100CAB197 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 998309101BB62D4100CAB197 /* JRSwizzle.m */; };
 		998B52E21AE0890300D317CF /* Horos.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 998B52E11AE0890300D317CF /* Horos.sdef */; };
-		998B52E41AE0893D00D317CF /* Horos.icns in Resources */ = {isa = PBXBuildFile; fileRef = 998B52E31AE0893D00D317CF /* Horos.icns */; };
 		999B0B631BB70F0800AF018A /* O2HMigrationAssistant.h in Headers */ = {isa = PBXBuildFile; fileRef = 999B0B601BB70F0800AF018A /* O2HMigrationAssistant.h */; };
 		999B0B641BB70F0800AF018A /* O2HMigrationAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 999B0B611BB70F0800AF018A /* O2HMigrationAssistant.m */; };
 		999B0B671BB711ED00AF018A /* CurvedArrowGrayLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 999B0B661BB711ED00AF018A /* CurvedArrowGrayLeft.png */; };
-		999B0B681BB7309200AF018A /* Osirix.icns in Resources */ = {isa = PBXBuildFile; fileRef = 9966A1AF1AE09FFE00F2D81A /* Osirix.icns */; };
 		99C32EEF1CFF78E7001E71F3 /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = AB2C24E10677861300A08910 /* PluginFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0344496143DE4AA003E1AFA /* DCMUSRegion.m in Sources */ = {isa = PBXBuildFile; fileRef = A085E104141E53210072BF0D /* DCMUSRegion.m */; };
 		A90202BE0B980CD60001A00B /* PluginManagerController.h in Headers */ = {isa = PBXBuildFile; fileRef = A90202BA0B980CD60001A00B /* PluginManagerController.h */; };
@@ -782,9 +782,6 @@
 		A98FFBE60CA92B58000291C8 /* altivecFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = A98FFBE30CA92B58000291C8 /* altivecFunctions.c */; };
 		A98FFBEA0CA92B58000291C8 /* altivecFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = A98FFBE30CA92B58000291C8 /* altivecFunctions.c */; };
 		A997B15710E0C412004C5BB1 /* SecurityInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A997B15610E0C412004C5BB1 /* SecurityInterface.framework */; };
-		A99B7ECB0885A61F004328C0 /* BonjourPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = A99B7E5108858D31004328C0 /* BonjourPublisher.m */; };
-		A99B7ECD0885A621004328C0 /* BonjourBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = A99B7E5508858D4F004328C0 /* BonjourBrowser.m */; };
-		A99B7ECE0885A621004328C0 /* BonjourBrowser.h in Headers */ = {isa = PBXBuildFile; fileRef = A99B7E5408858D4F004328C0 /* BonjourBrowser.h */; };
 		A9A80E3811F73E22009F54B9 /* Activity_Stop.tif in Resources */ = {isa = PBXBuildFile; fileRef = A9A80E3611F73E22009F54B9 /* Activity_Stop.tif */; };
 		A9A80E3911F73E22009F54B9 /* Activity_StopPressed.tif in Resources */ = {isa = PBXBuildFile; fileRef = A9A80E3711F73E22009F54B9 /* Activity_StopPressed.tif */; };
 		A9A9F4C10A74C9A9005A1CA7 /* QTExportStyle.css in Resources */ = {isa = PBXBuildFile; fileRef = A9A9F4C00A74C9A9005A1CA7 /* QTExportStyle.css */; };
@@ -823,7 +820,6 @@
 		A9B411B70890492F00913770 /* small_album.tif in Resources */ = {isa = PBXBuildFile; fileRef = A9B411B30890492F00913770 /* small_album.tif */; };
 		A9B411B80890492F00913770 /* small_smartAlbum.tif in Resources */ = {isa = PBXBuildFile; fileRef = A9B411B40890492F00913770 /* small_smartAlbum.tif */; };
 		A9B411EF0890498600913770 /* small_sharedAlbum.tif in Resources */ = {isa = PBXBuildFile; fileRef = A9B411EE0890498600913770 /* small_sharedAlbum.tif */; };
-		A9B412D5089180A200913770 /* bonjour.tif in Resources */ = {isa = PBXBuildFile; fileRef = A9B412D4089180A200913770 /* bonjour.tif */; };
 		A9C4D9470F72987900B5B9A1 /* Loupe.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C4D9450F72987900B5B9A1 /* Loupe.xib */; };
 		A9C5496510FF2C9F0026EA70 /* DICOMTLS.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C5496310FF2C9F0026EA70 /* DICOMTLS.h */; };
 		A9C5496610FF2C9F0026EA70 /* DICOMTLS.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C5496410FF2C9F0026EA70 /* DICOMTLS.m */; };
@@ -1425,7 +1421,6 @@
 		AB87FA7C0C06BEB200CD2976 /* nifti1_io.h in Headers */ = {isa = PBXBuildFile; fileRef = AB87FA770C06BEB200CD2976 /* nifti1_io.h */; };
 		AB87FA7D0C06BEB200CD2976 /* znzlib.c in Sources */ = {isa = PBXBuildFile; fileRef = AB87FA780C06BEB200CD2976 /* znzlib.c */; };
 		AB87FA7E0C06BEB200CD2976 /* znzlib.h in Headers */ = {isa = PBXBuildFile; fileRef = AB87FA790C06BEB200CD2976 /* znzlib.h */; };
-		AB91224E10DA7199006E0AAB /* BonjourPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = A99B7E5008858D31004328C0 /* BonjourPublisher.h */; };
 		AB9139B906839830006F3936 /* PIC.icns in Resources */ = {isa = PBXBuildFile; fileRef = AB9139B706839830006F3936 /* PIC.icns */; };
 		AB9139BA06839830006F3936 /* lsm.icns in Resources */ = {isa = PBXBuildFile; fileRef = AB9139B806839830006F3936 /* lsm.icns */; };
 		AB92A3A90642B32D0048DC15 /* SmallLogo.tif in Resources */ = {isa = PBXBuildFile; fileRef = AB92A3A70642B32D0048DC15 /* SmallLogo.tif */; };
@@ -3361,6 +3356,9 @@
 		434B461B1A19F631008CF8CF /* OPJSupport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OPJSupport.cpp; sourceTree = "<group>"; };
 		434B461C1A19F631008CF8CF /* OPJSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OPJSupport.h; sourceTree = "<group>"; };
 		439B8C131A19CCC300F396D7 /* 3DconnexionClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = 3DconnexionClient.framework; path = Binaries/3DconnexionClient.framework; sourceTree = "<group>"; };
+		4A4DDCF52BEF69F7005BBA89 /* TODO.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
+		4A4DDD162BEF70B0005BBA89 /* hekaBadge.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hekaBadge.icns; sourceTree = "<group>"; };
+		4A4DDD172BEF70B0005BBA89 /* heka.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = heka.icns; sourceTree = "<group>"; };
 		4AF8F2612BECD6CB00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/iChatHelper.xib; sourceTree = "<group>"; };
 		4AF8F2622BECD6CB00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/3DPosition.xib; sourceTree = "<group>"; };
 		4AF8F2632BECD6CB00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AnonymizationCustomTagPanel.xib; sourceTree = "<group>"; };
@@ -3426,7 +3424,7 @@
 		4AF8F29F2BECD6CD00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OSIAutoroutingPreferencePanePref.xib; sourceTree = "<group>"; };
 		4AF8F2A02BECD6CD00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OSI3DPreferencePanePref.xib; sourceTree = "<group>"; };
 		4AF8F2A12BECD6CD00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AYDicomPrintPref.xib; sourceTree = "<group>"; };
-		4AF8F50E2BEECEDF00AF4A5D /* DCKV */ = {isa = PBXFileReference; lastKnownFileType = folder; name = DCKV; path = Horos/DCKV; sourceTree = "<group>"; };
+		4AF8F58A2BEEDA6100AF4A5D /* log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = log.h; sourceTree = "<group>"; };
 		4F00A9E3139A778000ABD529 /* CPRStretchedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPRStretchedView.m; sourceTree = "<group>"; };
 		4F00A9E7139A779200ABD529 /* CPRStretchedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPRStretchedView.h; sourceTree = "<group>"; };
 		4F1FCE19143092DC008683F9 /* OSIPlanarBrushROI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIPlanarBrushROI.h; sourceTree = "<group>"; };
@@ -3886,7 +3884,6 @@
 		84C450F41003384000138F70 /* OSIWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIWindow.h; sourceTree = "<group>"; };
 		84C450F51003384000138F70 /* OSIWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSIWindow.m; sourceTree = "<group>"; };
 		84C6329416B945CD00F0EA89 /* ContextCleaner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContextCleaner.h; path = Horos/Sources/ContextCleaner.h; sourceTree = SOURCE_ROOT; };
-		84CD250C11EC5564004669D6 /* OsiriXDB_Previous_DataModel2.4.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = OsiriXDB_Previous_DataModel2.4.mom; sourceTree = "<group>"; };
 		84D7BBE1154A941A007B5A86 /* NSNotificationCenter+N2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+N2.h"; sourceTree = "<group>"; };
 		84D7BBE2154A941A007B5A86 /* NSNotificationCenter+N2.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSNotificationCenter+N2.mm"; sourceTree = "<group>"; };
 		84E191F91369966A008DCFC8 /* WADODownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WADODownload.h; sourceTree = "<group>"; };
@@ -4028,10 +4025,6 @@
 		A98FFBE30CA92B58000291C8 /* altivecFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = altivecFunctions.c; sourceTree = "<group>"; };
 		A98FFBE40CA92B58000291C8 /* altivecFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = altivecFunctions.h; sourceTree = "<group>"; };
 		A997B15610E0C412004C5BB1 /* SecurityInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityInterface.framework; path = System/Library/Frameworks/SecurityInterface.framework; sourceTree = SDKROOT; };
-		A99B7E5008858D31004328C0 /* BonjourPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonjourPublisher.h; sourceTree = "<group>"; };
-		A99B7E5108858D31004328C0 /* BonjourPublisher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BonjourPublisher.m; sourceTree = "<group>"; };
-		A99B7E5408858D4F004328C0 /* BonjourBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BonjourBrowser.h; sourceTree = "<group>"; };
-		A99B7E5508858D4F004328C0 /* BonjourBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BonjourBrowser.m; sourceTree = "<group>"; };
 		A9A80E3611F73E22009F54B9 /* Activity_Stop.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Activity_Stop.tif; sourceTree = "<group>"; };
 		A9A80E3711F73E22009F54B9 /* Activity_StopPressed.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Activity_StopPressed.tif; sourceTree = "<group>"; };
 		A9A9F4C00A74C9A9005A1CA7 /* QTExportStyle.css */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.css; path = QTExportStyle.css; sourceTree = "<group>"; };
@@ -4071,7 +4064,6 @@
 		A9B411B40890492F00913770 /* small_smartAlbum.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = small_smartAlbum.tif; sourceTree = "<group>"; };
 		A9B411C10890496400913770 /* small_sharedSmartAlbum.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = small_sharedSmartAlbum.tif; sourceTree = "<group>"; };
 		A9B411EE0890498600913770 /* small_sharedAlbum.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = small_sharedAlbum.tif; sourceTree = "<group>"; };
-		A9B412D4089180A200913770 /* bonjour.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = bonjour.tif; sourceTree = "<group>"; };
 		A9C5496310FF2C9F0026EA70 /* DICOMTLS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DICOMTLS.h; sourceTree = "<group>"; };
 		A9C5496410FF2C9F0026EA70 /* DICOMTLS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DICOMTLS.m; sourceTree = "<group>"; };
 		A9C63A9B09BD7C5D00E312AE /* cerveau_icon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cerveau_icon.jpg; sourceTree = "<group>"; };
@@ -4308,12 +4300,6 @@
 		AB94E72406343D91003E4C48 /* MutableArrayCategory.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MutableArrayCategory.h; sourceTree = "<group>"; };
 		AB95C0380A2B08ED00380C65 /* FileNotFound.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = FileNotFound.tif; sourceTree = "<group>"; };
 		AB9693BF0E823E3A00F09EEA /* ROIsAndKeys.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ROIsAndKeys.tif; sourceTree = "<group>"; };
-		AB9723890C684B4E00DC727C /* OsiriXDB_Previous_DataModel1.1.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = OsiriXDB_Previous_DataModel1.1.mom; sourceTree = "<group>"; };
-		AB97238A0C684B4E00DC727C /* OsiriXDB_Previous_DataModel1.5.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = OsiriXDB_Previous_DataModel1.5.mom; sourceTree = "<group>"; };
-		AB97238B0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.0.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = OsiriXDB_Previous_DataModel2.0.mom; sourceTree = "<group>"; };
-		AB97238C0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.1.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = OsiriXDB_Previous_DataModel2.1.mom; sourceTree = "<group>"; };
-		AB97238D0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.2.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = OsiriXDB_Previous_DataModel2.2.mom; sourceTree = "<group>"; };
-		AB97238E0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.3.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = OsiriXDB_Previous_DataModel2.3.mom; sourceTree = "<group>"; };
 		AB9DCD7A09A9C47800AA19E7 /* ReportTemplate.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReportTemplate.rtf; sourceTree = "<group>"; };
 		AB9E05460B30107A00661F7E /* key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = key.png; sourceTree = "<group>"; };
 		ABA71D3F06726B1800335A62 /* Horos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Horos.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -5767,7 +5753,8 @@
 		29B97314FDCFA39411CA2CEA /* OsiriX */ = {
 			isa = PBXGroup;
 			children = (
-				4AF8F50E2BEECEDF00AF4A5D /* DCKV */,
+				4A4DDCF52BEF69F7005BBA89 /* TODO.txt */,
+				4AF8F5892BEEDA3B00AF4A5D /* heka */,
 				F3EFB87A2895825C0012A622 /* README.md */,
 				F3A24302289570ED00E2547B /* Changelog.md */,
 				F3C3F0702893A429004B2F61 /* Horos.xcconfig */,
@@ -5826,6 +5813,32 @@
 				434B461C1A19F631008CF8CF /* OPJSupport.h */,
 			);
 			name = OpenJPEG;
+			sourceTree = "<group>";
+		};
+		4A4DDD142BEF6FAC005BBA89 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4A4DDD152BEF7088005BBA89 /* Icons */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		4A4DDD152BEF7088005BBA89 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				4A4DDD172BEF70B0005BBA89 /* heka.icns */,
+				4A4DDD162BEF70B0005BBA89 /* hekaBadge.icns */,
+			);
+			path = Icons;
+			sourceTree = "<group>";
+		};
+		4AF8F5892BEEDA3B00AF4A5D /* heka */ = {
+			isa = PBXGroup;
+			children = (
+				4A4DDD142BEF6FAC005BBA89 /* Resources */,
+				4AF8F58A2BEEDA6100AF4A5D /* log.h */,
+			);
+			path = heka;
 			sourceTree = "<group>";
 		};
 		4F832D2213FA5E9E00511070 /* PluginSDK */ = {
@@ -6191,7 +6204,6 @@
 				A9A9F4C00A74C9A9005A1CA7 /* QTExportStyle.css */,
 				CE289B020D00ADBA004F0A93 /* Mail.scpt */,
 				848A6BE514C5BB9500C936C3 /* Tiling */,
-				AB9723880C684B4E00DC727C /* DB_Previous_Models */,
 				ABBB639A0635874D00D9531F /* DCMTK */,
 				ABBB647A063587B200D9531F /* Icons */,
 				CE40ED570D86D634007C6D49 /* 3DPosition.xib */,
@@ -6612,10 +6624,6 @@
 		A99B7E4F08858D0D004328C0 /* Bonjour */ = {
 			isa = PBXGroup;
 			children = (
-				A99B7E5008858D31004328C0 /* BonjourPublisher.h */,
-				A99B7E5108858D31004328C0 /* BonjourPublisher.m */,
-				A99B7E5408858D4F004328C0 /* BonjourBrowser.h */,
-				A99B7E5508858D4F004328C0 /* BonjourBrowser.m */,
 				59DB270814507B1300E78E03 /* RemoteDicomDatabase.h */,
 				59DB270914507B1300E78E03 /* RemoteDicomDatabase.mm */,
 			);
@@ -6992,21 +7000,6 @@
 			name = XML;
 			sourceTree = "<group>";
 		};
-		AB9723880C684B4E00DC727C /* DB_Previous_Models */ = {
-			isa = PBXGroup;
-			children = (
-				AB9723890C684B4E00DC727C /* OsiriXDB_Previous_DataModel1.1.mom */,
-				AB97238A0C684B4E00DC727C /* OsiriXDB_Previous_DataModel1.5.mom */,
-				AB97238B0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.0.mom */,
-				AB97238C0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.1.mom */,
-				AB97238D0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.2.mom */,
-				AB97238E0C684B4E00DC727C /* OsiriXDB_Previous_DataModel2.3.mom */,
-				84CD250C11EC5564004669D6 /* OsiriXDB_Previous_DataModel2.4.mom */,
-			);
-			name = DB_Previous_Models;
-			path = Binaries/DB_Previous_Models;
-			sourceTree = SOURCE_ROOT;
-		};
 		ABAA285A058A675600F0601D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -7222,7 +7215,6 @@
 				A9B23D2D15CFE972000E47C3 /* Axis.pdf */,
 				ABBB6482063587B200D9531F /* BestRendering.pdf */,
 				A9B23D4E15D00D73000E47C3 /* bonesRemoval.pdf */,
-				A9B412D4089180A200913770 /* bonjour.tif */,
 				CE5487790989363200CF4C60 /* Brush.tif */,
 				CE5487400989346800CF4C60 /* BrushPalette.tif */,
 				ABBB6481063587B200D9531F /* BSRSettings.tif */,
@@ -9024,7 +9016,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AF8F5472BEECFA300AF4A5D /* DCKV in Headers */,
 				AB28B8D005B79D1000A9906C /* MyOutlineView.h in Headers */,
 				AB28B8D705B79D1500A9906C /* NSFont_OpenGL.h in Headers */,
 				AB28B8E005B79D1D00A9906C /* NSFullScreenWindow.h in Headers */,
@@ -9097,7 +9088,6 @@
 				CEE1922F08636FA100DED1F0 /* DicomImage.h in Headers */,
 				CE9DD285086B35050058DD2A /* DicomStudy.h in Headers */,
 				CE9DD286086B35050058DD2A /* DicomSeries.h in Headers */,
-				A99B7ECE0885A621004328C0 /* BonjourBrowser.h in Headers */,
 				7EBE4B2708917A7500FC1C36 /* LogTableView.h in Headers */,
 				CE88575E08AF938800B72DA7 /* ROIVolumeView.h in Headers */,
 				CE88575F08AF938800B72DA7 /* ROIVolumeController.h in Headers */,
@@ -9292,6 +9282,7 @@
 				BFBF40B909B6828D00545F5E /* dccfprmp.h in Headers */,
 				BFBF40BB09B6828D00545F5E /* dccfrsmp.h in Headers */,
 				BFBF40BD09B6828D00545F5E /* dccftsmp.h in Headers */,
+				4AF8F58B2BEEDA6200AF4A5D /* log.h in Headers */,
 				BFBF40BF09B6828D00545F5E /* dccfuidh.h in Headers */,
 				BFBF40C109B6828D00545F5E /* dcmlayer.h in Headers */,
 				BFBF40C209B6828D00545F5E /* dcmsmap.h in Headers */,
@@ -9588,7 +9579,6 @@
 				841721FC10D8D8A0001A833F /* HTTPServer.h in Headers */,
 				433F9A811A1B18A500E52C6C /* VTKView.h in Headers */,
 				841722B010D90595001A833F /* DDKeychain.h in Headers */,
-				AB91224E10DA7199006E0AAB /* BonjourPublisher.h in Headers */,
 				A9FE55F410DB7DCF000D0395 /* OpenGLScreenReader.h in Headers */,
 				CEDDD87F10DCC93500FFE72B /* PSGenerator.h in Headers */,
 				CE2119C910E4C25300F9C50C /* CSMailMailClient.h in Headers */,
@@ -10071,7 +10061,6 @@
 				71AD67621FC4248100A1E2F8 /* VR Muscles-Bones.plist in Resources */,
 				71AD674D1FC4248100A1E2F8 /* HotGreen.plist in Resources */,
 				CE289B1D0D00AF91004F0A93 /* Mail.scpt in Resources */,
-				998B52E41AE0893D00D317CF /* Horos.icns in Resources */,
 				ABBB64AD063587B200D9531F /* 2DBlending.tif in Resources */,
 				ABBB64AE063587B200D9531F /* 3D.tif in Resources */,
 				ABBB64B2063587B200D9531F /* Axial.tif in Resources */,
@@ -10157,7 +10146,6 @@
 				CE4CD8DF0890DAC700CF4FE4 /* Realised3.tif in Resources */,
 				CE4CD8E00890DAC700CF4FE4 /* Receiving.tif in Resources */,
 				CE4CD8E10890DAC700CF4FE4 /* Realised1.tif in Resources */,
-				A9B412D5089180A200913770 /* bonjour.tif in Resources */,
 				CEAF4ECF089D6E9400DE46AF /* OsiriXTables.pdf in Resources */,
 				CEB1DA6908A3B1040058C303 /* smalltrash.tif in Resources */,
 				CE74DEB008CCE0C1005D12A7 /* SagOpposite.tif in Resources */,
@@ -10221,7 +10209,6 @@
 				AB10FA680B96C95500D74684 /* OsirixDownload.icns in Resources */,
 				71AD675A1FC4248100A1E2F8 /* Rainbow.plist in Resources */,
 				71AD67571FC4248100A1E2F8 /* PPU Magma.plist in Resources */,
-				999B0B681BB7309200AF018A /* Osirix.icns in Resources */,
 				CED80C8C0BF187930058A469 /* Autofill.tif in Resources */,
 				CED80C8D0BF187930058A469 /* AddLink.tif in Resources */,
 				CED80C990BF18BAF0058A469 /* Save.tif in Resources */,
@@ -10327,6 +10314,7 @@
 				CE06475210F12DA500551AD9 /* PlayTemplate.png in Resources */,
 				A917F37D10F4F20C00344C5D /* CertSmallRoot.tif in Resources */,
 				CE995076183E05D60087E409 /* PerpendicularLines.pdf in Resources */,
+				4A4DDD182BEF70B0005BBA89 /* hekaBadge.icns in Resources */,
 				A917F37E10F4F20C00344C5D /* CertSmallStd.tif in Resources */,
 				AB10FA231129302A009EB238 /* PopUpArrows.png in Resources */,
 				59BDF106117EE61E007F1F2C /* PreferencesWindow.xib in Resources */,
@@ -10439,6 +10427,7 @@
 				A9B23D2215CFE928000E47C3 /* Arrow.pdf in Resources */,
 				A9B23D2515CFE938000E47C3 /* Angle.pdf in Resources */,
 				A9B23D2815CFE948000E47C3 /* DynamicAngle.pdf in Resources */,
+				4A4DDD192BEF70B0005BBA89 /* heka.icns in Resources */,
 				A9B23D2B15CFE95E000E47C3 /* Text.pdf in Resources */,
 				71AD676C1FC4256E00A1E2F8 /* Tiling3x1.pdf in Resources */,
 				A9B23D2E15CFE972000E47C3 /* Axis.pdf in Resources */,
@@ -11190,8 +11179,6 @@
 				9952F2722020C21D0020CCD4 /* ICloudDriveDetector.m in Sources */,
 				CE9DD284086B35050058DD2A /* DicomStudy.m in Sources */,
 				CE9DD287086B35050058DD2A /* DicomSeries.m in Sources */,
-				A99B7ECB0885A61F004328C0 /* BonjourPublisher.m in Sources */,
-				A99B7ECD0885A621004328C0 /* BonjourBrowser.m in Sources */,
 				7EBE4B2608917A7200FC1C36 /* LogTableView.m in Sources */,
 				CE88576008AF938800B72DA7 /* ROIVolumeController.mm in Sources */,
 				CE88576108AF938800B72DA7 /* ROIVolumeView.mm in Sources */,
@@ -13274,7 +13261,7 @@
 					"-lopenjp2",
 					"-lCharLS",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_PREFIX).horos";
+				PRODUCT_BUNDLE_IDENTIFIER = com.opendicom.heka;
 				PRODUCT_NAME = Horos;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = NO;
@@ -13586,7 +13573,7 @@
 					"-lopenjp2",
 					"-lCharLS",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_PREFIX).horos";
+				PRODUCT_BUNDLE_IDENTIFIER = com.opendicom.heka;
 				PRODUCT_NAME = Horos;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = NO;

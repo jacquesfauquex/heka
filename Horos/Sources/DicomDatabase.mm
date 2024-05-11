@@ -2392,10 +2392,7 @@ static BOOL protectionAgainstReentry = NO;
                                                     {
                                                         NSString *reportFilePath = nil;
                                                         
-                                                        //														if (isBonjour)
-                                                        //															reportFilePath = [tempDirPath stringByAppendingPathComponent: [reportPath lastPathComponent]];
-                                                        //														else
-                                                        reportFilePath = [reportsDirPath stringByAppendingPathComponent: [reportPath lastPathComponent]];
+                                                       reportFilePath = [reportsDirPath stringByAppendingPathComponent: [reportPath lastPathComponent]];
                                                         
                                                         [[NSFileManager defaultManager] removeItemAtPath: reportFilePath error: nil];
                                                         [[NSFileManager defaultManager] moveItemAtPath: reportPath toPath: reportFilePath error: nil];

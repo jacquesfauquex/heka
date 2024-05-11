@@ -46,7 +46,7 @@
 @interface OSILocationsPreferencePanePref : NSPreferencePane 
 {
 	IBOutlet NSPopUpButton			*characterSetPopup;
-	IBOutlet NSButton				*addServerDICOM, *addServerSharing, *searchDICOMBonjourNodes, *verifyPing, *addLocalPath, *loadNodes;
+	IBOutlet NSButton				*addServerDICOM, *addServerSharing,  *verifyPing, *addLocalPath, *loadNodes;
 	NSString						*stringEncoding;
 	
 	IBOutlet DNDArrayController		*localPaths, *osiriXServers, *dicomNodes;

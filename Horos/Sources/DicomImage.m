@@ -58,7 +58,7 @@
 #import "SRAnnotation.h"
 #import "VRController.h"
 #import "BrowserController.h"
-#import "BonjourBrowser.h"
+
 #import "ThreadsManager.h"
 #import "DCMView.h"
 #import "AppController.h"

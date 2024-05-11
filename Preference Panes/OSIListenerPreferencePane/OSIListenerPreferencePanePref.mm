@@ -113,7 +113,6 @@
 }
 
 -(void)awakeFromNib {
-	[sharingNameField.cell setPlaceholderString:NSUserDefaults.defaultBonjourSharingName];
 }
 
 - (void) dealloc

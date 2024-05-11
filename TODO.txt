@@ -1,0 +1,13 @@
+https://stackoverflow.com/questions/20985156/nspopupbutton-with-inlinebutton-style-logs-unknown-bezel-style-15-and-or-contro
+
+DICM drop in window always stay in place
+
+delete DICM dropped in window not autorized
+
+edit DICM dropped in window not autorized
+
+change logo
+
+cannot remove all items of toolbar. Else it desappears
+
+cda not shown in database viewer... transform to pdf ...

@@ -1758,8 +1758,6 @@ const NSString* const GenerateMovieDicomImagesParamKey = @"dicomImageArray";
 			if (![webUser validateStudyPredicate:&studyPredicate error:&err])
 				[response.tokens addError:err.localizedDescription];
 			err = NULL;
-			if (![webUser validateDownloadZIP:&downloadZIP error:&err])
-				[response.tokens addError:err.localizedDescription];
 			
             if( newPassword.length > 0 && [newPassword isEqualToString: newPassword2] == NO)
                 [response.tokens addError: NSLocalizedString( @"Passwords are not identical.", nil)];

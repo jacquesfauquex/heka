@@ -1977,8 +1977,6 @@ CA
                 <outlet property="animationCheck" destination="1294" id="1305"/>
                 <outlet property="animationSlider" destination="1293" id="1304"/>
                 <outlet property="bannerSplit" destination="14624" id="14625"/>
-                <outlet property="bonjourPasswordWindow" destination="11804" id="11815"/>
-                <outlet property="bonjourSourcesBox" destination="11698" id="14241"/>
                 <outlet property="comparativeScrollView" destination="14720" id="8Jh-A5-YVN"/>
                 <outlet property="comparativeTable" destination="14724" id="14730"/>
                 <outlet property="compressionMatrix" destination="12653" id="12661"/>
@@ -2002,7 +2000,6 @@ CA
                 <outlet property="notificationEmailArrayController" destination="13871" id="13923"/>
                 <outlet property="notificationEmailWindow" destination="13869" id="13920"/>
                 <outlet property="oMatrix" destination="12411" id="12414"/>
-                <outlet property="password" destination="11809" id="11813"/>
                 <outlet property="pluginManagerController" destination="12930" id="13569"/>
                 <outlet property="rdAccessory" destination="11361" id="11438"/>
                 <outlet property="rdOffsetForm" destination="11410" id="11435"/>
@@ -2540,73 +2537,6 @@ Gw
                 </subviews>
             </view>
         </window>
-        <window title="Password" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="11804" userLabel="passwordAlbum">
-            <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
-            <rect key="contentRect" x="0.0" y="0.0" width="348" height="124"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
-            <value key="minSize" type="size" width="213" height="107"/>
-            <view key="contentView" id="11805">
-                <rect key="frame" x="0.0" y="0.0" width="348" height="124"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11809" customClass="NSSecureTextField">
-                        <rect key="frame" x="92" y="60" width="236" height="22"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="13389">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="11808">
-                        <rect key="frame" x="237" y="12" width="97" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" tag="1" inset="2" id="13388">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                            <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                        </buttonCell>
-                        <connections>
-                            <action selector="okModal:" target="694" id="11811"/>
-                        </connections>
-                    </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11807">
-                        <rect key="frame" x="140" y="12" width="97" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="13387">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                            <string key="keyEquivalent" base64-UTF8="YES">
-Gw
-</string>
-                        </buttonCell>
-                        <connections>
-                            <action selector="cancelModal:" target="694" id="11812"/>
-                        </connections>
-                    </button>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11806">
-                        <rect key="frame" x="5" y="90" width="266" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="This database is protected by a password." id="13386">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="11810">
-                        <rect key="frame" x="17" y="62" width="66" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Password:" id="13390">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                </subviews>
-            </view>
-        </window>
         <userDefaultsController representsSharedInstance="YES" id="12279" userLabel="Shared Defaults"/>
         <customView id="12309" userLabel="ExportAccessoryView">
             <rect key="frame" x="0.0" y="0.0" width="433" height="224"/>
@@ -2751,14 +2681,6 @@ Gw
                     <connections>
                         <binding destination="898" name="value" keyPath="passwordForExportEncryption" id="13839"/>
                         <binding destination="12279" name="enabled" keyPath="values.encryptForExport" id="13840"/>
-                        <binding destination="12279" name="enabled2" keyPath="values.hasMacOSXSnowLeopard" previousBinding="13840" id="13842">
-                            <dictionary key="options">
-                                <integer key="NSMultipleValuesPlaceholder" value="-1"/>
-                                <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                <integer key="NSNotApplicablePlaceholder" value="-1"/>
-                                <integer key="NSNullPlaceholder" value="-1"/>
-                            </dictionary>
-                        </binding>
                     </connections>
                 </textField>
             </subviews>

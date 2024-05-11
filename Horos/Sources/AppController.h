@@ -105,7 +105,7 @@ extern "C"
 *
 */
 
-@class AppController, ToolbarPanelController, ThumbnailsListPanel, BonjourPublisher;
+@class AppController, ToolbarPanelController, ThumbnailsListPanel;
 
 extern AppController* OsiriX;
 
@@ -129,7 +129,6 @@ extern AppController* OsiriX;
 	
     volatile BOOL					quitting;
 	BOOL							verboseUpdateCheck;
-	NSNetService					*BonjourDICOMService;
 	
 	NSTimer							*updateTimer;
 	XMLRPCInterface					*XMLRPCServer;
@@ -137,27 +136,15 @@ extern AppController* OsiriX;
 	BOOL							checkAllWindowsAreVisibleIsOff, isSessionInactive;
 	
 	int								lastColumns, lastRows, lastCount;
-    
-    BonjourPublisher* _bonjourPublisher;
 }
 
 @property BOOL checkAllWindowsAreVisibleIsOff, isSessionInactive;
 @property (readonly) NSMenu *filtersMenu, *recentStudiesMenu, *windowsTilingMenuRows, *windowsTilingMenuColumns;
-@property(readonly) NSNetService* dicomBonjourPublisher;
 @property (readonly) XMLRPCInterface *XMLRPCServer;
-@property(readonly) BonjourPublisher* bonjourPublisher;
 
-+ (BOOL) isFDACleared;
 + (BOOL) willExecutePlugin;
 + (BOOL) willExecutePlugin:(id) filter;
 
-+ (BOOL) hasMacOSXLeopard;
-+ (BOOL) hasMacOSXSnowLeopard;
-+ (BOOL) hasMacOSXLion;         // >= 10.7.5
-+ (BOOL) hasMacOSXMountainLion;
-+ (BOOL) hasMacOSX1083;
-+ (BOOL) hasMacOSXMaverick;
-+ (BOOL) hasMacOSXYosemite;
 
 +(NSString*)UID;
 

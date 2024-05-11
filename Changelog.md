@@ -20,7 +20,7 @@ New branch of Horos based on  [frnext's updates published on april 7th 2024](htt
 > - Removed Horos homephone
 > - Removed support for macOS versions before macOS 11.0 (Big Sur)
 
-- went  back on compatibility with macos 10
+- went  back on compatibility with macos 10.11 (el Capitan y siguientes)
 
 - removed notarialization
 

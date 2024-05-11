@@ -1144,5 +1144,3 @@
 }
 
 @end
-
-// TODO: announce with bonjour type _http._tcp.

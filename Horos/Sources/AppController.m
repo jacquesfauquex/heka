@@ -34,14 +34,6 @@
 #import "NSFileManager+N2.h"
 #import <objc/runtime.h>
 #import "NSPanel+N2.h"
-#ifndef OSIRIX_LIGHT
-#import "BonjourPublisher.h"
-#ifndef MACAPPSTORE
-#import "Reports.h"
-//#import <ILCrashReporter/ILCrashReporter.h>
-#import "VRView.h"
-#endif
-#endif
 #import "PluginManagerController.h"
 #import "OSIWindowController.h"
 #import "Notifications.h"
@@ -76,6 +68,8 @@
 #import "url.h"
 #include <OpenJPEG/opj_config.h>
 #define BUILTIN_DCMTK YES
+
+#import "log.h"
 
 #define MAXSCREENS 10
 
@@ -141,7 +135,7 @@ const char *GetPrivateIP()
 		
 		if ((h=gethostbyname(hostname)) == NULL)
 		{
-			NSLog( @"**** Cannot GetPrivateIP -> will use hostname");
+			E("%s","**** Cannot GetPrivateIP -> will use hostname");
 			
 			privateIPstring = (char*) malloc( 100);
 			strcpy( privateIPstring, hostname);
@@ -615,8 +609,7 @@ void exceptionHandler(NSException *exception)
 
 @implementation AppController
 
-@synthesize checkAllWindowsAreVisibleIsOff, filtersMenu, windowsTilingMenuRows, recentStudiesMenu, windowsTilingMenuColumns, isSessionInactive, dicomBonjourPublisher = BonjourDICOMService, XMLRPCServer;
-@synthesize bonjourPublisher = _bonjourPublisher;
+@synthesize checkAllWindowsAreVisibleIsOff, filtersMenu, windowsTilingMenuRows, recentStudiesMenu, windowsTilingMenuColumns, isSessionInactive, XMLRPCServer;
 
 + (NSOperatingSystemVersion)operatingSystemVersion {
     NSProcessInfo *info = [NSProcessInfo processInfo];
@@ -635,59 +628,8 @@ void exceptionHandler(NSException *exception)
     return version;
 }
 
-+(BOOL) hasMacOSX1083
-{
-    NSOperatingSystemVersion v = [self.class operatingSystemVersion];
-    return (v.majorVersion == 10 && v.minorVersion == 8 && v.patchVersion == 3);
-}
 
-+ (BOOL)hasMacOSXSierra
-{
-    NSOperatingSystemVersion v = [self.class operatingSystemVersion];
-    return (v.majorVersion > 10 || v.minorVersion >= 12);
-}
 
-+(BOOL) hasMacOSXElCapitan
-{
-    NSOperatingSystemVersion v = [self.class operatingSystemVersion];
-    return (v.majorVersion > 10 || v.minorVersion >= 11);
-}
-
-+(BOOL) hasMacOSXYosemite
-{
-    NSOperatingSystemVersion v = [self.class operatingSystemVersion];
-    return (v.majorVersion > 10 || v.minorVersion >= 10);
-}
-
-+(BOOL) hasMacOSXMaverick
-{
-    NSOperatingSystemVersion v = [self.class operatingSystemVersion];
-    return (v.majorVersion > 10 || v.minorVersion >= 9);
-}
-
-+(BOOL) hasMacOSXMountainLion
-{
-    NSOperatingSystemVersion v = [self.class operatingSystemVersion];
-    return (v.majorVersion > 10 || v.minorVersion >= 8);
-}
-
-+(BOOL) hasMacOSXLion
-{
-    NSOperatingSystemVersion v = [self.class operatingSystemVersion];
-    return (v.majorVersion > 10 || v.minorVersion >= 7);
-}
-
-+(BOOL) hasMacOSXSnowLeopard
-{
-    NSOperatingSystemVersion v = [self.class operatingSystemVersion];
-    return (v.majorVersion > 10 || v.minorVersion >= 6);
-}
-
-+(BOOL) hasMacOSXLeopard
-{
-    NSOperatingSystemVersion v = [self.class operatingSystemVersion];
-    return (v.majorVersion > 10 || v.minorVersion >= 5);
-}
 
 + (void) createNoIndexDirectoryIfNecessary:(NSString*) path { // __deprecated
 	[[NSFileManager defaultManager] confirmNoIndexDirectoryAtPath:path];
@@ -1309,16 +1251,9 @@ void exceptionHandler(NSException *exception)
             refreshViewer = YES;
         if ([[previousDefaults valueForKey: @"SOFTWAREINTERPOLATION"] intValue] != [defaults integerForKey: @"SOFTWAREINTERPOLATION"])
             refreshViewer = YES;
-        if ([[previousDefaults valueForKey: @"publishDICOMBonjour"] intValue] != [defaults integerForKey: @"publishDICOMBonjour"])
-            restartListener = YES;
         if ([[previousDefaults valueForKey: @"STORESCPTLS"] intValue] != [defaults integerForKey: @"STORESCPTLS"])
             restartListener = YES;
         
-        if( [defaults integerForKey: @"httpWebServer"] == 1 && [defaults integerForKey: @"httpWebServer"] != [[previousDefaults valueForKey: @"httpWebServer"] intValue])
-        {
-            if( [AppController hasMacOSXSnowLeopard] == NO)
-                NSRunCriticalAlertPanel( NSLocalizedString( @"Unsupported", nil), NSLocalizedString( @"It is highly recommend to upgrade to MacOS 10.6 or higher to use the Horos Web Server.", nil), NSLocalizedString( @"OK", nil) , nil, nil);
-        }
         
         previousDefaults = dictionaryRepresentation;
         
@@ -1985,74 +1920,6 @@ void exceptionHandler(NSException *exception)
 	}
 }
 
-- (void) startDICOMBonjour:(NSTimer*) t
-{
-	NSLog( @"startDICOMBonjour");
-
-	BonjourDICOMService = [[NSNetService alloc] initWithDomain:@"" type:@"_dicom._tcp." name: [[NSUserDefaults standardUserDefaults] stringForKey: @"AETITLE"] port:[[[NSUserDefaults standardUserDefaults] stringForKey: @"AEPORT"] intValue]];
-	
-	NSString* description = [NSUserDefaults bonjourSharingName];
-	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	
-	if( description && [description length] > 0)
-		[dict setValue: description forKey: @"serverDescription"];
-	
-	[dict setValue: [[NSUserDefaults standardUserDefaults] stringForKey: @"AETITLE"] forKey: @"AETitle"]; 
-	[dict setValue:[AppController UID] forKey: @"UID"]; 
-	
-	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"activateCGETSCP"])
-		[dict setValue: @"YES" forKey: @"CGET"]; // TXTRECORD doesnt support NSNumber
-	else
-		[dict setValue: @"NO" forKey: @"CGET"];  // TXTRECORD doesnt support NSNumber
-	
-	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"httpWebServer"] && [[NSUserDefaults standardUserDefaults] boolForKey: @"wadoServer"])
-	{
-		int port = [NSUserDefaults webPortalPortNumber];
-		[dict setValue: @"YES" forKey: @"WADO"]; // TXTRECORD doesnt support NSNumber
-		[dict setValue: [NSString stringWithFormat:@"%d", port] forKey: @"WADOPort"];
-		[dict setValue: @"/wado" forKey: @"WADOURL"];
-		
-		if( [[NSUserDefaults standardUserDefaults] boolForKey: @"encryptedWebServer"])
-			[dict setValue: @"https" forKey: @"WADOProtocol"];
-		else
-			[dict setValue: @"http" forKey: @"WADOProtocol"];
-	}
-	
-	switch( [[NSUserDefaults standardUserDefaults] integerForKey: @"preferredSyntaxForIncoming"])
-	{
-		case 0:
-			[dict setValue: @"LittleEndianImplicit" forKey: @"preferredSyntax"];
-		break;
-		case 21:
-			[dict setValue: @"JPEGProcess14SV1TransferSyntax" forKey: @"preferredSyntax"];
-		break;
-		case 26:
-			[dict setValue: @"JPEG2000LosslessOnly" forKey: @"preferredSyntax"];
-		break;
-		case 27:
-			[dict setValue: @"JPEG2000" forKey: @"preferredSyntax"];
-		break;
-		case 22:
-			[dict setValue: @"RLELossless" forKey: @"preferredSyntax"];
-		break;
-        case 23:
-			[dict setValue: @"JPEGLSLossless" forKey: @"preferredSyntax"];
-            break;
-        case 24:
-			[dict setValue: @"JPEGLSLossy" forKey: @"preferredSyntax"];
-            break;
-		default:
-			[dict setValue: @"LittleEndianExplicit" forKey: @"preferredSyntax"];
-		break;
-	}
-	
-	[BonjourDICOMService setTXTRecordData: [NSNetService dataFromTXTRecordDictionary: dict]];
-		
-	[BonjourDICOMService setDelegate: self];
-	[BonjourDICOMService publish];
-	
-	[[DCMNetServiceDelegate sharedNetServiceDelegate] setPublisher: BonjourDICOMService];
-}
 
 
 #pragma mark-
@@ -2135,15 +2002,6 @@ void exceptionHandler(NSException *exception)
         
         if( [NSThread isMainThread])
             NSRunAlertPanel( NSLocalizedString( @"Database", nil), @"%@", NSLocalizedString( @"OK", nil), nil, nil, e.reason);
-	}
-	
-	[BonjourDICOMService stop];
-	BonjourDICOMService = nil;
-	
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"publishDICOMBonjour"])
-	{
-		//Start DICOM Bonjour 
-		[NSTimer scheduledTimerWithTimeInterval: 5 target: self selector: @selector(startDICOMBonjour:) userInfo: nil repeats: NO];
 	}
 }
 
@@ -2575,20 +2433,9 @@ static BOOL firstCall = YES;
 #endif
 
 	[ROI saveDefaultSettings];
-	
-	[BonjourDICOMService stop];
-	BonjourDICOMService = nil;
 
     quitting = YES;
 	
-//	if (BUILTIN_DCMTK == YES)
-//	{
-//		[dcmtkQRSCP release];
-//		dcmtkQRSCP = nil;
-//
-//		[dcmtkQRSCPTLS release];
-//		dcmtkQRSCPTLS = nil;
-//	}
 	
 	[self destroyDCMTK];
 	
@@ -2720,9 +2567,6 @@ static BOOL firstCall = YES;
         
         [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(getUrl:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
         
-        #ifndef OSIRIX_LIGHT
-        [VRView testGraphicBoard];
-        #endif
     }
     @catch (NSException * e)
     {
@@ -2776,19 +2620,6 @@ static BOOL initialized = NO;
 				long	i;
 				
 				srandom(time(NULL));
-				
-//				Altivec = HasAltiVec();
-				//	if( Altivec == 0)
-				//	{
-				//		NSRunCriticalAlertPanel(@"Hardware Info", @"This application is optimized for Altivec - Velocity Engine unit, available only on G4/G5 processors.", @"OK", nil, nil);
-				//		exit(0);
-				//	}
-				
-                if ([AppController hasMacOSXElCapitan] == NO)
-				{
-					NSRunCriticalAlertPanel(NSLocalizedString(@"macOS", nil), NSLocalizedString(@"This application requires macOS 10.11 or higher. Please upgrade your operating system.", nil), NSLocalizedString(@"Quit", nil), nil, nil);
-					exit(0);
-				}
 
                 int processors;
                 int mib[2] = {CTL_HW, HW_NCPU};
@@ -3299,26 +3130,6 @@ static BOOL initialized = NO;
         [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
     }
     
-//	if ([[NSUserDefaultsController sharedUserDefaultsController] boolForKey: @"ActivityWindowVisibleFlag"])
-//		[[[ActivityWindowController defaultController] window] makeKeyAndOrderFront:self];
-
-//#ifdef WITH_IMPORTANT_NOTICE
-//	[AppController displayImportantNotice: self];
-//#endif
-    
-//	if( [[NSUserDefaults standardUserDefaults] integerForKey: @"TOOLKITPARSER4"] == 0 || [[NSUserDefaults standardUserDefaults] boolForKey:@"USEPAPYRUSDCMPIX4"] == NO)
-//	{
-//		[self notificationTitle: NSLocalizedString( @"Warning!", nil) description: NSLocalizedString( @"DCM Framework is selected as the DICOM reader/parser. The performances of this toolkit are slower.", nil)  name:@"result"];
-//        
-//        NSLog( @"********");
-//        NSLog( @"********");
-//        NSLog( @"********");
-//		NSLog( @"******** %@", NSLocalizedString( @"DCM Framework is selected as the DICOM reader/parser. The performances of this toolkit are slower.", nil));
-//        NSLog( @"********");
-//        NSLog( @"********");
-//        NSLog( @"********");
-//	}
-	
 	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"SingleProcessMultiThreadedListener"] == NO)
 		NSLog( @"----- %@", NSLocalizedString( @"DICOM Listener is multi-processes mode.", nil));
 	
@@ -3473,12 +3284,6 @@ static BOOL initialized = NO;
 #endif // NDEBUG
 #endif // OSIRIX_LIGHT
     
-    if( [AppController hasMacOSXElCapitan] == NO)
-    {
-        NSRunCriticalAlertPanel( NSLocalizedString( @"macOS Version", nil), NSLocalizedString( @"Horos requires macOS 10.11 or higher. Please update your OS: Apple Menu - Software Update...", nil), NSLocalizedString( @"Quit", nil) , nil, nil);
-        exit( 0);
-    }
-    
     if( [[NSUserDefaults standardUserDefaults] boolForKey: @"SyncPreferencesFromURL"])
         [NSThread detachNewThreadSelector: @selector( addPreferencesFromURL:) toTarget: [OSIGeneralPreferencePanePref class] withObject: [NSURL URLWithString: [[NSUserDefaults standardUserDefaults] stringForKey: @"SyncPreferencesURL"]]];
 
@@ -3575,25 +3380,6 @@ static BOOL initialized = NO;
 
 -(void)verifyHardwareInterpolation
 {
-    if( [AppController hasMacOSX1083]) // Intel 10.8.3 graphic bug
-    {
-        BOOL onlyIntelGraphicBoard = YES;
-        for( NSString *gpuName in [AppController getGPUNames])
-        {
-            if( [gpuName hasPrefix: kIntelGPUPrefix] == NO)
-                onlyIntelGraphicBoard = NO;
-        }
-        
-        if( onlyIntelGraphicBoard)
-        {
-            NSLog( @"**** 10.8.3 graphic board bug: only intel board discovered : No 32-bit pipeline available");
-            NSLog( @"%@", [AppController getGPUNames]);
-            
-            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"FULL32BITPIPELINE"];
-            return;
-        }
-    }
-    
 	NSUInteger size = 32, size2 = size*size;
 	
 	NSWindow* win = [[NSWindow alloc] initWithContentRect:NSMakeRect(0,0,size,size) styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO];
@@ -3843,7 +3629,6 @@ static BOOL initialized = NO;
 	[BrowserController initializeBrowserControllerClass];
 	#ifndef OSIRIX_LIGHT
 	[WebPortal initializeWebPortalClass];
-    _bonjourPublisher = [[BonjourPublisher alloc] init];
 	#endif
 	
 	#ifndef OSIRIX_LIGHT
@@ -3930,8 +3715,6 @@ static BOOL initialized = NO;
 	}
 	
 		
-	//Checks for Bonjour enabled dicom servers. Most likely other copies of Horos
-	[DCMNetServiceDelegate sharedNetServiceDelegate];
 	
 	previousDefaults = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
 	showRestartNeeded = YES;
@@ -3943,7 +3726,6 @@ static BOOL initialized = NO;
 	
 	[[NSUserDefaults standardUserDefaults] setBool:YES forKey: @"SAMESTUDY"];
 		
-	[[NSUserDefaults standardUserDefaults] setBool: [AppController hasMacOSXSnowLeopard] forKey: @"hasMacOSXSnowLeopard"];
 	
     [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"UseOpenJpegForJPEG2000"];
     [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"useDCMTKForJP2K"];
@@ -5420,8 +5202,8 @@ static NSMutableDictionary* _receivingDict = nil;
 
 -(void)_receivingIconUpdate {
 	if (!_receivingDict.count)
-		[NSApp setApplicationIconImage:[NSImage imageNamed:@"Horos.icns"]];
-	else [NSApp setApplicationIconImage:[NSImage imageNamed:@"OsirixDownload.icns"]];
+		[NSApp setApplicationIconImage:[NSImage imageNamed:@"heka.icns"]];
+	else [NSApp setApplicationIconImage:[NSImage imageNamed:@"hekaBadge.icns"]];
 }
 
 -(void)_receivingIconSet:(BOOL)flag {

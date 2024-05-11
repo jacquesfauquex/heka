@@ -444,7 +444,7 @@
                         }
                         else if( [DCMAbstractSyntaxUID isImageStorage: seriesSOPClassUID] || [DCMAbstractSyntaxUID isRadiotherapy: seriesSOPClassUID] || [seriesSOPClassUID length] == 0)
                         {
-                            DCMPix* dcmPix = [[DCMPix alloc] initWithPath: image.completePath :0 :1 :nil :frame :self.id.intValue isBonjour: ![[DicomDatabase databaseForContext:self.managedObjectContext] isLocal] imageObj:image];
+                            DCMPix* dcmPix = [[DCMPix alloc] initWithPath: image.completePath :0 :1 :nil :frame :self.id.intValue isBonjour:false imageObj:image];
                             [dcmPix CheckLoad];
                             
                             //Set the default series level window-width&level

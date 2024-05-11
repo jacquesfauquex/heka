@@ -5,7 +5,6 @@
 
 @class MPR2DController,NSCFDate, DicomStudy;
 @class ViewerController, DicomImage;
-@class BonjourBrowser;
 @class AnonymizerWindowController,QueryController;
 @class LogWindowController,PreviewView;
 @class MyOutlineView,DCMView,DCMPix;
@@ -67,7 +66,6 @@ extern NSString * const O2PasteboardTypeDatabaseObjectXIDs;
     long					loadPreviewIndex, previousNoOfFiles;
     NSManagedObject			*previousItem;
     
-    long					previousBonjourIndex;
     
     IBOutlet NSSplitView	*splitViewHorz, *splitViewVert, *splitAlbums, *splitDrawer, *splitComparative;
     CGFloat _splitViewVertDividerRatio;
@@ -93,12 +91,10 @@ extern NSString * const O2PasteboardTypeDatabaseObjectXIDs;
     IBOutlet BrowserMatrix			*oMatrix;
     IBOutlet NSTableView			*albumTable;
     
-    IBOutlet NSBox					*bonjourSourcesBox;
     
     IBOutlet NSArrayController*		_sourcesArrayController;
     IBOutlet NSTableView*			_sourcesTableView;
     id								_sourcesHelper;
-    BonjourBrowser					*bonjourBrowser;
     
     IBOutlet NSSlider				*animationSlider;
     IBOutlet NSButton				*animationCheck;
@@ -118,10 +114,7 @@ extern NSString * const O2PasteboardTypeDatabaseObjectXIDs;
     IBOutlet NSTextField			*memoryMessage;
     IBOutlet NSImageView			*leftIcon, *rightIcon;
     IBOutlet NSBox					*warningBox;
-    
-    IBOutlet NSWindow				*bonjourPasswordWindow;
-    IBOutlet NSTextField			*password;
-    
+        
     IBOutlet NSWindow				*newAlbum;
     IBOutlet NSTextField			*newAlbumName;
     
@@ -259,13 +252,11 @@ extern NSString * const O2PasteboardTypeDatabaseObjectXIDs;
 @property(readonly) NSDateFormatter *DateTimeFormat __deprecated, *DateOfBirthFormat __deprecated, *TimeFormat, *TimeWithSecondsFormat, *DateTimeWithSecondsFormat;
 @property(readonly) NSArray *matrixViewArray;
 @property(readonly) NSMatrix *oMatrix;
-@property(readonly) BOOL is2DViewer, isCurrentDatabaseBonjour;
+@property(readonly) BOOL is2DViewer;
 @property(readonly) MyOutlineView *databaseOutline;
 @property(readonly) NSTableView *albumTable;
 @property(readonly) NSString *currentDatabasePath __deprecated, *localDatabasePath __deprecated, *documentsDirectory __deprecated, *fixedDocumentsDirectory __deprecated;
 
-@property(readonly) NSBox *bonjourSourcesBox;
-@property(readonly) BonjourBrowser *bonjourBrowser;
 @property(readonly) const char *cfixedDocumentsDirectory __deprecated, *cfixedIncomingDirectory __deprecated, *cfixedTempNoIndexDirectory __deprecated, *cfixedIncomingNoIndexDirectory __deprecated;
 
 @property(retain) NSString *searchString, *CDpassword, *pathToEncryptedFile, *passwordForExportEncryption, *temporaryNotificationEmail, *customTextNotificationEmail, *comparativePatientUID, *smartAlbumDistantName, *distantStudyMessage, *distantSearchString, *selectedAlbumName;
@@ -345,7 +336,7 @@ extern NSString * const O2PasteboardTypeDatabaseObjectXIDs;
 - (NSManagedObjectContext *) defaultManagerObjectContext __deprecated;
 - (NSManagedObjectContext *) defaultManagerObjectContextIndependentContext: (BOOL) independentContext __deprecated;
 
-- (BOOL) isBonjour: (NSManagedObjectContext*) c __deprecated;
+
 - (NSString *) localDocumentsDirectory __deprecated;
 - (void) alternateButtonPressed: (NSNotification*)n;
 - (NSArray*) childrenArray: (id) item;
@@ -404,7 +395,6 @@ extern NSString * const O2PasteboardTypeDatabaseObjectXIDs;
 - (float) fontSize: (NSString*) type;
 - (void) setTableViewRowHeight;
 - (void) addAlbumsFile: (NSString*) file;
-- (void) sendFilesToCurrentBonjourDB: (NSArray*) files __deprecated;
 - (NSString*) getDatabaseFolderFor: (NSString*) path __deprecated;
 - (NSString*) getDatabaseIndexFileFor: (NSString*) path __deprecated;
 - (IBAction) copyToDBFolder: (id) sender;
@@ -426,8 +416,6 @@ extern NSString * const O2PasteboardTypeDatabaseObjectXIDs;
 - (IBAction) saveDBListAs:(id) sender;
 - (IBAction) openDatabase:(id) sender;
 - (void) checkReportsDICOMSRConsistency __deprecated;
-- (void) openDatabaseIn:(NSString*) a Bonjour:(BOOL) isBonjour __deprecated;
-- (void) openDatabaseIn: (NSString*)a Bonjour: (BOOL)isBonjour refresh: (BOOL) refresh __deprecated;
 - (void) browserPrepareForClose;
 - (IBAction) endReBuildDatabase:(id) sender;
 - (IBAction) ReBuildDatabaseSheet: (id)sender;
@@ -490,11 +478,7 @@ extern NSString * const O2PasteboardTypeDatabaseObjectXIDs;
 - (void) refreshDatabase:(id) sender;
 - (void) syncReportsIfNecessary;
 
-//bonjour
--(NSManagedObjectContext*)bonjourManagedObjectContext __deprecated;
-- (void) setBonjourDatabaseValue:(NSManagedObject*) obj value:(id) value forKey:(NSString*) key __deprecated;
 - (NSString*) getLocalDCMPath: (NSManagedObject*) obj :(long) no;
-- (void) displayBonjourServices;
 - (NSString*) askPassword;
 - (void) resetToLocalDatabase;
 - (void) switchToDefaultDBIfNeeded __deprecated;

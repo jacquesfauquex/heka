@@ -50,7 +50,6 @@
 #import "NSThread+N2.h"
 #import "N2Operators.h"
 #import "ThreadModalForWindowController.h"
-#import "BonjourPublisher.h"
 #import "DicomFile.h"
 #import "ThreadsManager.h"
 #import "NSDictionary+N2.h"
@@ -78,7 +77,6 @@
     BrowserController* _browser;
     NSNetServiceBrowser* _nsbOsirix;
     NSNetServiceBrowser* _nsbDicom;
-    NSMutableArray* _bonjourSources, *_bonjourServices;
     
     BOOL dontListenToSourcesChanges;
 }
@@ -94,16 +92,6 @@
 
 @end
 
-/*@interface BonjourDataNodeIdentifier : DataNodeIdentifier
- {
-	NSNetService* _service;
- }
- 
- @property(retain) NSNetService* service;
- 
- -(NSInteger)port;
- 
- @end*/
 
 @interface MountedDatabaseNodeIdentifier : LocalDatabaseNodeIdentifier
 {
@@ -397,7 +385,6 @@ enum {
 static void* const LocalBrowserSourcesContext = @"LocalBrowserSourcesContext";
 static void* const RemoteBrowserSourcesContext = @"RemoteBrowserSourcesContext";
 static void* const DicomBrowserSourcesContext = @"DicomBrowserSourcesContext";
-static void* const SearchBonjourNodesContext = @"SearchBonjourNodesContext";
 static void* const SearchDicomNodesContext = @"SearchDicomNodesContext";
 
 -(id)initWithBrowser:(BrowserController*)browser
@@ -408,17 +395,14 @@ static void* const SearchDicomNodesContext = @"SearchDicomNodesContext";
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:@"localDatabasePaths" options:NSKeyValueObservingOptionInitial context:LocalBrowserSourcesContext];
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:@"OSIRIXSERVERS" options:NSKeyValueObservingOptionInitial context:RemoteBrowserSourcesContext];
         [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:@"SERVERS" options:NSKeyValueObservingOptionInitial context:DicomBrowserSourcesContext];
-        _bonjourSources = [[NSMutableArray alloc] init];
-        _bonjourServices = [[NSMutableArray alloc] init];
-        [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:@"searchDICOMBonjour" options:NSKeyValueObservingOptionInitial context:SearchDicomNodesContext];
-        [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:@"DoNotSearchForBonjourServices" options:NSKeyValueObservingOptionInitial context:SearchBonjourNodesContext];
-        _nsbOsirix = [[NSNetServiceBrowser alloc] init];
+/*JF        _nsbOsirix = [[NSNetServiceBrowser alloc] init];
         [_nsbOsirix setDelegate:self];
         [_nsbOsirix searchForServicesOfType:@"_osirixdb._tcp." inDomain:@""];
         _nsbDicom = [[NSNetServiceBrowser alloc] init];
         [_nsbDicom setDelegate:self];
         [_nsbDicom searchForServicesOfType:@"_dicom._tcp." inDomain:@""];
-        // mounted devices
+*/
+ // mounted devices
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(_observeVolumeNotification:) name:NSWorkspaceDidMountNotification object:nil];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(_observeVolumeNotification:) name:NSWorkspaceDidUnmountNotification object:nil];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(_observeVolumeNotification:) name:NSWorkspaceDidRenameVolumeNotification object:nil];
@@ -470,18 +454,13 @@ static void* const SearchDicomNodesContext = @"SearchDicomNodesContext";
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self name:NSWorkspaceWillUnmountNotification object:nil];
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self name:NSWorkspaceDidRenameVolumeNotification object:nil];
     
-    [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forValuesKey:@"DoNotSearchForBonjourServices"];
-    [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forValuesKey:@"searchDICOMBonjour"];
     [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forValuesKey:@"SERVERS"];
     [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forValuesKey:@"OSIRIXSERVERS"];
     [[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forValuesKey:@"localDatabasePaths"];
     
-    [_nsbDicom release]; _nsbDicom = nil;
-    [_nsbOsirix release]; _nsbOsirix = nil;
-    [_bonjourSources release];
-    [_bonjourServices release];
+//JF [_nsbDicom release]; _nsbDicom = nil;
+//JF    [_nsbOsirix release]; _nsbOsirix = nil;
     
-    //	[[[NSUserDefaults standardUserDefaults] objectForKey:@"localDatabasePaths"] removeObserver:self forValuesKey:@"values"];
     _browser = nil;
     [super dealloc];
 }
@@ -663,60 +642,9 @@ static void* const SearchDicomNodesContext = @"SearchDicomNodesContext";
                     dni.dictionary = [aa objectForKey:aak];
                     dni.description = [dni.dictionary objectForKey:@"Description"];
                 }
-                //                    }];
-                //                }];
             }
         }
         
-        if (context == SearchBonjourNodesContext)
-            @synchronized (_bonjourSources) {
-                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DoNotSearchForBonjourServices"]) // add remote databases detected with bonjour
-                { // remove remote databases detected with bonjour
-                    for (DataNodeIdentifier* dni in _bonjourSources)
-                        if ([dni isKindOfClass:[RemoteDatabaseNodeIdentifier class]] && dni.detected) {
-                            dni.detected = NO;
-                            if (!dni.entered && [_browser.sources.content containsObject:dni])
-                            {
-                                [dni retain];
-                                [_browser.sources removeObject:dni]; // not entered, not detected.. remove it
-                                [dni performSelector: @selector( autorelease) withObject: nil afterDelay: 60];
-                            }
-                        }
-                } else
-                { // add remote databases detected with bonjour
-                    for (DataNodeIdentifier* dni in _bonjourSources)
-                        if ([dni isKindOfClass:[RemoteDatabaseNodeIdentifier class]] && !dni.detected && dni.location) {
-                            dni.detected = YES;
-                            if (![_browser.sources.content containsObject:dni])
-                                [_browser.sources addObject:dni];
-                        }
-                }
-            }
-        
-        if (context == SearchDicomNodesContext)
-            @synchronized (_bonjourSources) {
-                if (![[NSUserDefaults standardUserDefaults] boolForKey:@"searchDICOMBonjour"])
-                { // remove dicom nodes detected with bonjour
-                    for (DataNodeIdentifier* dni in _bonjourSources)
-                        if ([dni isKindOfClass:[DicomNodeIdentifier class]] && dni.detected) {
-                            dni.detected = NO;
-                            if (!dni.entered && [_browser.sources.content containsObject:dni])
-                            {
-                                [dni retain];
-                                [_browser.sources removeObject:dni]; // not entered, not detected.. remove it
-                                [dni performSelector: @selector( autorelease) withObject: nil afterDelay: 60];
-                            }
-                        }
-                } else
-                { // add dicom nodes detected with bonjour
-                    for (DataNodeIdentifier* dni in _bonjourSources)
-                        if ([dni isKindOfClass:[DicomNodeIdentifier class]] && !dni.detected && dni.location) {
-                            dni.detected = YES;
-                            if (![_browser.sources.content containsObject:dni])
-                                [_browser.sources addObject:dni];
-                        }
-                }
-            }
     }
     @catch (NSException *exception) {
         N2LogExceptionWithStackTrace( exception);
@@ -728,232 +656,6 @@ static void* const SearchDicomNodesContext = @"SearchDicomNodesContext";
         [_browser performSelector: @selector(setDatabase:) withObject: DicomDatabase.defaultDatabase afterDelay: 0.01]; //This will guarantee that this will not happen in middle of a drag & drop, for example
     else
         [_browser selectSourceForDatabase: _browser.database];
-}
-
--(void)netServiceDidResolveAddress:(NSNetService*)service
-{
-    @try
-    {
-        [service retain];
-        [service stop]; //Technical Q&A QA1297
-        
-        DataNodeIdentifier* source0 = nil;
-        @synchronized (_bonjourSources)
-        {
-            if( [_bonjourServices indexOfObject: service] != NSNotFound)
-                source0 = [_bonjourSources objectAtIndex: [_bonjourServices indexOfObject: service]];
-            else
-                NSLog( @"***** unknown didResolve Service");
-        }
-        if (!source0)
-            return;
-        
-        @try
-        {
-            NSDictionary* dict = nil;
-            if (![service.domain isEqualToString:@"_osirixdb._tcp."])
-                dict = [BonjourPublisher dictionaryFromXTRecordData:service.TXTRecordData];
-            else dict = [DCMNetServiceDelegate DICOMNodeInfoFromTXTRecordData:service.TXTRecordData];
-            
-            if ([[dict objectForKey:@"UID"] isEqualToString:[AppController UID]])
-            {
-                @synchronized (_bonjourSources)
-                {
-                    NSLog( @"Remove Service: %@", service);
-                    if( [_bonjourServices indexOfObject: service] != NSNotFound)
-                    {
-                        [_bonjourSources removeObjectAtIndex: [_bonjourServices indexOfObject: service]];
-                        [_bonjourServices removeObject: service];
-                    }
-                    else
-                        NSLog( @"***** unknown didResolve Service");
-                }
-                return; // it's me
-            }
-        }
-        @catch (NSException *exception) {
-            N2LogException( exception);
-            return;
-        }
-        
-        @try {
-            // we're now back in the main thread
-            NSMutableArray* addresses = [NSMutableArray array];
-            // Prefer IP4
-            for (NSData* address in service.addresses)
-            {
-                struct sockaddr* sockAddr = (struct sockaddr*)address.bytes;
-                if (sockAddr->sa_family == AF_INET)
-                {
-                    struct sockaddr_in* sockAddrIn = (struct sockaddr_in*)sockAddr;
-                    char *str = inet_ntoa(sockAddrIn->sin_addr);
-                    if( str)
-                    {
-                        NSString* host = [NSString stringWithUTF8String:str];
-                        NSInteger port = ntohs(sockAddrIn->sin_port);
-                        [addresses addObject:[NSArray arrayWithObjects: host, [NSNumber numberWithInteger:port], NULL]];
-                    }
-                }
-            }
-            // And search IPv6
-            for (NSData* address in service.addresses)
-            {
-                struct sockaddr* sockAddr = (struct sockaddr*)address.bytes;
-                if (sockAddr->sa_family == AF_INET6)
-                {
-                    struct sockaddr_in6* sockAddrIn6 = (struct sockaddr_in6*)sockAddr;
-                    char buffer[INET6_ADDRSTRLEN];
-                    if( inet_ntop(AF_INET6, &sockAddrIn6->sin6_addr, buffer, INET6_ADDRSTRLEN))
-                    {
-                        NSString* host = [NSString stringWithUTF8String:buffer];
-                        NSInteger port = ntohs(sockAddrIn6->sin6_port);
-                        [addresses addObject:[NSArray arrayWithObjects: host, [NSNumber numberWithInteger:port], NULL]];
-                    }
-                }
-            }
-            
-            DataNodeIdentifier* source = source0;
-            
-            for (NSArray* address in addresses)
-            {
-                if (!source.location && address.count >= 2)
-                {
-                    if ([source isKindOfClass:[RemoteDatabaseNodeIdentifier class]] || [source isKindOfClass:[DicomNodeIdentifier class]])
-                    {
-                        source.location = [address objectAtIndex:0];
-                        source.port = [[address objectAtIndex:1] integerValue];
-                    }
-                    
-                    if( [source isKindOfClass:[DicomNodeIdentifier class]])
-                        source.aetitle = source.description;
-                }
-            }
-            
-            NSUInteger i = [_browser.sources.content indexOfObject:source];
-            if (i != NSNotFound) // Already known
-                @synchronized (_bonjourSources)
-            {
-                if( [_bonjourServices indexOfObject: service] != NSNotFound)
-                    [_bonjourSources replaceObjectAtIndex: [_bonjourServices indexOfObject: service] withObject: (source = [_browser.sources.content objectAtIndex:i])];
-                else
-                    NSLog( @"***** unknown didResolve Service");
-            }
-            
-            if ([source isKindOfClass:[RemoteDatabaseNodeIdentifier class]])
-                source.dictionary = [BonjourPublisher dictionaryFromXTRecordData:service.TXTRecordData];
-            else
-                source.dictionary = [DCMNetServiceDelegate DICOMNodeInfoFromTXTRecordData:service.TXTRecordData];
-            
-            if (source.location)
-            {
-                if (([source isKindOfClass:[RemoteDatabaseNodeIdentifier class]] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"DoNotSearchForBonjourServices"]) ||
-                    ([source isKindOfClass:[DicomNodeIdentifier class]] && [[NSUserDefaults standardUserDefaults] boolForKey:@"searchDICOMBonjour"])) {
-                    
-                    source.detected = YES;
-                    if (![_browser.sources.content containsObject:source])
-                        [_browser.sources addObject:source];
-                }
-            }
-        }
-        @catch (NSException *exception) {
-            N2LogException( exception);
-        }
-    }
-    @catch ( NSException *exception) {
-        N2LogException( exception);
-    }
-    @finally {
-        [service release];
-    }
-}
-
--(void)netService:(NSNetService*)service didNotResolve:(NSDictionary*)errorDict
-{
-    [service stop];
-    
-    NSNetService* bsk = nil;
-    
-    @synchronized (_bonjourSources) {
-        for (NSNetService* ibsk in _bonjourServices) {
-            if ([ibsk isEqual: service]) {
-                bsk = ibsk;
-                break;
-            }
-        }
-        
-        if (!bsk)
-            return;
-        
-        NSLog( @"Remove Service: %@", bsk);
-        [_bonjourSources removeObjectAtIndex: [_bonjourServices indexOfObject: bsk]];
-        [_bonjourServices removeObject: bsk];
-    }
-}
-
--(void)netServiceBrowser:(NSNetServiceBrowser*)nsb didFindService:(NSNetService*)service moreComing:(BOOL)moreComing
-{
-    //NSLog(@"Bonjour service found: %@", service);
-    
-    DataNodeIdentifier* source;
-    if (nsb == _nsbOsirix)
-        source = [RemoteDatabaseNodeIdentifier remoteDatabaseNodeIdentifierWithLocation:nil port:0 description:service.name dictionary:nil];
-    else
-        source = [DicomNodeIdentifier dicomNodeIdentifierWithLocation:nil port:0 aetitle:@"" description:service.name dictionary:nil];
-    
-    //    source.discovered = YES;
-    //	source.service = service;
-    @synchronized (_bonjourSources) {
-        [_bonjourServices addObject: service];
-        [_bonjourSources addObject: source];
-    }
-    NSLog( @"Find Service: %@", service);
-    
-    // resolve the address and port for this NSNetService
-    [service setDelegate:self];
-    [service resolveWithTimeout:30];
-}
-
--(void)netServiceBrowser:(NSNetServiceBrowser*)nsb didRemoveService:(NSNetService*)service moreComing:(BOOL)moreComing
-{
-    NSLog(@"Bonjour service gone: %@", service);
-    
-    DataNodeIdentifier* dni;
-    
-    NSNetService *bsk = nil;
-    @synchronized (_bonjourSources) {
-        for (NSNetService* ibsk in _bonjourServices) {
-            if ([ibsk isEqual: service]) {
-                bsk = ibsk;
-                break;
-            }
-        }
-        
-        if (!bsk)
-            return;
-        
-        dni = [_bonjourSources objectAtIndex: [_bonjourServices indexOfObject: bsk]];
-        
-        if (([dni isKindOfClass:[RemoteDatabaseNodeIdentifier class]] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"DoNotSearchForBonjourServices"]) ||
-            ([dni isKindOfClass:[DicomNodeIdentifier class]] && [[NSUserDefaults standardUserDefaults] boolForKey:@"searchDICOMBonjour"])) {
-            
-            dni.detected = NO;
-            if (!dni.entered && [_browser.sources.content containsObject:dni])
-            {
-                [dni retain];
-                [_browser.sources removeObject:dni]; // not entered, not detected.. remove it
-                [dni performSelector: @selector( autorelease) withObject: nil afterDelay: 60];
-            }
-        }
-        
-        // if the disappearing node is active, select the default DB
-        if ([[_browser sourceIdentifierForDatabase:_browser.database] isEqualToDataNodeIdentifier:dni])
-        {
-            [_browser performSelector: @selector(setDatabase:) withObject: DicomDatabase.defaultDatabase afterDelay: 0.01]; //This will guarantee that this will not happen in middle of a drag & drop, for example
-        }
-        NSLog( @"Remove Service: %@", bsk);
-        [_bonjourSources removeObjectAtIndex: [_bonjourServices indexOfObject: bsk]];
-        [_bonjourServices removeObject: bsk];
-    }
 }
 
 -(void)_analyzeVolumeAtPath:(NSString*)path

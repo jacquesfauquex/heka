@@ -1073,8 +1073,6 @@ static NSHost *currentHost = nil;
 	[defaultValues setObject: @"0" forKey: @"MAPPERMODEVR"];
 	[defaultValues setObject: @"1" forKey: @"STARTCOUNT"];
 	[defaultValues setObject: @"1" forKey: @"editingLevel"];
-	[defaultValues setObject: @"1" forKey: @"publishDICOMBonjour"];
-	[defaultValues setObject: @"1" forKey: @"searchDICOMBonjour"];
 	[defaultValues setObject: @"1" forKey: @"autorotate3D"];
 	[defaultValues setObject: @"1" forKey: @"preferencesModificationsEnabled"];
 	[defaultValues setObject: @"0" forKey: @"Compression Mode for Export"];

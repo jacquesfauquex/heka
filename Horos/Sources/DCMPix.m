@@ -4940,11 +4940,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 {
 #ifdef OSIRIX_VIEWER
     
-    if( [[BrowserController currentBrowser] isCurrentDatabaseBonjour])
-    {
-        NSLog( @"Can't (or shouldn't?) export ROIs to Bonjour mounted Database");
-        return;
-    }
     
     NSLog( @"createROIsFromRTSTRUCT");
     
@@ -7181,26 +7176,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
         
         if (!self.srcFile) return;
         
-        if( isBonjour)
-        {
-#ifdef OSIRIX_VIEWER
-            // LOAD THE FILE FROM BONJOUR SHARED DATABASE
-            
-            self.srcFile = nil;
-            
-            if( [NSThread isMainThread])
-            {
-                self.srcFile = [[BrowserController currentBrowser] getLocalDCMPath: [[[BrowserController currentBrowser] database] objectWithID: imageObjectID] :0];
-            }
-            else
-            {
-                self.srcFile = [[BrowserController currentBrowser] getLocalDCMPath: [[[[BrowserController currentBrowser] database] independentContext] existingObjectWithID: imageObjectID error: nil] :0];
-            }
-            
-            if(self.srcFile == nil)
-                return;
-#endif
-        }
         
         if( [self isDICOMFile:self.srcFile])
         {
