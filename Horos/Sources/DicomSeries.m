@@ -131,7 +131,6 @@
 - (void) dcmodifyThread: (NSDictionary*) dict
 {
 	#ifdef OSIRIX_VIEWER
-	#ifndef OSIRIX_LIGHT
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	[[DicomStudy dbModifyLock] lock];
 	@try {
@@ -211,15 +210,13 @@
         [pool release];
     }
 	#endif
-	#endif
 }
 
 
 - (void) setComment: (NSString*) c
 {
 	#ifdef OSIRIX_VIEWER
-	#ifndef OSIRIX_LIGHT
-	@try 
+	@try
 	{
 		if( [self.study.hasDICOM boolValue] == YES && [[NSUserDefaults standardUserDefaults] boolForKey: @"savedCommentsAndStatusInDICOMFiles"]  && [[DicomDatabase databaseForContext:self.managedObjectContext] isLocal])
 		{
@@ -244,7 +241,6 @@
 	{
 		N2LogExceptionWithStackTrace(e);
 	}
-	#endif
 	#endif
 	
 	NSString *previousValue = [self primitiveValueForKey: @"comment"];
@@ -792,12 +788,9 @@
     {
         if (delete)
         {
-#ifndef OSIRIX_LIGHT
             NSString *vrFile = [VRController getUniqueFilenameScissorStateFor: self];
             if( vrFile && [[NSFileManager defaultManager] fileExistsAtPath: vrFile])
                 [[NSFileManager defaultManager] removeItemAtPath: vrFile error:NULL];
-#endif
-
         }
     }
     

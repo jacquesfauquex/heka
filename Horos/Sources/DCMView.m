@@ -1519,7 +1519,6 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
     [[self windowController] redo: sender];
 }
 
-#ifndef OSIRIX_LIGHT
 - (void)paste:(id)sender
 {
     NSPasteboard *pb = [NSPasteboard generalPasteboard];
@@ -1574,7 +1573,6 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
     if ([winCtrl respondsToSelector:@selector(paste:)])
         [winCtrl paste: sender];
 }
-#endif
 
 -(IBAction) copy:(id) sender
 {
@@ -8092,15 +8090,6 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
     //	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glLineWidth(1.0 * self.window.backingScaleFactor);
     
-    //	#ifndef OSIRIX_LIGHT
-    //	if( iChatRunning && cgl_ctx==[_alternateContext CGLContextObj])
-    //	{
-    //		if(!iChatFontListGL) iChatFontListGL = glGenLists(150);
-    //		iChatFontGL = [NSFont systemFontOfSize: 12];
-    //		[iChatFontGL makeGLDisplayListFirst:' ' count:150 base:iChatFontListGL :iChatFontListGLSize :1];
-    //		iChatStringSize = [DCMView sizeOfString:@"B" forFont:iChatFontGL];
-    //	}
-    //	#endif
     
     GLuint fontList;
     NSSize _stringSize;
@@ -8894,15 +8883,7 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
     long clutBars = CLUTBARS, annotations = annotationType;
     BOOL frontMost = NO, is2DViewer = [self is2DViewer];
     float sf = self.window.backingScaleFactor;
-    
-    //	#ifndef OSIRIX_LIGHT
-    //    iChatRunning = NO;
-    //    if( is2DViewer)
-    //        iChatRunning = [[IChatTheatreDelegate sharedDelegate] isIChatTheatreRunning];
-    //	#else
-    //    iChatRunning = NO;
-    //	#endif
-    
+     
     if( is2DViewer)
         frontMost = self.window.isKeyWindow;    //[ViewerController isFrontMost2DViewer: [self window]];
     
@@ -9027,70 +9008,7 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
                     glDisable(GL_BLEND);
                 }
             }
-            
-            // highlight the visible part of the view (the part visible through iChat)
-            //			#ifndef OSIRIX_LIGHT
-            //			if( iChatRunning && ctx!=_alternateContext && [[self window] isMainWindow] && isKeyView && iChatWidth>0 && iChatHeight>0)
-            //			{
-            //				glLoadIdentity (); // reset model view matrix to identity (eliminates rotation basically)
-            //				glScalef (2.0f / drawingFrameRect.size.width, -2.0f /  drawingFrameRect.size.height, 1.0f); // scale to port per pixel scale
-            //				glTranslatef (-(drawingFrameRect.size.width) / 2.0f, -(drawingFrameRect.size.height) / 2.0f, 0.0f); // translate center to upper left
-            //				NSPoint topLeft;
-            //				topLeft.x = drawingFrameRect.size.width/2 - iChatWidth/2.0;
-            //				topLeft.y = drawingFrameRect.size.height/2 - iChatHeight/2.0;
-            //
-            //				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            //				glEnable(GL_BLEND);
-            //
-            //				glColor4f (0.0f, 0.0f, 0.0f, 0.7f);
-            //				glLineWidth(1.0 * sf);
-            //				glBegin(GL_QUADS);
-            //					glVertex2f(0.0, 0.0);
-            //					glVertex2f(0.0, topLeft.y);
-            //					glVertex2f(drawingFrameRect.size.width, topLeft.y);
-            //					glVertex2f(drawingFrameRect.size.width, 0.0);
-            //				glEnd();
-            //
-            //				glBegin(GL_QUADS);
-            //					glVertex2f(0.0, topLeft.y);
-            //					glVertex2f(topLeft.x, topLeft.y);
-            //					glVertex2f(topLeft.x, topLeft.y+iChatHeight);
-            //					glVertex2f(0.0, topLeft.y+iChatHeight);
-            //				glEnd();
-            //
-            //				glBegin(GL_QUADS);
-            //					glVertex2f(topLeft.x+iChatWidth, topLeft.y);
-            //					glVertex2f(drawingFrameRect.size.width, topLeft.y);
-            //					glVertex2f(drawingFrameRect.size.width, topLeft.y+iChatHeight);
-            //					glVertex2f(topLeft.x+iChatWidth, topLeft.y+iChatHeight);
-            //				glEnd();
-            //
-            //				glBegin(GL_QUADS);
-            //					glVertex2f(0.0, topLeft.y+iChatHeight);
-            //					glVertex2f(drawingFrameRect.size.width, topLeft.y+iChatHeight);
-            //					glVertex2f(drawingFrameRect.size.width, drawingFrameRect.size.height);
-            //					glVertex2f(0.0, drawingFrameRect.size.height);
-            //				glEnd();
-            //
-            //				glColor4f (1.0f, 1.0f, 1.0f, 0.8f);
-            //				glBegin(GL_LINE_LOOP);
-            //					glVertex2f(topLeft.x, topLeft.y);
-            //					glVertex2f(topLeft.x, topLeft.y+iChatHeight);
-            //					glVertex2f(topLeft.x+iChatWidth, topLeft.y+iChatHeight);
-            //					glVertex2f(topLeft.x+iChatWidth, topLeft.y);
-            //				glEnd();
-            //
-            //				glLineWidth(1.0 * sf);
-            //				glDisable(GL_BLEND);
-            //
-            //				// label
-            //				NSPoint iChatTheatreSharedViewLabelPosition;
-            //				iChatTheatreSharedViewLabelPosition.x = drawingFrameRect.size.width/2.0;
-            //				iChatTheatreSharedViewLabelPosition.y = topLeft.y;
-            //
-            //				[self DrawNSStringGL:NSLocalizedString(@"iChat Theatre shared view", nil) :fontListGL :iChatTheatreSharedViewLabelPosition.x :iChatTheatreSharedViewLabelPosition.y align:DCMViewTextAlignCenter useStringTexture:YES];
-            //			}
-            //			#endif
+
             // ***********************
             // DRAW CLUT BARS ********
             
@@ -9391,9 +9309,7 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
                     }
                     
                     // let the pluginSDK draw anything it needs to draw, we use a notification for now, but that is nasty style, we really should be calling a method
-#ifndef OSIRIX_LIGHT
                     [[OSIEnvironment sharedEnvironment] drawDCMView:self];
-#endif
                     
                     if ( !suppress_labels)
                     {
@@ -10502,9 +10418,7 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
     if( offset) *offset = 0;
     
     if(
-#ifndef OSIRIX_LIGHT
        [self class] == [OrthogonalMPRPETCTView class] ||
-#endif
        [self class] == [OrthogonalMPRView class]) allowSmartCropping = NO;	// <- MPR 2D, Ortho MPR
     
     if( screenCapture)	// Pixels displayed in current window
@@ -11723,7 +11637,6 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
     memcpy( correctedOrientation, o, sizeof o );
 }
 
-#ifndef OSIRIX_LIGHT
 - (N3AffineTransform)pixToSubDrawRectTransform // converst points in DCMPix "Slice Coordinates" to coordinates that need to be passed to GL in subDrawRect
 {
     N3AffineTransform pixToSubDrawRectTransform;
@@ -11745,7 +11658,6 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
     
     return pixToSubDrawRectTransform;
 }
-#endif
 
 -(void) setOriginWithRotationX:(float) x Y:(float) y
 {

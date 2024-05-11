@@ -55,7 +55,6 @@
 
 @implementation Window3DController
 
-#ifndef OSIRIX_LIGHT
 - (void) mprViewer:(id) sender
 {
 	[[self viewer] mprViewer: sender];
@@ -80,7 +79,7 @@
 {
 	[[self viewer] SRViewer: sender];
 }
-#endif
+
 - (void) orthogonalMPRViewer:(id) sender
 {
 	[[self viewer] orthogonalMPRViewer: sender];

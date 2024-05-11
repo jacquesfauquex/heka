@@ -453,8 +453,6 @@ static DicomDatabase* activeLocalDatabase = nil;
                 [NSFileManager.defaultManager moveItemAtPath:self.toBeIndexedDirPath toPath:[self.incomingDirPath stringByAppendingPathComponent:self.toBeIndexedDirPath.lastPathComponent] error:NULL];
             
             // report templates
-#ifndef MACAPPSTORE
-#ifndef OSIRIX_LIGHT
             
             for (NSString* rfn in [NSArray arrayWithObjects: @"ReportTemplate.rtf", @"ReportTemplate.odt", nil]) {
                 NSString* rfp = [self.baseDirPath stringByAppendingPathComponent:rfn];
@@ -466,9 +464,6 @@ static DicomDatabase* activeLocalDatabase = nil;
             
             [Reports checkForPagesTemplate];
             [Reports checkForWordTemplates];
-            
-#endif
-#endif
             
             [self checkForHtmlTemplates];
             
@@ -1297,7 +1292,6 @@ NSString* const DicomDatabaseLogEntryEntityName = @"LogEntry";
 
 //- (void)listenerAnonymizeFiles: (NSArray*)files
 //{
-//#ifndef OSIRIX_LIGHT
 //	NSArray* array = [NSArray arrayWithObjects: [DCMAttributeTag tagWithName:@"PatientsName"], @"**anonymized**", nil];
 //	NSMutableArray* tags = [NSMutableArray array];
 //
@@ -1319,7 +1313,6 @@ NSString* const DicomDatabaseLogEntryEntityName = @"LogEntry";
 //		[[NSFileManager defaultManager] removeItemAtPath: file error:NULL];
 //		[[NSFileManager defaultManager] movePath:destPath toPath: file handler: nil];
 //	}
-//#endif
 //}
 
 -(BOOL)compressFilesAtPaths:(NSArray*)paths
@@ -2738,11 +2731,9 @@ static BOOL protectionAgainstReentry = NO;
                         
                         BOOL succeed = YES;
                         
-#ifndef OSIRIX_LIGHT
                         thread.status = NSLocalizedString(@"Validating the files...", nil);
                         if( [[NSUserDefaults standardUserDefaults] boolForKey: @"validateFilesBeforeImporting"] && [[dict objectForKey: @"mountedVolume"] boolValue] == NO) // mountedVolume : it's too slow to test the files now from a CD
                             succeed = [DicomDatabase testFiles: copiedFiles];
-#endif
                         
                         NSArray *objects = nil;
                         
@@ -3117,13 +3108,10 @@ static BOOL protectionAgainstReentry = NO;
                         {
                             if (isDicomFile && isImage)
                             {
-                                if ((isJPEGCompressed == YES && listenerCompressionSettings == 1) ||    // Decompress
-                                    (isJPEGCompressed == NO  && listenerCompressionSettings == 2        // Compress
-#ifndef OSIRIX_LIGHT
-                     && [DicomDatabase fileNeedsDecompression: srcPath]
-#else
-#endif
-                                                                                                      ))
+if (
+      (isJPEGCompressed == YES && listenerCompressionSettings == 1)// Decompress
+    ||(isJPEGCompressed == NO  && listenerCompressionSettings == 2)// Compress
+    )
                                 {
                                     NSString *compressedPath = [self.decompressionDirPath stringByAppendingPathComponent: lastPathComponent];
                                     [[NSFileManager defaultManager] moveItemAtPath:srcPath toPath:compressedPath error:NULL];
@@ -3246,7 +3234,6 @@ static BOOL protectionAgainstReentry = NO;
     if (enumer.nextObject) // there is more data
         [self performSelector:@selector(initiateImportFilesFromIncomingDirUnlessAlreadyImporting) withObject:nil afterDelay:0];
     
-#ifndef OSIRIX_LIGHT
     if ([compressedPathArray count] > 0) // there are files to compress/decompress in the decompression dir
     {
         if (listenerCompressionSettings == 1 || listenerCompressionSettings == 0) // decompress, listenerCompressionSettings == 0 for zip support!
@@ -3274,7 +3261,6 @@ static BOOL protectionAgainstReentry = NO;
             //            [self initiateCompressFilesAtPaths: compressedPathArray intoDirAtPath: self.incomingDirPath];
         }
     }
-#endif
     
     return addedFilesCount;
 }
@@ -4127,7 +4113,6 @@ static BOOL protectionAgainstReentry = NO;
 }
 
 -(void)checkForExistingReportForStudy:(DicomStudy*)study {
-#ifndef OSIRIX_LIGHT
     @try { // is there a report?
         NSArray* filenames = [NSArray arrayWithObjects: [Reports getUniqueFilename:study], [Reports getOldUniqueFilename:study], NULL];
         NSArray* extensions = [NSArray arrayWithObjects: @"pages", @"odt", @"doc", @"docx", @"rtf", NULL];
@@ -4142,7 +4127,6 @@ static BOOL protectionAgainstReentry = NO;
     } @catch ( NSException *e) {
         N2LogExceptionWithStackTrace(e);
     }
-#endif
 }
 
 -(BOOL)allowAutoroutingWithPostNotifications:(BOOL)postNotifications rereadExistingItems:(BOOL)rereadExistingItems

@@ -631,9 +631,7 @@ extern "C"
 
 /** Load the DICOM image using the DCMFramework.
  * There should be no reason to call this. The class will call it when needed. */
-#ifndef OSIRIX_LIGHT
 - (BOOL)loadDICOMDCMFramework;
-#endif
 
 /** Load the DICOM image using Papyrus.
  * There should be no reason to call this. The class will call it when needed.
@@ -704,10 +702,8 @@ extern "C"
 + (double) skewness: (float*) data length: (long) length mean: (double) mean;
 + (double) kurtosis: (float*) data length: (long) length mean: (double) mean;
 
-#ifndef OSIRIX_LIGHT
 /** create ROIs from RTSTRUCT */
 - (void)createROIsFromRTSTRUCT: (DCMObject*)dcmObject;
-#endif
 
 #ifdef OSIRIX_VIEWER
 /** Custom Annotations */

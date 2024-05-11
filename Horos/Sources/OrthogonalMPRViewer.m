@@ -907,12 +907,10 @@ static SyncSeriesScope globalSyncSeriesScope;
     return valid;
 }
 
-#ifndef OSIRIX_LIGHT
 - (IBAction) Panel3D:(id) sender
 {
     [viewer Panel3D: sender];
 }
-#endif
 
 - (IBAction) changeTool:(id) sender
 {
@@ -1475,7 +1473,6 @@ static SyncSeriesScope globalSyncSeriesScope;
         [OrthogonalMPRViewer updateSyncSeriesToolbarItemUI:self];
 }
 
-#ifndef OSIRIX_LIGHT
 - (NSDictionary*) exportDICOMFileInt :(BOOL) screenCapture
 {
     DCMPix *curPix = [[self keyView] curDCM];
@@ -1834,7 +1831,6 @@ static SyncSeriesScope globalSyncSeriesScope;
     
     [NSApp beginSheet: dcmExportWindow modalForWindow:[self window] modalDelegate:self didEndSelector:nil contextInfo:nil];
 }
-#endif
 
 - (IBAction) changeFromAndToBounds:(id) sender
 {
@@ -2569,9 +2565,7 @@ static SyncSeriesScope globalSyncSeriesScope;
 + (bool) isMPRViewer:(id) viewer{
     
     return [viewer isKindOfClass:[OrthogonalMPRViewer class]]
-#ifndef OSIRIX_LIGHT
     || [viewer isKindOfClass:[OrthogonalMPRPETCTViewer class]]
-#endif
     ;
 }
 

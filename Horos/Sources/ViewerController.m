@@ -125,10 +125,6 @@
 #import "ToolBarNSWindow.h"
 #import "RemoteDicomDatabase.h"
 
-#if defined(USEHOMEPHONE)
-#import "homephone/HorosHomePhone.h"
-#endif
-
 int delayedTileWindows = NO;
 
 #define MAXSCREENS 10
@@ -242,7 +238,6 @@ NSInteger sortROIByName(id roi1, id roi2, void *context)
 {
     @autoreleasepool
     {
-#ifndef OSIRIX_LIGHT
         // ** Set Pixels
         
         if( [[dict valueForKey:@"action"] isEqualToString:@"setPixel"])
@@ -283,8 +278,6 @@ NSInteger sortROIByName(id roi1, id roi2, void *context)
         
         if( [[dict valueForKey:@"action"] isEqualToString:@"erode"])
             [[dict objectForKey:@"filter"] erode: [dict objectForKey:@"roi"] withStructuringElementRadius: [[dict objectForKey:@"radius"] intValue]];
-#endif
-        
     }
 }
 
@@ -3146,9 +3139,7 @@ static volatile int numberOfThreadsForRelisce = 0;
 {
     [ViewerController clearFrontMost2DViewerCache];
     
-#ifndef OSIRIX_LIGHT
     [[OSIEnvironment sharedEnvironment] removeViewerController:self];
-#endif
     
     [self.window makeFirstResponder: nil];
     
@@ -3881,12 +3872,10 @@ static volatile int numberOfThreadsForRelisce = 0;
     return numberOf2DViewer;
 }
 
-#ifndef OSIRIX_LIGHT
 - (IBAction)querySelectedStudy: (id)sender
 {
     [[BrowserController currentBrowser] querySelectedStudy: self];
 }
-#endif
 
 #pragma mark-
 #pragma mark 2. window subdivision
@@ -3948,12 +3937,10 @@ static volatile int numberOfThreadsForRelisce = 0;
             studiesArray = [studiesArray sortedArrayUsingDescriptors: [NSArray arrayWithObject: [NSSortDescriptor sortDescriptorWithKey: @"date" ascending: NO]]];
         }
         
-#ifndef OSIRIX_LIGHT
         if (!retrieveImage) {
             retrieveImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DownArrowGreyRev" ofType:@"pdf"]];
             retrieveImage.size = NSMakeSize(50,50);
         }
-#endif
         
         if ([studiesArray count])
         {
@@ -3965,7 +3952,6 @@ static volatile int numberOfThreadsForRelisce = 0;
             i = 0;
             for( id s in studiesArray)
             {
-#ifndef OSIRIX_LIGHT
                 if( [s isKindOfClass: [DCMTKStudyQueryNode class]] && [[s valueForKey: @"studyInstanceUID"] isEqualToString: study.studyInstanceUID]) // For the current study, always take the local images
                     s = study;
                 else if ([s isKindOfClass: [DCMTKStudyQueryNode class]]) { // and still, if there are local series, display them!
@@ -3973,7 +3959,6 @@ static volatile int numberOfThreadsForRelisce = 0;
                     if (local.count)
                         s = [local objectAtIndex:0];
                 }
-#endif
                 
                 if( [s isKindOfClass: [DicomStudy class]]) //Local Study DicomStudy
                 {
@@ -3982,17 +3967,14 @@ static volatile int numberOfThreadsForRelisce = 0;
                     //if( [s isHidden] == NO)
                     i += [[seriesArray lastObject] count];
                 }
-#ifndef OSIRIX_LIGHT
                 else if( [s isKindOfClass: [DCMTKStudyQueryNode class]]) //Distant Study DCMTKQueryStudyNode
                 {
                     [seriesArray addObject: [NSArray array]];
                 }
-#endif
             }
             
             NSArray *allStudiesArray = studiesArray;
             
-#ifndef OSIRIX_LIGHT
             NSMutableArray* tstudiesArray = [NSMutableArray array];
             NSMutableArray* tseriesArray = [NSMutableArray array];
             BOOL iteratedFirstLoaded = NO;
@@ -4015,7 +3997,6 @@ static volatile int numberOfThreadsForRelisce = 0;
             }
             studiesArray = tstudiesArray;
             seriesArray = tseriesArray;
-#endif
             
             for( id curStudy in studiesArray)
             {
@@ -4028,10 +4009,8 @@ static volatile int numberOfThreadsForRelisce = 0;
                 
                 [cell setRepresentedObject:[O2ViewerThumbnailsMatrixRepresentedObject object:curStudy children:[seriesArray objectAtIndex:curStudyIndex]]];
                 
-#ifndef OSIRIX_LIGHT
                 if( [curStudy isKindOfClass: [DCMTKStudyQueryNode class]] && [[curStudy valueForKey: @"studyInstanceUID"] isEqualToString: study.studyInstanceUID]) // For the current study, always take the local images
                     curStudy = study;
-#endif
                 NSArray *series = [seriesArray objectAtIndex: curStudyIndex];
                 NSArray *images = nil;
                 
@@ -4061,12 +4040,10 @@ static volatile int numberOfThreadsForRelisce = 0;
                         if( modality == nil)
                             modality = @"OT:";
                         
-#ifndef OSIRIX_LIGHT
                         if ([[cell.representedObject object] isKindOfClass:[DCMTKStudyQueryNode class]]) { // this is an incomplete study
                             [cell setImage:retrieveImage];
                             
                         }
-#endif
                         
                         NSString *patName = @"";
                         
@@ -4122,7 +4099,6 @@ static volatile int numberOfThreadsForRelisce = 0;
                     index++;
                 }
                 
-#ifndef OSIRIX_LIGHT
                 if ([curStudy isKindOfClass: [DCMTKQueryNode class]]) //Distant Study DCMTKQueryStudyNode
                 {
                     @try
@@ -4164,7 +4140,6 @@ static volatile int numberOfThreadsForRelisce = 0;
                     }
                     index++;
                 }
-#endif
                 
                 //                if(![curStudy respondsToSelector:@selector(isHidden)] || [curStudy isHidden] == NO)
                 {
@@ -4395,13 +4370,11 @@ static volatile int numberOfThreadsForRelisce = 0;
         }
     }
     
-#ifndef OSIRIX_LIGHT
     if( [series isKindOfClass: [DCMTKStudyQueryNode class]]) //Distant Study
     {
         [[BrowserController currentBrowser] retrieveComparativeStudy: series select: YES open: YES showGUI: YES viewer: self];
         return;
     }
-#endif
     
     [self loadSelectedSeries: series rightClick: NO];
 }
@@ -4866,12 +4839,10 @@ static volatile int numberOfThreadsForRelisce = 0;
             }
         }
     }
-#ifndef OSIRIX_LIGHT
     else if( [curStudy isKindOfClass: [DCMTKStudyQueryNode class]]) //Distant Study
     {
         [[BrowserController currentBrowser] retrieveComparativeStudy: curStudy select: NO open: NO];
     }
-#endif
 }
 
 - (void) checkBuiltMatrixPreview
@@ -4982,13 +4953,10 @@ static volatile int numberOfThreadsForRelisce = 0;
             studiesArray = [studiesArray sortedArrayUsingDescriptors: [NSArray arrayWithObject: [NSSortDescriptor sortDescriptorWithKey: @"date" ascending: NO]]];
         }
         
-#ifndef OSIRIX_LIGHT
-        
         if (!retrieveImage) {
             retrieveImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DownArrowGreyRev" ofType:@"pdf"]];
             retrieveImage.size = NSMakeSize(SERIESPOPUPSIZE,SERIESPOPUPSIZE);
         }
-#endif
         
         if ([studiesArray count])
         {
@@ -5000,7 +4968,6 @@ static volatile int numberOfThreadsForRelisce = 0;
             i = 0;
             for( id s in studiesArray)
             {
-#ifndef OSIRIX_LIGHT
                 if( [s isKindOfClass: [DCMTKStudyQueryNode class]] && [[s valueForKey: @"studyInstanceUID"] isEqualToString: study.studyInstanceUID]) // For the current study, always take the local images
                     s = study;
                 else if ([s isKindOfClass: [DCMTKStudyQueryNode class]]) { // and still, if there are local series, display them!
@@ -5008,7 +4975,6 @@ static volatile int numberOfThreadsForRelisce = 0;
                     if (local.count)
                         s = [local objectAtIndex:0];
                 }
-#endif
                 
                 if( [s isKindOfClass: [DicomStudy class]]) //Local Study DicomStudy
                 {
@@ -5019,17 +4985,14 @@ static volatile int numberOfThreadsForRelisce = 0;
                     
                     //                    i++; // display all button
                 }
-#ifndef OSIRIX_LIGHT
                 else if( [s isKindOfClass: [DCMTKStudyQueryNode class]]) //Distant Study DCMTKQueryStudyNode
                 {
                     [seriesArray addObject: [NSArray array]];
                 }
-#endif
             }
             
             NSArray *allStudiesArray = studiesArray;
             
-#ifndef OSIRIX_LIGHT
             NSMutableArray* tstudiesArray = [NSMutableArray array];
             NSMutableArray* tseriesArray = [NSMutableArray array];
             BOOL iteratedFirstLoaded = NO;
@@ -5053,7 +5016,6 @@ static volatile int numberOfThreadsForRelisce = 0;
             
             studiesArray = tstudiesArray;
             seriesArray = tseriesArray;
-#endif
             
             [previewMatrix setCellClass: [ThumbnailCell class]];
             
@@ -5099,10 +5061,8 @@ static volatile int numberOfThreadsForRelisce = 0;
                 [cell setRepresentedObject:[O2ViewerThumbnailsMatrixRepresentedObject object:curStudy children:[seriesArray objectAtIndex:curStudyIndex]]];
                 [cell setAction: @selector(matrixPreviewSwitchHidden:)];
                 
-#ifndef OSIRIX_LIGHT
                 if( [curStudy isKindOfClass: [DCMTKStudyQueryNode class]] && [[curStudy valueForKey: @"studyInstanceUID"] isEqualToString: study.studyInstanceUID]) // For the current study, always take the local images
                     curStudy = study;
-#endif
                 
                 if( [[curStudy valueForKey: @"studyInstanceUID"] isEqualToString: study.studyInstanceUID])
                     [cell setBackgroundColor: nil];
@@ -5138,7 +5098,6 @@ static volatile int numberOfThreadsForRelisce = 0;
                             modality = @"OT:";
                         
                         NSString *action = nil;
-#ifndef OSIRIX_LIGHT
                         if ([[cell.representedObject object] isKindOfClass:[DCMTKStudyQueryNode class]]) { // this is an incomplete study
                             
                             switch( [[NSUserDefaults standardUserDefaults] integerForKey: @"dbFontSize"])
@@ -5161,14 +5120,11 @@ static volatile int numberOfThreadsForRelisce = 0;
                             [cell setImageScaling:NSImageScaleProportionallyDown];
                             
                         } else {
-#endif
                             if( [curStudy isHidden])
                                 action = NSLocalizedString(@"Show Series", nil);
                             else
                                 action = NSLocalizedString(@"Hide Series", nil);
-#ifndef OSIRIX_LIGHT
                         }
-#endif
                         
                         NSString *patName = @"";
                         
@@ -5242,7 +5198,6 @@ static volatile int numberOfThreadsForRelisce = 0;
                     index++;
                 }
                 
-#ifndef OSIRIX_LIGHT
                 if ([curStudy isKindOfClass: [DCMTKQueryNode class]]) //Distant Study DCMTKQueryStudyNode
                 {
                     @try
@@ -5303,7 +5258,6 @@ static volatile int numberOfThreadsForRelisce = 0;
                     }
                     index++;
                 }
-#endif
                 
                 if(![curStudy respondsToSelector:@selector(isHidden)] || [curStudy isHidden] == NO)
                 {
@@ -5533,13 +5487,11 @@ static volatile int numberOfThreadsForRelisce = 0;
         
         BOOL showComparativesButton = NO;
         
-#ifndef OSIRIX_LIGHT
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"searchForComparativeStudiesOnDICOMNodes"] && !self.database.isReadOnly && self.database.isLocal) {
             NSArray* servers = [BrowserController comparativeServers];
             if (servers.count)
                 showComparativesButton = YES;
         }
-#endif
         
         //        [[leftSplitView.subviews objectAtIndex:0] setHidden:!showComparativesButton];
         //        [self splitView:leftSplitView resizeSubviewsWithOldSize:leftSplitView.bounds.size];
@@ -5584,7 +5536,6 @@ static volatile int numberOfThreadsForRelisce = 0;
     return YES;
 }
 
-#ifndef OSIRIX_LIGHT
 - (void) viewXML:(id) sender
 {
     [self checkEverythingLoaded];
@@ -5612,7 +5563,7 @@ static volatile int numberOfThreadsForRelisce = 0;
         [[self window] makeKeyAndOrderFront: self];
     }
 }
-#endif
+
 
 #pragma mark-
 #pragma mark 3. mouse management
@@ -7709,9 +7660,7 @@ static ViewerController *draggedController = nil;
     [self willChangeValueForKey: @"KeyImageCounter"];
     [self didChangeValueForKey: @"KeyImageCounter"];
     
-#ifndef OSIRIX_LIGHT
     [[OSIEnvironment sharedEnvironment] addViewerController:self];
-#endif
     
     toolbarPanel = [[ToolbarPanelController alloc] initForViewer: self withToolbar: toolbar];
     
@@ -7777,10 +7726,6 @@ static ViewerController *draggedController = nil;
     [self bind:@"flagListPODComparatives" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.listPODComparativesIn2DViewer" options:nil];
     
     [ViewerController clearFrontMost2DViewerCache];
-    
-#if defined(USEHOMEPHONE)
-    [[HorosHomePhone sharedHomePhone] callHomeInformingFunctionType:HOME_PHONE_2D_VIEWER_LAUNCHED detail:@"{}"];
-#endif
 }
 
 -(void)comparativeRefresh:(NSString*) patientUID
@@ -8136,9 +8081,7 @@ static int avoidReentryRefreshDatabase = 0;
 {
     if( windowWillClose) return;
     
-#ifndef OSIRIX_LIGHT
     [[OSIEnvironment sharedEnvironment] viewerControllerWillChangeData:self];
-#endif
     
     if( delayedTileWindows)
     {
@@ -8755,9 +8698,7 @@ static int avoidReentryRefreshDatabase = 0;
             [v propagateSettings];
     }
     
-#ifndef OSIRIX_LIGHT
     [[OSIEnvironment sharedEnvironment] viewerControllerDidChangeData:self];
-#endif
 }
 
 - (void) showWindowTransition
@@ -9407,10 +9348,6 @@ static int avoidReentryRefreshDatabase = 0;
     [imageView stopROIEditingForce: YES];
     
     [PluginManager startProtectForCrashWithFilter: filter];
-    
-#if defined(USEHOMEPHONE)
-    [[HorosHomePhone sharedHomePhone] callHomeInformingFunctionType:HOME_PHONE_PLUGIN_LAUNCHED detail:[NSString stringWithFormat:@"{\"PluginName\": \"%@\"}",name]];
-#endif
 
     NSLog( @"executeFilter");
     
@@ -10967,12 +10904,10 @@ static int avoidReentryRefreshDatabase = 0;
         switch( [contextInfo tag])
         {
                 //			case 1: [self MPR2DViewer:contextInfo];		break;  //2DMPR
-#ifndef OSIRIX_LIGHT
             case 10: [self mprViewer:contextInfo];		break;  //3DMPR
             case 3: [self VRViewer:contextInfo];		break;  //MIP
             case 4: [self VRViewer:contextInfo];		break;  //VR
             case 5: [self SRViewer:contextInfo];		break;  //SR
-#endif
         }
     }
 }
@@ -12378,9 +12313,7 @@ static float oldsetww, oldsetwl;
             unsigned char *r, *g, *b;
             DCMPix  *pix = [pixList[ curMovieIndex] objectAtIndex:0];
             
-#ifndef OSIRIX_LIGHT
             thickSlab = [[ThickSlabController alloc] init];
-#endif
             
             [thickSlab setImageData :[pix pwidth] :[pix pheight] :100 :[pix pixelSpacingX] :[pix pixelSpacingY] :[pix sliceThickness] :flip];
             
@@ -12594,12 +12527,10 @@ static float oldsetww, oldsetwl;
                             proceed = NO;
                             break;
                             
-#ifndef OSIRIX_LIGHT
                         case NSAlertDefaultReturn:		// Resample
                             blendingController = [self resampleSeries: blendingController rescale: NO];
                             if( blendingController) proceed = YES;
                             break;
-#endif
                             
                         case NSAlertOtherReturn:
                             proceed = YES;
@@ -12883,7 +12814,6 @@ static float oldsetww, oldsetwl;
         }
             break;
             
-#ifndef OSIRIX_LIGHT
         case 7:		// 2D Registration
             [self computeRegistrationWithMovingViewer: bc];
             break;
@@ -12895,13 +12825,11 @@ static float oldsetww, oldsetwl;
         case 12:
             [self resampleSeries: bc rescale: NO];
             break;
-#endif
             
         case 8:		// 3D Registration
             
             break;
             
-            //		#ifndef OSIRIX_LIGHT
             //		case 9: // LL
             //		{
             //			[self checkEverythingLoaded];
@@ -12914,7 +12842,6 @@ static float oldsetww, oldsetwl;
             //			}
             //		}
             //		break;
-            //		#endif
             
         case 10:	// Copy ROIs
         {
@@ -14071,7 +13998,6 @@ static float oldsetww, oldsetwl;
 
 - (IBAction) roiVolumeEraseRestore:(id) sender
 {
-#ifndef OSIRIX_LIGHT
     for( int i = 0; i < maxMovieIndex; i++)
         [self saveROI: i];
     
@@ -14123,7 +14049,6 @@ static float oldsetww, oldsetwl;
         
         [[NSNotificationCenter defaultCenter] postNotificationName: OsirixUpdateVolumeDataNotification object: pixList[ curMovieIndex] userInfo: nil];
     }
-#endif
 }
 
 - (IBAction) roiIntDeleteAllROIsWithSameName :(NSString*) name
@@ -14225,8 +14150,6 @@ static float oldsetww, oldsetwl;
     [self roiDeleteGeneratedROIsForName: nil];
 }
 
-#ifndef OSIRIX_LIGHT
-
 - (IBAction) roiVolume:(id) sender
 {
     float preLocation, interval;
@@ -14303,7 +14226,6 @@ static float oldsetww, oldsetwl;
     
     [splash close];
 }
-#endif
 
 -(IBAction) roiSetPixelsSetup:(id) sender
 {
@@ -14465,7 +14387,7 @@ static float oldsetww, oldsetwl;
 
 - (void) roiSetStartScheduler:(NSMutableArray*) roiToProceed
 {
-#ifndef OSIRIX_LIGHT
+
     if( [roiToProceed count])
     {
         [roiLock lock];
@@ -14489,7 +14411,6 @@ static float oldsetww, oldsetwl;
         
         [roiLock unlock];
     }
-#endif
 }
 
 - (IBAction) roiSetPixels:(ROI*)aROI :(short)allRois :(BOOL) propagateIn4D :(BOOL)outside :(float)minValue :(float)maxValue :(float)newValue :(BOOL) revert
@@ -15286,7 +15207,6 @@ static float oldsetww, oldsetwl;
 
 - (ROI*) isoContourROI: (ROI*) a numberOfPoints: (int) nof
 {
-#ifndef OSIRIX_LIGHT
     if( [a type] == tCPolygon || [a type] == tOPolygon || [a type] == tPencil)
     {
         [a setPoints: [ROI resamplePoints: [a splinePoints] number: nof]];
@@ -15299,9 +15219,6 @@ static float oldsetww, oldsetwl;
         return a;
     }
     else return nil;
-#else
-    return nil;
-#endif
 }
 
 - (ROI*) roiMorphingBetween:(ROI*) a and:(ROI*) b ratio:(float) ratio
@@ -15703,7 +15620,6 @@ static float oldsetww, oldsetwl;
 
 - (NSRecursiveLock*) roiLock { return roiLock;}
 
-#ifndef OSIRIX_LIGHT
 - (void) applyMorphology: (NSArray*) rois action:(NSString*) action	radius: (long) radius sendNotification: (BOOL) sendNotification
 {
     NSLog( @"****** applyMorphology - START");
@@ -15802,7 +15718,6 @@ static float oldsetww, oldsetwl;
         return;
     }
 }
-#endif
 
 - (ROI*) convertPolygonROItoBrush:(ROI*) selectedROI
 {
@@ -15856,7 +15771,6 @@ static float oldsetww, oldsetwl;
 {
     ROI* newROI = nil;
     
-#ifndef OSIRIX_LIGHT
     if( [selectedROI type] == tPlain)
     {
         // Convert it to Brush
@@ -15890,8 +15804,7 @@ static float oldsetww, oldsetwl;
         
         [newROI setPoints: pts];
     }
-#endif
-    
+
     return newROI;
 }
 
@@ -16886,7 +16799,6 @@ static float oldsetww, oldsetwl;
     //			[vC updateBlendingImage];
     //	}
     
-#ifndef OSIRIX_LIGHT
     // *** VR Viewers ***
     viewersList = [NSMutableArray array];
     
@@ -16904,7 +16816,6 @@ static float oldsetww, oldsetwl;
         if( [vC blendingController])
             [vC updateBlendingImage];
     }
-#endif
 }
 
 #pragma mark Registration
@@ -16942,7 +16853,6 @@ static float oldsetww, oldsetwl;
     return points2D;
 }
 
-#ifndef OSIRIX_LIGHT
 - (ViewerController*) resampleSeriesInNewOrientation
 {
     return nil;
@@ -17296,7 +17206,6 @@ static float oldsetww, oldsetwl;
     
     [previousNames release];
 }
-#endif
 
 #pragma mark segmentation
 //
@@ -17804,8 +17713,6 @@ static float oldsetww, oldsetwl;
 #pragma mark 4.5.1 Exportation of image
 #pragma mark 4.5.1.1 Exportation of image produced
 
-
-#ifndef OSIRIX_LIGHT
 - (IBAction) sortSeriesByValue: (id) sender
 {
     switch( [sender tag])
@@ -18010,7 +17917,6 @@ static float oldsetww, oldsetwl;
     
     return YES;
 }
-#endif
 
 -(IBAction) setPagesToPrint:(id) sender
 {
@@ -18577,14 +18483,13 @@ static float oldsetww, oldsetwl;
     [NSApp beginSheet: printWindow modalForWindow:self.window modalDelegate:self didEndSelector:nil contextInfo:nil];
 }
 
-#ifndef OSIRIX_LIGHT
 - (void) printDICOM:(id) sender
 {
     [self checkEverythingLoaded];
     
     [[[AYDicomPrintWindowController alloc] init] autorelease];
 }
-#endif
+
 
 -(NSImage*) imageForFrame:(NSNumber*) cur maxFrame:(NSNumber*) max
 {
@@ -18852,7 +18757,6 @@ static float oldsetww, oldsetwl;
     [NSApp beginSheet: quicktimeWindow modalForWindow:[self window] modalDelegate:self didEndSelector:nil contextInfo:nil];
 }
 
-#ifndef OSIRIX_LIGHT
 - (NSDictionary*) exportDICOMFileInt:(int) screenCapture
 {
     return [self exportDICOMFileInt:screenCapture withName:[dcmSeriesName stringValue]];
@@ -19051,7 +18955,6 @@ static float oldsetww, oldsetwl;
     
     return [NSDictionary dictionaryWithObjectsAndKeys: f, @"file", nil];
 }
-#endif
 
 -(id) findPlayStopButton
 {
@@ -19068,7 +18971,6 @@ static float oldsetww, oldsetwl;
     return nil;
 }
 
-#ifndef OSIRIX_LIGHT
 -(IBAction) exportAllImages:(NSString*) seriesName
 {
     NSMutableArray *producedFiles = [NSMutableArray array];
@@ -19264,7 +19166,6 @@ static float oldsetww, oldsetwl;
     
     [self adjustSlider];
 }
-#endif
 
 -(void) exportRAW:(id) sender
 {
@@ -19369,7 +19270,6 @@ static float oldsetww, oldsetwl;
     }
 }
 
-#ifndef OSIRIX_LIGHT
 - (void) exportDICOMFile:(id) sender
 {
     [dcmFormat setEnabled: YES];
@@ -19449,7 +19349,6 @@ static float oldsetww, oldsetwl;
     
     [NSApp beginSheet: dcmExportWindow modalForWindow:[self window] modalDelegate:self didEndSelector:nil contextInfo:nil];
 }
-#endif
 
 - (IBAction) export2PACS:(id) sender
 {
@@ -20145,48 +20044,6 @@ static float oldsetww, oldsetwl;
     }
 }
 
-//#define ICHAT_WIDTH 640
-//#define ICHAT_HEIGHT 480
-//
-//#ifndef OSIRIX_LIGHT
-//- (void)iChatBroadcast:(id)sender
-//{
-//    if( [IChatTheatreDelegate initSharedDelegate])
-//    {
-//        [[IChatTheatreDelegate sharedDelegate] showIChatHelp];
-//        NSString *path = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:@"com.apple.iChat"];
-//        [[NSWorkspace sharedWorkspace] launchApplication:path];
-//    }
-//    else
-//    {
-//        NSRunAlertPanel(NSLocalizedString( @"Address Book", nil), NSLocalizedString(@"Access to address book is required to start an iChat session. See Privacy tab in System Preferences.", nil), nil, nil, nil);
-//    }
-//}
-//
-//- (void) notificationiChatBroadcast:(NSNotification*)note
-//{
-//	if( timeriChat) [self iChatBroadcast:[self findiChatButton]];
-//}
-//
-//
-//-(id) findiChatButton
-//{
-////	for( x = 0; x < [[NSScreen screens] count]; x++)
-//	{
-//		NSArray *items = [toolbar items];
-//		
-//		for( id loopItem in items)
-//		{
-//			if( [[loopItem itemIdentifier] isEqualToString:iChatBroadCastToolbarItemIdentifier])
-//			{
-//				return loopItem;
-//			}
-//		}
-//	}
-//	
-//	return nil;
-//}
-//#endif
 
 - (void)exportTextFieldDidChange:(NSNotification *)note
 {
@@ -20291,7 +20148,6 @@ static float oldsetww, oldsetwl;
     return volumeData[ i];
 }
 
-#ifndef OSIRIX_LIGHT
 - (float) computeVolume:(ROI*) selectedRoi points:(NSMutableArray**) pts error:(NSString**) error
 {
     return [self computeVolume:(ROI*) selectedRoi points:(NSMutableArray**) pts generateMissingROIs: NO generatedROIs: nil computeData: nil error:(NSString**) error];
@@ -20736,7 +20592,6 @@ static float oldsetww, oldsetwl;
     
     return volume;
 }
-#endif
 
 -(void) updateVolumeData: (NSNotification*) note
 {
@@ -20939,7 +20794,6 @@ static float oldsetww, oldsetwl;
     [orientationMatrix setEnabled: NO];
 }
 
-#ifndef OSIRIX_LIGHT
 - (IBAction) Panel3D:(id) sender
 {
     long i;
@@ -21035,9 +20889,7 @@ static float oldsetww, oldsetwl;
         }
     }
 }
-#endif
 
-#ifndef OSIRIX_LIGHT
 -(IBAction) segmentationTest:(id) sender
 {
     BOOL volumicData = [self isDataVolumicIn4D: NO];
@@ -21071,14 +20923,10 @@ static float oldsetww, oldsetwl;
         }
     }
 }
-#endif
 
-#ifndef OSIRIX_LIGHT
+
 - (VRController *)openVRViewerForMode:(NSString *)mode
 {
-#if defined(USEHOMEPHONE)
-    [[HorosHomePhone sharedHomePhone] callHomeInformingFunctionType:HOME_PHONE_3DVOL_LAUNCHED detail:[NSString stringWithFormat:@"{\"Mode\": \"%@\"}",mode]];
-#endif
 
     long i;
     
@@ -21140,7 +20988,6 @@ static float oldsetww, oldsetwl;
     }
     return viewer;
 }
-#endif
 
 - (NSScreen*) get3DViewerScreen: (ViewerController*) v
 {
@@ -21169,7 +21016,6 @@ static float oldsetww, oldsetwl;
     [[viewer window] setFrame: [[self get3DViewerScreen: self] visibleFrame] display:NO];
 }
 
-#ifndef OSIRIX_LIGHT
 -(IBAction) VRViewer:(id) sender
 {
     [self checkEverythingLoaded];
@@ -21253,9 +21099,6 @@ static float oldsetww, oldsetwl;
 
 - (SRController *)openSRViewer
 {
-#if defined(USEHOMEPHONE)
-    [[HorosHomePhone sharedHomePhone] callHomeInformingFunctionType:HOME_PHONE_3DSUR_LAUNCHED detail:@"{}"];
-#endif
 
     SRController *viewer;
     [self checkEverythingLoaded];
@@ -21310,13 +21153,9 @@ static float oldsetww, oldsetwl;
         }
     }
 }
-#endif
 
 - (OrthogonalMPRViewer *)openOrthogonalMPRViewer
 {
-#if defined(USEHOMEPHONE)
-    [[HorosHomePhone sharedHomePhone] callHomeInformingFunctionType:HOME_PHONE_2DMPR_LAUNCHED detail:@"{}"];
-#endif
 
     OrthogonalMPRViewer *viewer;
     [self checkEverythingLoaded];
@@ -21363,12 +21202,8 @@ static float oldsetww, oldsetwl;
     return viewer;
 }
 
-#ifndef OSIRIX_LIGHT
 - (OrthogonalMPRPETCTViewer *)openOrthogonalMPRPETCTViewer
 {
-#if defined(USEHOMEPHONE)
-    [[HorosHomePhone sharedHomePhone] callHomeInformingFunctionType:HOME_PHONE_2DMPR_LAUNCHED detail:@"{}"];
-#endif
 
     OrthogonalMPRPETCTViewer  *viewer;
     [self checkEverythingLoaded];
@@ -21429,7 +21264,6 @@ static float oldsetww, oldsetwl;
     }
     return nil;	
 }
-#endif
 
 -(IBAction) orthogonalMPRViewer:(id) sender
 {
@@ -21477,7 +21311,6 @@ static float oldsetww, oldsetwl;
         }
         else
         {
-#ifndef OSIRIX_LIGHT
             if( blendingController)
             {
                 OrthogonalMPRPETCTViewer *pcviewer = [self openOrthogonalMPRPETCTViewer];
@@ -21486,7 +21319,6 @@ static float oldsetww, oldsetwl;
                 [[pcviewer window] setTitle: [NSString stringWithFormat:@"%@: %@ - %@", [[pcviewer window] title], [[NSUserDefaults dateTimeFormatter] stringFromDate:studyDate], [[self window] title]]];
             }
             else
-#endif
             {
                 viewer = [self openOrthogonalMPRViewer];
                 
@@ -21503,12 +21335,8 @@ static float oldsetww, oldsetwl;
     }
 }
 
-#ifndef OSIRIX_LIGHT
 - (EndoscopyViewer *)openEndoscopyViewer
 {
-#if defined(USEHOMEPHONE)
-    [[HorosHomePhone sharedHomePhone] callHomeInformingFunctionType:HOME_PHONE_3DEND_LAUNCHED detail:@"{}"];
-#endif
 
     [self checkEverythingLoaded];
     [self clear8bitRepresentations];
@@ -21565,7 +21393,6 @@ static float oldsetww, oldsetwl;
         }
     }
 }
-#endif
 
 //-(IBAction) MIPViewer:(id) sender
 //{
@@ -21608,12 +21435,8 @@ static float oldsetww, oldsetwl;
 //	}
 //}
 
-#ifndef OSIRIX_LIGHT
 - (MPRController *)openMPRViewer
 {
-#if defined(USEHOMEPHONE)
-    [[HorosHomePhone sharedHomePhone] callHomeInformingFunctionType:HOME_PHONE_3DMPR_LAUNCHED detail:@"{}"];
-#endif
 
     [self checkEverythingLoaded];
     [self clear8bitRepresentations];
@@ -21688,10 +21511,6 @@ static float oldsetww, oldsetwl;
 /** Action to open the CPRViewer */
 - (CPRController *)openCPRViewer
 {
-#if defined(USEHOMEPHONE)
-    [[HorosHomePhone sharedHomePhone] callHomeInformingFunctionType:HOME_PHONE_3DCPR_LAUNCHED detail:@"{}"];
-#endif
-
     [self checkEverythingLoaded];
     [self clear8bitRepresentations];
     
@@ -21758,8 +21577,6 @@ static float oldsetww, oldsetwl;
         }
     }
 }
-
-#endif
 
 #pragma mark-
 #pragma mark 4.5.4 Study navigation
@@ -22477,13 +22294,11 @@ static float oldsetww, oldsetwl;
     [self performSelector: @selector(updateReportToolbarIcon:) withObject: nil afterDelay: 0.1];
 }
 
-#ifndef OSIRIX_LIGHT
 - (IBAction)generateReport:(id)sender;
 {
     [[BrowserController currentBrowser] generateReport:sender];
     [self performSelector: @selector(updateReportToolbarIcon:) withObject: nil afterDelay: 0.1];
 }
-#endif
 
 - (NSImage*)reportIcon;
 {
@@ -22528,7 +22343,6 @@ static float oldsetww, oldsetwl;
 
 - (void)setToolbarReportIconForItem:(NSToolbarItem *)item;
 {
-#ifndef OSIRIX_LIGHT
     NSMutableArray* templatesArray = nil;
     switch ([[[NSUserDefaults standardUserDefaults] stringForKey:@"REPORTSMODE"] intValue]) {
         case 2:
@@ -22552,15 +22366,11 @@ static float oldsetww, oldsetwl;
     {
         [item setImage:[self reportIcon]];
     }
-#else
-    [item setImage: [NSImage imageNamed: @"Report.icns"]];
-#endif
 }
 
 
 - (void)reportToolbarItemWillPopUp:(NSNotification *)notif;
 {
-#ifndef OSIRIX_LIGHT
     if([[notif object] isEqualTo:reportTemplatesListPopUpButton])
     {
         [reportTemplatesListPopUpButton removeAllItems];
@@ -22577,7 +22387,6 @@ static float oldsetww, oldsetwl;
         
         [reportTemplatesListPopUpButton setAction:@selector(generateReport:)];
     }
-#endif
 }
 
 
@@ -22706,7 +22515,6 @@ static float oldsetww, oldsetwl;
     [self setImageRows: rows columns: columns];
 }
 
-#ifndef OSIRIX_LIGHT
 - (IBAction)calciumScoring:(id)sender
 {
     BOOL	found = NO;
@@ -22723,7 +22531,6 @@ static float oldsetww, oldsetwl;
         [calciumScoringWindowController showWindow:self];
     }
 }
-#endif
 
 //- (IBAction)centerline: (id)sender
 //{

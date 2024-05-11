@@ -577,8 +577,6 @@ NSString* sopInstanceUIDDecode( unsigned char *r, int length)
 
 - (void) dcmodifyThread: (NSDictionary*) dict
 {
-#ifdef OSIRIX_VIEWER
-#ifndef OSIRIX_LIGHT
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	[[DicomStudy dbModifyLock] lock];
 	@try {
@@ -657,8 +655,7 @@ NSString* sopInstanceUIDDecode( unsigned char *r, int length)
         [[DicomStudy dbModifyLock] unlock];
         [pool release];
     }
-#endif
-#endif
+
 }
 
 - (NSNumber*) isImageStorage
@@ -695,7 +692,6 @@ NSString* sopInstanceUIDDecode( unsigned char *r, int length)
         if( [f boolValue] != [[self primitiveValueForKey: @"storedIsKeyImage"] boolValue])
         {
             #ifdef OSIRIX_VIEWER
-            #ifndef OSIRIX_LIGHT
             if( [self.series.study.hasDICOM boolValue] == YES && [[NSUserDefaults standardUserDefaults] boolForKey: @"savedCommentsAndStatusInDICOMFiles"]  && [[DicomDatabase databaseForContext:self.managedObjectContext] isLocal])
             {
                 NSString *c = nil;
@@ -763,7 +759,6 @@ NSString* sopInstanceUIDDecode( unsigned char *r, int length)
                     [[ThreadsManager defaultManager] addThreadAndStart: t];
                 }
             }
-            #endif
             #endif
             
             NSNumber *previousValue = [self primitiveValueForKey: @"storedIsKeyImage"];
@@ -1133,7 +1128,6 @@ NSString* sopInstanceUIDDecode( unsigned char *r, int length)
 	return [NSSet setWithObject:[self completePathWithNoDownloadAndLocalOnly]];
 }
 
-#ifndef OSIRIX_LIGHT
 // DICOM Presentation State
 - (DCMSequenceAttribute *)graphicAnnotationSequence
 {
@@ -1187,11 +1181,9 @@ NSString* sopInstanceUIDDecode( unsigned char *r, int length)
 	[pool release];
 	 return graphicAnnotationSequence;
 }
-#endif
 
 - (NSImage *)image
 {
-#ifdef OSIRIX_VIEWER
     @synchronized (self) {
         DCMPix *pix = [[DCMPix alloc] initWithPath:self.completePath :0 :0 :nil :0 :[[self valueForKeyPath:@"series.id"] intValue] isBonjour:NO imageObj:self];
         NSData	*data = [[pix image] TIFFRepresentation];
@@ -1200,13 +1192,11 @@ NSString* sopInstanceUIDDecode( unsigned char *r, int length)
         [pix release];
         return thumbnail;
     }
-#endif
     return nil;
 }
 
 - (NSImage *)thumbnail
 {
-#ifdef OSIRIX_VIEWER
     @synchronized (self) {
         if (_thumbnail)
             return _thumbnail;
@@ -1216,7 +1206,6 @@ NSString* sopInstanceUIDDecode( unsigned char *r, int length)
         [pix release];
         return thumbnail;
     }
-#endif
     return nil;
 }
 

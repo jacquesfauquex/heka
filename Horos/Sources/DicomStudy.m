@@ -366,7 +366,6 @@ static NSRecursiveLock *dbModifyLock = nil;
     
     avoidReentry3++;
     
-#ifndef OSIRIX_LIGHT
     if( [self.hasDICOM boolValue] == YES)
     {
         @try
@@ -389,7 +388,6 @@ static NSRecursiveLock *dbModifyLock = nil;
         @finally {
         }
     }
-#endif
     
     avoidReentry3--;
 }
@@ -633,8 +631,7 @@ static NSRecursiveLock *dbModifyLock = nil;
     }
     
     avoidReentry2++;
-    
-#ifndef OSIRIX_LIGHT
+
     if ([self.hasDICOM boolValue] == YES)
     {
         @try {
@@ -684,9 +681,8 @@ static NSRecursiveLock *dbModifyLock = nil;
         @finally {
         }
     }
+
     avoidReentry2--;
-    
-#endif
 }
 
 - (void) archiveWindowsStateAsDICOMSR
@@ -731,7 +727,6 @@ static NSRecursiveLock *dbModifyLock = nil;
     
     avoidReentry++;
     
-#ifndef OSIRIX_LIGHT
     if( [self.hasDICOM boolValue] == YES)
     {
         [self.managedObjectContext lock];
@@ -841,7 +836,6 @@ static NSRecursiveLock *dbModifyLock = nil;
     
     avoidReentry--;
     
-#endif
 }
 
 - (BOOL)validateForDelete:(NSError **)error
@@ -969,7 +963,6 @@ static NSRecursiveLock *dbModifyLock = nil;
 - (void) dcmodifyThread: (NSDictionary*) dict
 {
 #ifdef OSIRIX_VIEWER
-#ifndef OSIRIX_LIGHT
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     [[DicomStudy dbModifyLock] lock];
     @try {
@@ -1052,7 +1045,6 @@ static NSRecursiveLock *dbModifyLock = nil;
         [[DicomStudy dbModifyLock] unlock];
         [pool release];
     }
-#endif
 #endif
 }
 
@@ -1139,7 +1131,6 @@ static NSRecursiveLock *dbModifyLock = nil;
 - (void) setStateText: (NSNumber*) c
 {
 #ifdef OSIRIX_VIEWER
-#ifndef OSIRIX_LIGHT
     @try
     {
         if( [self.hasDICOM boolValue] == YES && [[NSUserDefaults standardUserDefaults] boolForKey: @"savedCommentsAndStatusInDICOMFiles"] && [[DicomDatabase databaseForContext:self.managedObjectContext] isLocal])
@@ -1200,7 +1191,6 @@ static NSRecursiveLock *dbModifyLock = nil;
     {
         N2LogExceptionWithStackTrace(e);
     }
-#endif
 #endif
     
     NSNumber *previousState = [self primitiveValueForKey: @"stateText"];
@@ -2320,7 +2310,6 @@ static NSRecursiveLock *dbModifyLock = nil;
 - (NSArray*) generateDICOMSCImagesForKeyImages: (BOOL) keyImages andROIImages: (BOOL) ROIImages
 {
 #ifdef OSIRIX_VIEWER
-#ifndef OSIRIX_LIGHT
     NSArray *images = nil;
     
     if( keyImages && ROIImages)
@@ -2353,7 +2342,6 @@ static NSRecursiveLock *dbModifyLock = nil;
         return  objects;
     }
 #endif
-#endif
     return nil;
 }
 
@@ -2374,7 +2362,6 @@ static NSRecursiveLock *dbModifyLock = nil;
 }
 
 #ifdef OSIRIX_VIEWER
-#ifndef OSIRIX_LIGHT
 -(NSArray*)authorizedUsers
 {
     NSManagedObjectContext* webContext = [WebPortal.defaultWebPortal.database independentContext];
@@ -2430,7 +2417,6 @@ static NSRecursiveLock *dbModifyLock = nil;
     
     return nil;
 }
-#endif
 #endif
 
 @end

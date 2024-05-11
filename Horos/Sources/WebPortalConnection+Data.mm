@@ -2748,7 +2748,7 @@ const NSString* const GenerateMovieDicomImagesParamKey = @"dicomImageArray";
 }
 
 -(void)processSeriesPdf {
-#ifndef OSIRIX_LIGHT
+
 	DicomSeries* series = [self objectWithXID:[parameters objectForKey:@"xid"]];
 	if (!series)
 		return;
@@ -2791,7 +2791,6 @@ const NSString* const GenerateMovieDicomImagesParamKey = @"dicomImageArray";
 		
 		response.data = [NSData dataWithContentsOfFile:pdfpath];
 	}
-#endif
 }
 
 

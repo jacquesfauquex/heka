@@ -41,9 +41,7 @@
 #include "url.h"
 #import "DCMUIDs.h"
 
-#ifndef OSIRIX_LIGHT
 #include "FVTiff.h"
-#endif
 #import "MutableArrayCategory.h"
 #import "SRAnnotation.h"
 #import "SRAnnotation.h"
@@ -56,9 +54,7 @@
 #import "DICOMToNSString.h"
 #import "DefaultsOsiriX.h"
 
-#ifndef OSIRIX_LIGHT
 #import <vtk_tiff.h>
-#endif
 
 #import "DicomFileDCMTKCategory.h"
 #import "PluginManager.h"
@@ -74,9 +70,7 @@
 #endif
 
 #ifdef OSIRIX_VIEWER
-#ifndef OSIRIX_LIGHT
 #import "DicomStudy.h"
-#endif
 #endif
 
 #include <GDCM/gdcmScanner.h>
@@ -638,7 +632,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
     int success = NO;
     
 #ifndef STATIC_DICOM_LIB
-#ifndef OSIRIX_LIGHT
     NSString *extension = [[file pathExtension] lowercaseString];
     
     if( [extension isEqualToString:@"tiff"] ||
@@ -652,8 +645,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
             TIFFClose(tif);
         }
     }
-    
-#endif
 #endif
     return success;
 }
@@ -663,7 +654,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
     int success = NO;
     
 #ifndef STATIC_DICOM_LIB
-#ifndef OSIRIX_LIGHT
     NSString *extension = [[file pathExtension] lowercaseString];
     
     if( [extension isEqualToString:@"tiff"] ||
@@ -678,7 +668,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
             TIFFClose(tif);
         }
     }
-#endif
 #endif
     return success;
 }
@@ -852,7 +841,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
     int success = 0;
     
 #ifndef STATIC_DICOM_LIB
-#ifndef OSIRIX_LIGHT
     NSString *extension = [[filePath pathExtension] lowercaseString];
     
     if( [extension isEqualToString:@"tiff"] ||
@@ -982,8 +970,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
         }
         if(tif) TIFFClose(tif);
     }
-    
-#endif
 #endif
     
     if (success)
@@ -1057,7 +1043,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
             NSString			*tempString = [[filePath lastPathComponent] stringByDeletingPathExtension];
             
 #ifndef STATIC_DICOM_LIB
-#ifndef OSIRIX_LIGHT
             if( [extension isEqualToString:@"tiff"] ||
                [extension isEqualToString:@"stk"] ||
                [extension isEqualToString:@"tif"])
@@ -1092,7 +1077,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
                 }
             }
             else
-#endif
 #endif
             {
                 @autoreleasepool
@@ -2036,7 +2020,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 - (NSPDFImageRep*) PDFImageRep
 {
 #ifdef OSIRIX_VIEWER
-#ifndef OSIRIX_LIGHT
     
     [[NSFileManager defaultManager] confirmDirectoryAtPath:@"/tmp/dicomsr_osirix/"];
     
@@ -2074,7 +2057,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
     }
     
     return [NSPDFImageRep imageRepWithData: [NSData dataWithContentsOfFile: [htmlpath stringByAppendingPathExtension: @"pdf"]]];
-#endif
 #endif
     
     return nil;

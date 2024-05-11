@@ -103,12 +103,10 @@
 
 #import "url.h"
 
-#ifndef OSIRIX_LIGHT
 #import "Anonymization.h"
 #import "AnonymizationSavePanelController.h"
 #import "AnonymizationViewController.h"
 #import "NSFileManager+N2.h"
-#endif
 
 #import "WebPortal.h"
 #import "WebPortal+Email+Log.h"
@@ -963,7 +961,6 @@ static NSConditionLock *threadLock = nil;
 - (void) testAutorouting
 {
     // Test the routing filters
-#ifndef OSIRIX_LIGHT
     if( [[NSUserDefaults standardUserDefaults] boolForKey: @"AUTOROUTINGACTIVATED"])
     {
         NSArray	*autoroutingRules = [[NSUserDefaults standardUserDefaults] arrayForKey: @"AUTOROUTINGDICTIONARY"];
@@ -1009,7 +1006,6 @@ static NSConditionLock *threadLock = nil;
         
         [context unlock];
     }
-#endif
 }
 
 - (DicomStudy*) selectedStudy
@@ -1519,7 +1515,6 @@ static NSConditionLock *threadLock = nil;
             studiesToCheck = [NSArray arrayWithObject: studySelected];
     }
     
-#ifndef OSIRIX_LIGHT
     //If PACS On-Demand is activated, check if a local study has more or same number of images of a distant study
     NSMutableArray *patientStudies = [NSMutableArray array];
     
@@ -1557,7 +1552,6 @@ static NSConditionLock *threadLock = nil;
         if( modifications)
             [self refreshComparativeStudies: copyComparativeStudies];
     }
-#endif
 }
 
 -(void)_observeDatabaseAddNotification:(NSNotification*)notification
@@ -1752,12 +1746,10 @@ static NSConditionLock *threadLock = nil;
                 [self refreshMatrix: self];
                 [self refreshAlbums];
                 
-#ifndef OSIRIX_LIGHT
                 if( [QueryController currentQueryController])
                     [[QueryController currentQueryController] refresh: self];
                 else if( [QueryController currentAutoQueryController])
                     [[QueryController currentAutoQueryController] refresh: self];
-#endif
             }
             @catch (NSException* e)
             {
@@ -2184,25 +2176,7 @@ static NSConditionLock *threadLock = nil;
                 break;
                 
             case ask:
-                switch (NSRunInformationalAlertPanel(
-                                                     NSLocalizedString(@"Horos Database", nil),
-                                                     NSLocalizedString(@"Should I copy these files in Horos Database folder, or only copy links to these files?", nil),
-                                                     NSLocalizedString(@"Copy Files", nil),
-                                                     NSLocalizedString(@"Cancel", nil),
-                                                     NSLocalizedString(@"Copy Links", nil)))
-            {
-                case NSAlertDefaultReturn:
-                    break;
-                    
-                case NSAlertOtherReturn:
-                    copyFiles = NO;
-                    break;
-                    
-                case NSAlertAlternateReturn:
-                    [filesInput removeAllObjects];		// zero the array before it is returned.
-                    return;
-                    break;
-            }
+                copyFiles = NO;
                 break;
         }
     }
@@ -2495,37 +2469,23 @@ static NSConditionLock *threadLock = nil;
 
 -(long)saveUserDatabase // __deprecated
 {
-#ifndef OSIRIX_LIGHT
     [[[WebPortal defaultWebPortal] database] save:NULL];
-#endif
     return 0;
 }
 
 -(NSManagedObjectModel*)userManagedObjectModel // __deprecated
 {
-#ifndef OSIRIX_LIGHT
     return [[[WebPortal defaultWebPortal] database] managedObjectModel];
-#else
-    return NULL;
-#endif
 }
 
 -(NSManagedObjectContext*)userManagedObjectContext // __deprecated
 {
-#ifndef OSIRIX_LIGHT
     return [[[WebPortal defaultWebPortal] database] managedObjectContext];
-#else
-    return NULL;
-#endif
 }
 
 -(WebPortalUser*)userWithName:(NSString*)name // __deprecated
 {
-#ifndef OSIRIX_LIGHT
     return [[[WebPortal defaultWebPortal] database] userWithName:name];
-#else
-    return NULL;
-#endif
 }
 
 
@@ -3031,7 +2991,6 @@ static NSConditionLock *threadLock = nil;
                 }
                 
                 // Merge local and distant studies
-#ifndef OSIRIX_LIGHT
                 
                 // Autoretrieve?
                 NSMutableArray *studyToAutoretrieve = [NSMutableArray array];
@@ -3099,7 +3058,6 @@ static NSConditionLock *threadLock = nil;
                     [[ThreadsManager defaultManager] addThreadAndStart: t];
                 }
                 
-#endif
                 
                 if( [distantStudies count])
                     outlineViewArray = [outlineViewArray arrayByAddingObjectsFromArray: distantStudies];
@@ -3294,10 +3252,8 @@ static NSConditionLock *threadLock = nil;
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     autoretrievingPACSOnDemandSmartAlbum = YES;
     {
-#ifndef OSIRIX_LIGHT
         [studies setValue:[NSNumber numberWithBool:YES] forKey:@"isAutoRetrieve"];
         [QueryController retrieveStudies: studies showErrors: NO checkForPreviousAutoRetrieve: YES];
-#endif
     }
     autoretrievingPACSOnDemandSmartAlbum = NO;
     [pool release];
@@ -3543,20 +3499,16 @@ static NSConditionLock *threadLock = nil;
         [comparativeTable reloadData];
     }
     
-#ifndef OSIRIX_LIGHT
     if( [QueryController currentQueryController])
         [[QueryController currentQueryController] refresh: self];
     else if( [QueryController currentAutoQueryController])
         [[QueryController currentAutoQueryController] refresh: self];
-#endif
 }
 
 - (NSArray*) childrenArray: (id)item onlyImages: (BOOL)onlyImages
 {
-#ifndef OSIRIX_LIGHT
     if( [item isDistant])
         return [NSArray array];
-#endif
     
     if( [item isDeleted])
     {
@@ -3973,7 +3925,6 @@ static NSConditionLock *threadLock = nil;
 
 - (NSArray*) distantStudiesForSearchString: (NSString*) curSearchString type:(int) curSearchType
 {
-#ifndef OSIRIX_LIGHT
     if( !searchForComparativeStudiesLock)
         searchForComparativeStudiesLock = [NSRecursiveLock new];
     
@@ -4057,7 +4008,6 @@ static NSConditionLock *threadLock = nil;
     {
         [searchForComparativeStudiesLock unlock];
     }
-#endif
     return nil;
 }
 
@@ -4163,7 +4113,6 @@ static NSConditionLock *threadLock = nil;
 
 - (NSArray*) distantStudiesForIntervalFrom: (NSDate*) from to:(NSDate*) to
 {
-#ifndef OSIRIX_LIGHT
     if( !searchForComparativeStudiesLock)
         searchForComparativeStudiesLock = [NSRecursiveLock new];
     
@@ -4200,7 +4149,6 @@ static NSConditionLock *threadLock = nil;
     {
         [searchForComparativeStudiesLock unlock];
     }
-#endif
     return nil;
 }
 
@@ -4303,7 +4251,6 @@ static NSConditionLock *threadLock = nil;
     if( [[NSUserDefaults standardUserDefaults] boolForKey: @"searchForSmartAlbumStudiesOnDICOMNodes"] == NO)
         return [NSArray array];
     
-#ifndef OSIRIX_LIGHT
     if( !searchForComparativeStudiesLock)
         searchForComparativeStudiesLock = [NSRecursiveLock new];
     
@@ -4331,7 +4278,6 @@ static NSConditionLock *threadLock = nil;
     {
         [searchForComparativeStudiesLock unlock];
     }
-#endif
     return nil;
 }
 
@@ -4524,7 +4470,6 @@ static NSConditionLock *threadLock = nil;
                             if( servers.count)
                             {
                                 // Distant studies
-#ifndef OSIRIX_LIGHT
                                 distantStudies = [QueryController queryStudiesForPatient: studySelected usePatientID: usePatientID usePatientName: usePatientName usePatientBirthDate: usePatientBirthDate servers: servers showErrors: NO];
                                 
                                 // Merge local and distant studies
@@ -4567,7 +4512,6 @@ static NSConditionLock *threadLock = nil;
                                     t.supportsCancel = YES;
                                     [[ThreadsManager defaultManager] addThreadAndStart: t];
                                 }
-#endif
                             }
                             
                             [mergedStudies sortUsingDescriptors: [NSArray arrayWithObject: [NSSortDescriptor sortDescriptorWithKey:@"date" ascending: NO]]];
@@ -4827,7 +4771,6 @@ static NSConditionLock *threadLock = nil;
                 selectedStudy = [copy objectAtIndex: [comparativeTable selectedRow]];
             
             BOOL found = NO;
-#ifndef OSIRIX_LIGHT
             for( DCMTKStudyQueryNode *study in self.comparativeStudies)
             {
                 if( [study.studyInstanceUID isEqualToString: newStudy.studyInstanceUID])
@@ -4841,7 +4784,6 @@ static NSConditionLock *threadLock = nil;
                     }
                 }
             }
-#endif
             
             if( found == NO)
             {
@@ -5232,7 +5174,6 @@ static NSConditionLock *threadLock = nil;
     [self mergeSeriesExecute: seriesArray];
 }
 
-#ifndef OSIRIX_LIGHT
 - (IBAction) unifyStudies:(id) sender
 {
     [ViewerController closeAllWindows];
@@ -5576,7 +5517,6 @@ static NSConditionLock *threadLock = nil;
         [self refreshMatrix: self];
     }
 }
-#endif
 
 - (void) proceedDeleteObjects: (NSArray*) objectsToDelete tree:(NSSet*)treeObjs
 {
@@ -5818,58 +5758,7 @@ static NSConditionLock *threadLock = nil;
             
             WaitRendering *wait = [[WaitRendering alloc] init: NSLocalizedString(@"Deleting...", nil)];
             [wait showWindow:self];
-            
-            nonLocalImagesPath = [[objectsToDelete filteredArrayUsingPredicate: [NSPredicate predicateWithFormat:@"inDatabaseFolder == NO"]] valueForKey:@"completePath"];
-            
-            if( [nonLocalImagesPath  count] > 0)
-            {
-                [wait.window orderOut: self];
-                
-                NSLog(@"non-local images : %d", (int) [nonLocalImagesPath count]);
-                
-                result = NSRunInformationalAlertPanel(NSLocalizedString(@"Delete/Remove images", nil), NSLocalizedString(@"Some of the selected images are not stored in the Database folder. Do you want to only remove the links of these images from the database or also delete the original files?", nil), NSLocalizedString(@"Remove the links",nil),  NSLocalizedString(@"Cancel",nil), NSLocalizedString(@"Delete the files",nil));
-                
-                [wait.window makeKeyAndOrderFront: self];
-            }
-            else result = NSAlertDefaultReturn;
-            
-            @try
-            {
-                if( result == NSAlertAlternateReturn)
-                {
-                    NSLog( @"Cancel");
-                }
-                else
-                {
-                    if( result == NSAlertDefaultReturn || result == NSAlertOtherReturn)
-                        [self proceedDeleteObjects:objectsToDelete tree:treeObjs];
-                    
-                    if( result == NSAlertOtherReturn)
-                    {
-                        for( NSString *path in nonLocalImagesPath)
-                        {
-                            [[NSFileManager defaultManager] removeItemAtPath: path error:NULL];
-                            
-                            if( [[path pathExtension] isEqualToString:@"hdr"])		// ANALYZE -> DELETE IMG
-                            {
-                                [[NSFileManager defaultManager] removeItemAtPath:[[path stringByDeletingPathExtension] stringByAppendingPathExtension:@"img"] error:NULL];
-                            }
-                            
-                            NSString *currentDirectory = [[path stringByDeletingLastPathComponent] stringByAppendingString:@"/"];
-                            NSArray *dirContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:currentDirectory error:NULL];
-                            
-                            //Is this directory empty?? If yes, delete it!
-                            
-                            if( [dirContent count] == 0) [[NSFileManager defaultManager] removeItemAtPath:currentDirectory error:NULL];
-                            if( [dirContent count] == 1)
-                            {
-                                if( [[[dirContent objectAtIndex: 0] uppercaseString] hasSuffix:@".DS_STORE"]) [[NSFileManager defaultManager] removeItemAtPath:currentDirectory error:NULL];
-                            }
-                        }
-                    }
-                }
-            }
-            @catch (NSException * e) { NSLog( @"***** exception in %s: %@", __PRETTY_FUNCTION__, e); }
+            [self proceedDeleteObjects:objectsToDelete tree:treeObjs];
             [wait close];
             [wait autorelease];
             wait = nil;
@@ -5880,10 +5769,8 @@ static NSConditionLock *threadLock = nil;
     
     [self refreshMatrix: self];
     
-#ifndef OSIRIX_LIGHT
     [[QueryController currentQueryController] executeRefresh: self];
     [[QueryController currentAutoQueryController] executeRefresh: self];
-#endif
 }
 
 - (void) delObjects:(NSMutableArray*) objectsToDelete {
@@ -6031,10 +5918,8 @@ static NSConditionLock *threadLock = nil;
         
         [self refreshMatrix: self];
         
-#ifndef OSIRIX_LIGHT
         [[QueryController currentQueryController] executeRefresh: self];
         [[QueryController currentAutoQueryController] executeRefresh: self];
-#endif
     }
     else if (![_database isLocal])
     {
@@ -6229,12 +6114,10 @@ static NSConditionLock *threadLock = nil;
     
     if( [item isDistant])
     {
-#ifndef OSIRIX_LIGHT
         if( [item isKindOfClass: [DCMTKStudyQueryNode class]])
             return YES;
         else
             return NO;
-#endif
     }
     
     if ([[item valueForKey:@"type"] isEqualToString:@"Series"])
@@ -6260,7 +6143,6 @@ static NSConditionLock *threadLock = nil;
     }
     else
     {
-#ifndef OSIRIX_LIGHT
         if( [item isDistant])
         {
             @try
@@ -6290,7 +6172,6 @@ static NSConditionLock *threadLock = nil;
             return 0;
         }
         else
-#endif
             if ([[item valueForKey:@"type"] isEqualToString:@"Image"]) returnVal = 0;
             else if ([[item valueForKey:@"type"] isEqualToString:@"Series"]) returnVal = [[item valueForKey:@"noFiles"] intValue];
         //else if ([[item valueForKey:@"type"] isEqualToString:@"Study"]) returnVal = [[item valueForKey:@"series"] count];
@@ -6535,12 +6416,11 @@ static NSConditionLock *threadLock = nil;
     
     [_database save:NULL];
     
-#ifndef OSIRIX_LIGHT
+
     if( [QueryController currentQueryController])
         [[QueryController currentQueryController] refresh: self];
     else if( [QueryController currentAutoQueryController])
         [[QueryController currentAutoQueryController] refresh: self];
-#endif
     
     [databaseOutline reloadData];
 }
@@ -6881,7 +6761,6 @@ static NSConditionLock *threadLock = nil;
             r = YES;
         }
         
-#ifndef OSIRIX_LIGHT
         
         if( ([[[im valueForKey:@"modality"] lowercaseString] isEqualToString:@"pdf"] || [DCMAbstractSyntaxUID isPDF: [im valueForKeyPath: @"series.seriesSOPClassUID"]] || [DCMAbstractSyntaxUID isStructuredReport: [im valueForKeyPath: @"series.seriesSOPClassUID"]]) && [[NSUserDefaults standardUserDefaults] boolForKey: @"openPDFwithPreview"])
         {
@@ -7016,7 +6895,6 @@ static NSConditionLock *threadLock = nil;
             }
         }
         
-#endif
         
         [_database unlock];
     }
@@ -7129,7 +7007,6 @@ static NSConditionLock *threadLock = nil;
             {
                 id comparativeStudy = nil;
                 
-#ifndef OSIRIX_LIGHT
                 if( [s isKindOfClass: [DCMTKStudyQueryNode class]])
                 {
                     DCMTKStudyQueryNode *study = s;
@@ -7163,7 +7040,6 @@ static NSConditionLock *threadLock = nil;
                             [self retrieveComparativeStudy: comparativeStudy select: NO open: NO showGUI: NO];
                     }
                 }
-#endif
                 
                 if( [s isKindOfClass: [DicomStudy class]])
                 {
@@ -7203,7 +7079,6 @@ static NSConditionLock *threadLock = nil;
                     break;
             }
             
-#ifndef OSIRIX_LIGHT
             // Wait until all distant studies are retrieved
             WaitRendering *w = nil;
             NSTimeInterval timeout = [NSDate timeIntervalSinceReferenceDate];
@@ -7256,7 +7131,6 @@ static NSConditionLock *threadLock = nil;
             while( distantStudies && [NSDate timeIntervalSinceReferenceDate] - timeout < TIMEOUT);
             
             [w close];
-#endif
             for( int i = 0; i < comparatives.count; i++)
             {
                 if( [[comparatives objectAtIndex: i] isKindOfClass: [DicomStudy class]] == NO)
@@ -7515,7 +7389,6 @@ static NSConditionLock *threadLock = nil;
                         
                         if( [studiesArray count] == 0)
                         {
-#ifndef OSIRIX_LIGHT
                             NSArray *servers = [BrowserController comparativeServers];
                             
                             DCMTKStudyQueryNode *distantStudy = [[QueryController queryStudiesForFilters: [NSDictionary dictionaryWithObject: studyUID forKey: @"StudyInstanceUID"] servers: servers showErrors: NO] lastObject];
@@ -7554,7 +7427,6 @@ static NSConditionLock *threadLock = nil;
                                 
                                 [[NSUserDefaults standardUserDefaults] setInteger: copy forKey: @"ListenerCompressionSettings"];
                             }
-#endif
                         }
                     }
                     
@@ -7844,7 +7716,6 @@ static NSConditionLock *threadLock = nil;
         
         if ([[item numberOfImages] intValue] != 0)
         {
-#ifndef OSIRIX_LIGHT
             if( [item isDistant])
             {
                 id study = item;
@@ -7856,16 +7727,13 @@ static NSConditionLock *threadLock = nil;
                 [self retrieveComparativeStudy: study select: YES open: NO];
             }
             else
-#endif
             {
                 [self databaseOpenStudy: item];
             }
         }
         else
         {
-#ifndef OSIRIX_LIGHT
             [self querySelectedStudy:self];
-#endif
         }
     }
 }
@@ -8658,7 +8526,6 @@ static NSConditionLock *threadLock = nil;
     return string;
 }
 
-#ifndef OSIRIX_LIGHT
 
 - (IBAction) pasteImageForSourceFile: (NSString*) sourceFile
 {
@@ -8734,8 +8601,6 @@ static NSConditionLock *threadLock = nil;
 {
     [self pasteImageForSourceFile: nil];
 }
-
-#endif
 
 - (IBAction) copy: (id)sender
 {
@@ -9596,7 +9461,6 @@ static BOOL withReset = NO;
     [oMatrix setNeedsDisplay:YES];
 }
 
-#ifndef OSIRIX_LIGHT
 - (void) pdfPreview:(id)sender
 {
     [self matrixPressed:sender];
@@ -9644,7 +9508,6 @@ static BOOL withReset = NO;
     [NSThread sleepForTimeInterval: 1];
     [pool release];
 }
-#endif
 
 - (void)matrixDisplayIcons:(id) sender
 {
@@ -11604,9 +11467,7 @@ constrainSplitPosition:(CGFloat)proposedPosition
         int copy = [[NSUserDefaults standardUserDefaults] integerForKey: @"ListenerCompressionSettings"];
         [[NSUserDefaults standardUserDefaults] setInteger: 0 forKey: @"ListenerCompressionSettings"]; //No time for decompression....
         
-#ifndef OSIRIX_LIGHT
         [QueryController retrieveStudies: [NSArray arrayWithObject: study] showErrors: NO checkForPreviousAutoRetrieve: NO];
-#endif
         
         DicomDatabase *idb = [[DicomDatabase activeLocalDatabase] independentDatabase];
         
@@ -11759,13 +11620,11 @@ constrainSplitPosition:(CGFloat)proposedPosition
                 
                 if( study && dontSelectStudyFromComparativeStudies == NO)
                 {
-                    //                    #ifndef OSIRIX_LIGHT
-                    //                    if( [study isDistant]) // distant study -> download it, and select it
+                     //                    if( [study isDistant]) // distant study -> download it, and select it
                     //                    {
                     //                        [self retrieveComparativeStudy: study select: YES open: NO]; -- Only when double-clicking
                     //                    }
                     //                    else // local study -> select it
-                    //                    #endif
                     {
                         if( [self selectThisStudy: study] && [[self window] firstResponder] != searchField && [[self window] firstResponder] != searchField.currentEditor)
                             [[self window] makeFirstResponder: databaseOutline];
@@ -13340,7 +13199,6 @@ constrainSplitPosition:(CGFloat)proposedPosition
         NSRunInformationalAlertPanel(NSLocalizedString(@"ROIs Images", nil), NSLocalizedString(@"No images containing ROIs are found in this selection.", nil), NSLocalizedString(@"OK",nil), nil, nil);
     }
     
-#ifndef OSIRIX_LIGHT
     BOOL escKey = CGEventSourceKeyState( kCGEventSourceStateCombinedSessionState, 53);
     
     if( escKey) //Open the images, and export them
@@ -13354,7 +13212,6 @@ constrainSplitPosition:(CGFloat)proposedPosition
             [[v window] close];
         }
     }
-#endif
 }
 
 - (void) viewerDICOMKeyImages:(id) sender
@@ -13375,7 +13232,6 @@ constrainSplitPosition:(CGFloat)proposedPosition
     else
         [[AppController sharedAppController] checkAllWindowsAreVisible: self makeKey: YES];
     
-#ifndef OSIRIX_LIGHT
     BOOL escKey = CGEventSourceKeyState( kCGEventSourceStateCombinedSessionState, 53);
     
     if( escKey) //Open the images, and export them
@@ -13389,7 +13245,6 @@ constrainSplitPosition:(CGFloat)proposedPosition
             [[v window] close];
         }
     }
-#endif
 }
 
 - (void) MovieViewerDICOM:(id) sender
@@ -14292,7 +14147,6 @@ static NSArray*	openSubSeriesArray = nil;
         
         [self refreshMatrix: self];
         
-#ifndef OSIRIX_LIGHT
         if( [[NSUserDefaults standardUserDefaults] boolForKey: @"restartAutoQueryAndRetrieve"] == YES && [[NSUserDefaults standardUserDefaults] objectForKey: @"savedAutoDICOMQuerySettingsArray"] != nil)
         {
             [[AppController sharedAppController] notificationTitle: NSLocalizedString( @"Auto-Query", nil) description: NSLocalizedString( @"DICOM Auto-Query is restarting...", nil)  name:@"autoquery"];
@@ -14308,7 +14162,6 @@ static NSArray*	openSubSeriesArray = nil;
         }
         else
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"autoRetrieving"];
-#endif
         
         [[self window] setAnimationBehavior: NSWindowAnimationBehaviorNone];
         
@@ -15522,7 +15375,6 @@ static NSArray*	openSubSeriesArray = nil;
 
 //- (void)listenerAnonymizeFiles: (NSArray*)files
 //{
-//	#ifndef OSIRIX_LIGHT
 //	NSArray				*array = [NSArray arrayWithObjects: [DCMAttributeTag tagWithName:@"PatientsName"], @"**anonymized**", [DCMAttributeTag tagWithName:@"PatientID"], @"00000",nil];
 //	NSMutableArray		*tags = [NSMutableArray array];
 //
@@ -15544,7 +15396,6 @@ static NSArray*	openSubSeriesArray = nil;
 //		[[NSFileManager defaultManager] removeItemAtPath: file error:NULL];
 //		[[NSFileManager defaultManager] movePath:destPath toPath: file handler: nil];
 //	}
-//#endif
 //}
 
 #pragma deprecated (pathResolved:)
@@ -15696,8 +15547,6 @@ static volatile int numberOfThreadsForJPEG = 0;
     return [[[array objectAtIndex: 0] valueForKey: @"compression"] intValue];
 }
 
-#ifndef OSIRIX_LIGHT
-
 #pragma deprecated(decompressDICOMJPEGinINCOMING:)
 - (void)decompressDICOMJPEGinINCOMING:(NSArray*)array // __deprecated
 {
@@ -15789,8 +15638,6 @@ static volatile int numberOfThreadsForJPEG = 0;
         
         [_database initiateDecompressFilesAtPaths:result];
 }
-
-#endif
 
 - (void)checkIncomingThread: (id)sender // __deprecated
 {
@@ -16133,7 +15980,6 @@ static volatile int numberOfThreadsForJPEG = 0;
             tempPath = [tempPath stringByAppendingFormat: @"_%d", uniqueSeriesID];
             previousPath = [NSString stringWithString: tempPath];
             
-#ifndef OSIRIX_LIGHT
             if( [DCMAbstractSyntaxUID isPDF: [curImage valueForKeyPath: @"series.seriesSOPClassUID"]])
             {
                 DCMObject *dcmObject = [DCMObject objectWithContentsOfFile: [curImage valueForKey: @"completePath"] decodingPixelData:NO];
@@ -16207,7 +16053,6 @@ static volatile int numberOfThreadsForJPEG = 0;
                 }
             }
             else
-#endif
             {
                 @autoreleasepool
                 {
@@ -16519,8 +16364,6 @@ static volatile int numberOfThreadsForJPEG = 0;
     [self exportImageAs: @"tif" sender: sender];
 }
 
-#ifndef OSIRIX_LIGHT
-
 - (IBAction) addStudiesToUser: (id) sender
 {
     [notificationEmailArrayController setSelectionIndexes: [NSIndexSet indexSet]];
@@ -16596,7 +16439,6 @@ static volatile int numberOfThreadsForJPEG = 0;
 
 -(IBAction)sendEmailNotification:(id)sender
 {
-#ifndef OSIRIX_LIGHT
     self.temporaryNotificationEmail = @"";
     self.customTextNotificationEmail = @"";
     
@@ -16715,7 +16557,7 @@ restart:
     
     [NSApp endSheet: notificationEmailWindow];
     [notificationEmailWindow orderOut: self];
-#endif
+
 }
 
 -(IBAction)sendMail:(id)sender
@@ -16834,8 +16676,6 @@ restart:
         [arguments release];
 }
 
-#endif
-
 + (NSMutableString*) replaceNotAdmitted: (NSString*)name
 {
     NSMutableString* mstr;
@@ -16863,7 +16703,6 @@ restart:
     return mstr;
 }
 
-#ifndef OSIRIX_LIGHT
 - (void) importReport:(NSString*) path UID: (NSString*) uid
 {
     if( [[NSFileManager defaultManager] fileExistsAtPath: path])
@@ -16906,7 +16745,6 @@ restart:
         [context unlock];
     }
 }
-#endif
 
 - (NSArray*) exportDICOMFileInt: (NSString*) location files: (NSMutableArray*) filesToExport objects: (NSMutableArray*) dicomFiles2Export
 {
@@ -17260,7 +17098,6 @@ restart:
             //		[waitCompressionWindow showWindow:self];
             //		[[waitCompressionWindow progress] setMaxValue: [files2Compress count]];
             
-#ifndef OSIRIX_LIGHT
             
             //Workaround for UI calls from background UI (runtime warnings) - Binding could be the definitive resolution for this
             __block NSInteger compressionMatrixSelectedTag = 1;
@@ -17285,14 +17122,12 @@ restart:
                     [self decompressArrayOfFiles: files2Compress work: [NSNumber numberWithChar: 'D']];
                     break;
             }
-#endif
             
             //		[waitCompressionWindow close];
         }
         
         // ANR - I had to create this loop, otherwise, if I export a folder on the desktop, the dcmkdir will scan all files and folders available on the desktop.... not only the exported folder.
         
-#ifndef OSIRIX_LIGHT
         if (addDICOMDIR && exportAborted == NO)
         {
             for( int i = 0; i < [filesToExport count]; i++)
@@ -17344,7 +17179,6 @@ restart:
                 }
             }
         }
-#endif
         if( [[NSUserDefaults standardUserDefaults] boolForKey: @"encryptForExport"] == YES && exportAborted == NO)
         {
             for( int i = 0; i < [filesToExport count]; i++)
@@ -17565,7 +17399,6 @@ restart:
 }
 
 #ifdef OSIRIX_VIEWER
-#ifndef OSIRIX_LIGHT
 - (void) exportROIAndKeyImagesAsDICOMSeries: (id) sender
 {
     WaitRendering *wait = [[WaitRendering alloc] init: NSLocalizedString(@"Generating the DICOM files...", nil)];
@@ -17610,7 +17443,6 @@ restart:
     [wait close];
     [wait autorelease];
 }
-#endif
 #endif
 
 - (void) exportDICOMFile: (id)sender
@@ -17702,7 +17534,6 @@ restart:
     }
 }
 
-#ifndef OSIRIX_LIGHT
 - (void)burnDICOM: (id)sender
 {
     for( NSWindow *win in [NSApp windows])
@@ -17726,9 +17557,7 @@ restart:
     
     [burnerWindowController showWindow:self];
 }
-#endif
 
-#ifndef OSIRIX_LIGHT
 - (IBAction)anonymizeDICOM:(id)sender
 {
     NSMutableArray *dicomFiles2Anonymize = [NSMutableArray array];
@@ -17802,8 +17631,6 @@ restart:
     }
 }
 
-#endif
-
 - (void) unmountPath:(NSString*) path
 {
     [_sourcesTableView display];
@@ -17838,9 +17665,6 @@ restart:
     NSLog(@"alternate botton");
 }
 
-#ifndef OSIRIX_LIGHT
-
-#endif
 
 - (void) selectServer: (NSArray*)objects
 {
@@ -17863,7 +17687,6 @@ restart:
     [self selectServer: objects];
 }
 
-#ifndef OSIRIX_LIGHT
 - (IBAction)querySelectedStudy: (id)sender
 {
     //	if( DICOMDIRCDMODE)
@@ -17921,7 +17744,6 @@ restart:
             [[QueryController currentAutoQueryController] showWindow:self];
     }
 }
-#endif
 
 - (void)storeSCPComplete: (id)sender
 {
@@ -17929,7 +17751,6 @@ restart:
     [sender release];
 }
 
-#ifndef OSIRIX_LIGHT
 - (IBAction)importRawData:(id)sender
 {
     [[rdPatientForm cellWithTag:0] setStringValue: @"Raw Data"]; //Patient Name
@@ -18143,14 +17964,14 @@ restart:
     
     [xmlController showWindow:self];
 }
-#endif
+
 
 //ÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑ
 
 #pragma mark -
 #pragma mark RTSTRUCT
 
-#ifndef OSIRIX_LIGHT
+
 - (void)createROIsFromRTSTRUCT: (id)sender
 {
     NSMutableArray *filesArray = [NSMutableArray array];
@@ -18173,7 +17994,6 @@ restart:
         }
     }
 }
-#endif
 
 //ÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑ
 
@@ -18389,7 +18209,6 @@ restart:
     }
 }
 
-#ifndef OSIRIX_LIGHT
 - (IBAction) generateReport: (id)sender
 {
     NSIndexSet *index = [databaseOutline selectedRowIndexes];
@@ -18401,9 +18220,6 @@ restart:
     
     if( item)
     {
-#if defined(USEHOMEPHONE)
-        [[HorosHomePhone sharedHomePhone] callHomeInformingFunctionType:HOME_PHONE_HOROS_REPORT_REQUESTED detail:[NSString stringWithFormat:@"{\"reportsMode\": \"%d\"}",reportsMode]];
-#endif
 
         if( reportsMode == 0 && [[NSWorkspace sharedWorkspace] fullPathForApplication:@"Microsoft Word"] == nil) // Would absolutePathForAppBundleWithIdentifier be better here? (DDP)
         {
@@ -18567,7 +18383,6 @@ restart:
     [self performSelector: @selector(updateReportToolbarIcon:) withObject: nil afterDelay: 0.1];	
     [[NSNotificationCenter defaultCenter] postNotificationName: OsirixReportModeChangedNotification object: nil userInfo: nil];
 }
-#endif
 
 - (NSImage*) reportIcon
 {
@@ -18635,7 +18450,6 @@ restart:
 {
     @try
     {
-#ifndef OSIRIX_LIGHT
         NSMutableArray* templatesArray = nil;
         switch ([[[NSUserDefaults standardUserDefaults] stringForKey:@"REPORTSMODE"] intValue]) {
             case 2:
@@ -18691,9 +18505,6 @@ restart:
             
             [item setImage:icon];
         }
-#else
-        [item setImage:[NSImage imageNamed:@"Report.icns"]];
-#endif
     }
     @catch (NSException * e)
     {
@@ -18704,7 +18515,6 @@ restart:
 
 - (void)reportToolbarItemWillPopUp: (NSNotification *)notif
 {
-#ifndef OSIRIX_LIGHT
     if ([[notif object] isEqualTo:reportTemplatesListPopUpButton])
     {
         [reportTemplatesListPopUpButton removeAllItems];
@@ -18721,7 +18531,7 @@ restart:
         
         [reportTemplatesListPopUpButton setAction:@selector(generateReport:)];
     }
-#endif
+
 }
 
 //ÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑ
@@ -19577,7 +19387,6 @@ restart:
         else
             [[AppController sharedAppController] checkAllWindowsAreVisible: self makeKey: YES];
         
-#ifndef OSIRIX_LIGHT
         BOOL escKey = CGEventSourceKeyState( kCGEventSourceStateCombinedSessionState, 53);
         
         if( escKey) //Open the images, and export them
@@ -19591,7 +19400,6 @@ restart:
                 [[v window] close];
             }
         }
-#endif
     }
     else
     {
@@ -19908,10 +19716,6 @@ restart:
     }
     
     [PluginManager startProtectForCrashWithFilter: filter];
-    
-#if defined(USEHOMEPHONE)
-    [[HorosHomePhone sharedHomePhone] callHomeInformingFunctionType:HOME_PHONE_PLUGIN_LAUNCHED detail:[NSString stringWithFormat:@"{\"PluginName\": \"%@\"}",name]];
-#endif
 
     long result = [filter prepareFilter: nil];
     [filter filterImage: name];

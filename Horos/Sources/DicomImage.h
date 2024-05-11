@@ -110,9 +110,7 @@ void* sopInstanceUIDEncode( NSString *sopuid);
 - (NSSet*) paths;
 - (NSString*) completePath;
 - (NSString*) completePathResolved;
-#ifndef OSIRIX_LIGHT
 - (DCMSequenceAttribute*) graphicAnnotationSequence;
-#endif
 - (NSImage*) image;
 - (NSImage*) thumbnail;
 - (NSImage*) imageAsScreenCapture:(NSRect)frame;

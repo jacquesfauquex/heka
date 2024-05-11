@@ -411,9 +411,7 @@ NSString* convertDICOM( NSString *inputfile)
 	
 	converting = YES;
 	NSLog(@"convertDICOM - FAILED to use current DICOM File Parser : %@", inputfile);
-	#ifndef OSIRIX_LIGHT
 	[[[BrowserController currentBrowser] database] decompressFilesAtPaths:@[inputfile] intoDirAtPath:[outputfile stringByDeletingLastPathComponent]];
-	#endif
 	return outputfile;
 }
 
@@ -965,7 +963,6 @@ void exceptionHandler(NSException *exception)
 		
 		[PluginManager setMenus: filtersMenu :roisMenu :othersMenu :dbMenu];
 		
-#ifndef OSIRIX_LIGHT
 		// refresh the plugin manager window (if open)
 		NSArray *winList = [NSApp windows];		
 		for(NSWindow *window in winList)
@@ -973,7 +970,6 @@ void exceptionHandler(NSException *exception)
 			if( [[window windowController] isKindOfClass:[PluginManagerController class]])
 				[[window windowController] refreshPluginList];
 		}
-#endif
 	}
 }
 
@@ -999,12 +995,10 @@ void exceptionHandler(NSException *exception)
     [NSApp stopModal];
 }
 
-#ifndef OSIRIX_LIGHT
 - (IBAction) autoQueryRefresh:(id)sender
 {
 	[[QueryController currentAutoQueryController] refreshAutoQR: sender];
 }
-#endif
 
 //———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
@@ -2029,7 +2023,6 @@ void exceptionHandler(NSException *exception)
 {
 	// this method is always executed as a new thread detached from the NSthread command of RestartSTORESCP method
 
-	#ifndef OSIRIX_LIGHT
 	[STORESCP lock];
 	
     [NSThread currentThread].name = @"DICOM Store-SCP";
@@ -2062,7 +2055,6 @@ void exceptionHandler(NSException *exception)
 	}
 	
 	[STORESCP unlock];
-	#endif
 	
 	return;
 }
@@ -2070,7 +2062,6 @@ void exceptionHandler(NSException *exception)
 -(void) startSTORESCPTLS:(id) sender
 {
 	// this method is always executed as a new thread detached from the NSthread command of RestartSTORESCP method
-#ifndef OSIRIX_LIGHT
     [NSThread currentThread].name = @"DICOM Store-SCP TLS";
     
 	if([[NSUserDefaults standardUserDefaults] boolForKey:@"STORESCPTLS"])
@@ -2100,7 +2091,6 @@ void exceptionHandler(NSException *exception)
 		
 		[STORESCPTLS unlock];
 	}
-#endif
 	return;
 }
 
@@ -2412,9 +2402,8 @@ static BOOL firstCall = YES;
 {
 	unlink( "/tmp/kill_all_storescu");
 	
-#ifndef OSIRIX_LIGHT
+
     [DICOMTLS eraseKeys];
-#endif
     
 //	[webServer release];
 //	webServer = nil;
@@ -2428,9 +2417,7 @@ static BOOL firstCall = YES;
 	
 	[[BrowserController currentBrowser] browserPrepareForClose];
     
-#ifndef OSIRIX_LIGHT
 	[WebPortal finalizeWebPortalClass];
-#endif
 
 	[ROI saveDefaultSettings];
 
@@ -2513,16 +2500,12 @@ static BOOL firstCall = YES;
 {
 	if( [[BrowserController currentBrowser] shouldTerminate: sender] == NO) return;
 
-#ifndef OSIRIX_LIGHT
     [[NSUserDefaults standardUserDefaults] setBool: [[[QueryController currentQueryController] window] isVisible] forKey: @"isQueryControllerVisible"];
-#endif
     for( NSWindow *w in [NSApp windows])
 		[w orderOut:sender];
     
-	#ifndef OSIRIX_LIGHT
 	[dcmtkQRSCP abort];
 	[dcmtkQRSCPTLS abort];
-	#endif
 	
     [NSThread sleepForTimeInterval: 0.5];
 	
@@ -2551,9 +2534,8 @@ static BOOL firstCall = YES;
         self = [super init];
         OsiriX = appController = self;
         
-#ifndef OSIRIX_LIGHT
         [DICOMTLS eraseKeys];
-#endif
+
         [[NSFileManager defaultManager] removeItemAtPath:[[NSFileManager defaultManager] tmpDirPath] error:NULL];
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:[[[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSLocalDomainMask] firstObject] path] stringByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]] stringByAppendingPathComponent:@"DLog.enable"]])
@@ -2984,8 +2966,6 @@ static BOOL initialized = NO;
 
 - (void) notificationTitle:(NSString*) title description:(NSString*) description name:(NSString*) name
 {
-#ifndef OSIRIX_LIGHT
-#ifndef MACAPPSTORE
     if (@available(macOS 10.14, *))
     {
         UNMutableNotificationContent *notification = [[UNMutableNotificationContent alloc] init];
@@ -3009,8 +2989,6 @@ static BOOL initialized = NO;
         [notification setSoundName: NSUserNotificationDefaultSoundName];
         [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification: notification];
     }
-#endif
-#endif
 }
 
 #pragma mark-
@@ -3022,12 +3000,10 @@ static BOOL initialized = NO;
 	
 	[self killAllStoreSCU: self];
 	
-	#ifndef OSIRIX_LIGHT
 	if( dcmtkQRSCP)
 		[QueryController echo: [self privateIP] port:[dcmtkQRSCP port] AET: [dcmtkQRSCP aeTitle]];
 	if( dcmtkQRSCPTLS)
 		[QueryController echo: [self privateIP] port:[dcmtkQRSCPTLS port] AET: [dcmtkQRSCPTLS aeTitle]];
-	#endif
 	
 	[NSThread sleepForTimeInterval: 0.1];
 	
@@ -3247,7 +3223,6 @@ static BOOL initialized = NO;
     
     [ROI loadDefaultSettings];
     
-#ifndef OSIRIX_LIGHT
 #ifdef NDEBUG
     PFMoveToApplicationsFolderIfNecessary();
     
@@ -3282,7 +3257,6 @@ static BOOL initialized = NO;
     CFRelease( code);
 #endif // WITH_CODE_SIGNING
 #endif // NDEBUG
-#endif // OSIRIX_LIGHT
     
     if( [[NSUserDefaults standardUserDefaults] boolForKey: @"SyncPreferencesFromURL"])
         [NSThread detachNewThreadSelector: @selector( addPreferencesFromURL:) toTarget: [OSIGeneralPreferencePanePref class] withObject: [NSURL URLWithString: [[NSUserDefaults standardUserDefaults] stringForKey: @"SyncPreferencesURL"]]];
@@ -3294,7 +3268,6 @@ static BOOL initialized = NO;
     [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints"];
 #endif
 
-#ifndef OSIRIX_LIGHT
     if( [[NSUserDefaults standardUserDefaults] boolForKey: @"isQueryControllerVisible"])
     {
         if([QueryController currentQueryController] == nil)
@@ -3302,7 +3275,6 @@ static BOOL initialized = NO;
         
         [[QueryController currentQueryController] showWindow: self];
     }
-#endif
 }
 
 - (void) checkForOsirixMimeType
@@ -3562,60 +3534,6 @@ static BOOL initialized = NO;
 	{
 		
 	}
-	
-    /*
-	#ifndef OSIRIX_LIGHT
-	#ifndef MACAPPSTORE
-    if( [[NSUserDefaults standardUserDefaults] boolForKey: @"hideListenerError"] == NO)
-    {
-        @try
-        {
-            ILCrashReporter *reporter = [ILCrashReporter defaultReporter];
-            
-            NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
-            
-            
-            if( [d valueForKey: @"crashReporterSMTPServer"])
-            {
-                reporter.SMTPServer = [d valueForKey: @"crashReporterSMTPServer"];
-                int port = [d integerForKey: @"crashReporterSMTPPort"];
-                reporter.SMTPPort = port? port : 25;
-                // if these are empty, set them to empty
-                reporter.SMTPUsername = [d valueForKey: @"crashReporterSMTPUsername"];
-                reporter.SMTPPassword = [d valueForKey: @"crashReporterSMTPPassword"];
-            }
-            
-            if( [d valueForKey: @"crashReporterFromAddress"])
-            {
-                reporter.fromAddress = [d valueForKey: @"crashReporterFromAddress"];
-            }
-            
-            NSString *reportAddr = @"horoscrashreport@gmail.com";
-            
-            if( [d valueForKey: @"crashReporterToAddress"])
-            {
-                reportAddr = [d valueForKey: @"crashReporterToAddress"];
-            }
-            
-            reporter.automaticReport = [d boolForKey: @"crashReporterAutomaticReport"];
-            
-            
-            NSLog(@"%@",reporter.SMTPServer);
-            NSLog(@"%@",reporter.SMTPUsername);
-            NSLog(@"%@",reporter.SMTPPassword);
-            NSLog(@"%@",reporter.fromAddress);
-            
-            
-            [reporter launchReporterForCompany:@"Horos Developers" reportAddr: reportAddr];
-        }
-        @catch (NSException *e)
-        {
-            NSLog( @"**** Exception ILCrashReporter: %@", e);
-        }
-    }
-	#endif
-	#endif
-	*/
      
 	[PluginManager setMenus: filtersMenu :roisMenu :othersMenu :dbMenu];
     
@@ -3627,15 +3545,11 @@ static BOOL initialized = NO;
 	
 	[DicomDatabase initializeDicomDatabaseClass];
 	[BrowserController initializeBrowserControllerClass];
-	#ifndef OSIRIX_LIGHT
 	[WebPortal initializeWebPortalClass];
-	#endif
 	
-	#ifndef OSIRIX_LIGHT
 	if( [[NSUserDefaults standardUserDefaults] boolForKey:@"httpXMLRPCServer"]) {
 		if(XMLRPCServer == nil) XMLRPCServer = [[XMLRPCInterface alloc] init];
 	}
-	#endif
 	
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver: self
@@ -4355,11 +4269,9 @@ static BOOL initialized = NO;
 		
 		if( [item action] == @selector(autoQueryRefresh:))
 		{
-			#ifndef OSIRIX_LIGHT
 			if( [QueryController currentAutoQueryController])
 				return YES;
 			else
-			#endif
 				return NO;
 		}
 		
@@ -5163,9 +5075,7 @@ static BOOL initialized = NO;
 {
     @try
     {
-        #ifndef OSIRIX_LIGHT
         return [[[WebPortal defaultWebPortal] database] managedObjectContext];
-        #endif
     }
     @catch (NSException *e) {
         NSLog( @"***** defaultWebPortalManagedObjectContext : %@", e);
@@ -5183,20 +5093,13 @@ static BOOL initialized = NO;
 }
 
 -(WebPortal*)defaultWebPortal {
-	#ifndef OSIRIX_LIGHT
 	return [WebPortal defaultWebPortal];
-	#else
-	return nil;
-	#endif
 }
 
-#ifndef OSIRIX_LIGHT
 
 -(NSString*)weasisBasePath {
 	return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"weasis"];
 }
-
-#endif
 
 static NSMutableDictionary* _receivingDict = nil;
 
