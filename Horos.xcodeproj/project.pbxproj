@@ -5826,10 +5826,34 @@
 		4A4DDD152BEF7088005BBA89 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				4A4DDD5B2BEF7D9E005BBA89 /* heka */,
 				4A4DDD172BEF70B0005BBA89 /* heka.icns */,
 				4A4DDD162BEF70B0005BBA89 /* hekaBadge.icns */,
 			);
 			path = Icons;
+			sourceTree = "<group>";
+		};
+		4A4DDD5B2BEF7D9E005BBA89 /* heka */ = {
+			isa = PBXGroup;
+			children = (
+				4A4DDD5D2BEF7DD6005BBA89 /* icon.iconset */,
+				4A4DDD5C2BEF7DAB005BBA89 /* png */,
+			);
+			path = heka;
+			sourceTree = "<group>";
+		};
+		4A4DDD5C2BEF7DAB005BBA89 /* png */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = png;
+			sourceTree = "<group>";
+		};
+		4A4DDD5D2BEF7DD6005BBA89 /* icon.iconset */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = icon.iconset;
 			sourceTree = "<group>";
 		};
 		4AF8F5892BEEDA3B00AF4A5D /* heka */ = {
