@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AB0F3A2B1046BD2B004129DD"
-               BuildableName = "Horos.framework"
-               BlueprintName = "API"
-               ReferencedContainer = "container:Horos.xcodeproj">
+               BlueprintIdentifier = "AB724F300ADE6ECB00A212A0"
+               BuildableName = "Decompress"
+               BlueprintName = "Decompress"
+               ReferencedContainer = "container:heka.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,35 +26,39 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "AB724F300ADE6ECB00A212A0"
+            BuildableName = "Decompress"
+            BlueprintName = "Decompress"
+            ReferencedContainer = "container:heka.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
       </Testables>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AB0F3A2B1046BD2B004129DD"
-            BuildableName = "Horos.framework"
-            BlueprintName = "API"
-            ReferencedContainer = "container:Horos.xcodeproj">
+            BlueprintIdentifier = "AB724F300ADE6ECB00A212A0"
+            BuildableName = "Decompress"
+            BlueprintName = "Decompress"
+            ReferencedContainer = "container:heka.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -62,15 +66,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AB0F3A2B1046BD2B004129DD"
-            BuildableName = "Horos.framework"
-            BlueprintName = "API"
-            ReferencedContainer = "container:Horos.xcodeproj">
+            BlueprintIdentifier = "AB724F300ADE6ECB00A212A0"
+            BuildableName = "Decompress"
+            BlueprintName = "Decompress"
+            ReferencedContainer = "container:heka.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

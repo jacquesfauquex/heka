@@ -189,7 +189,7 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>Horos</string>
+	<string>heka</string>
 	<key>CFBundleGetInfoString</key>
 	<string>$(HUMAN_READABLE_VERSION)</string>
 	<key>CFBundleIconFile</key>
@@ -269,7 +269,7 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>OSAScriptingDefinition</key>
-	<string>Horos.sdef</string>
+	<string>heka.sdef</string>
 	<key>UTImportedTypeDeclarations</key>
 	<array>
 		<dict>

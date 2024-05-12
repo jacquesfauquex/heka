@@ -1,29 +1,9 @@
-## Build instructions
+#heka
 
-### Prerequisites
+To say it with an analogy, heka is to OsiriX/Horos what Thorium is to Chrome.
 
-1. `cmake` and `pkg-config` must be in the system's `PATH` or installed at `/opt/local/bin`.
-2. `git-lfs` must be in the installed (for VTK-m) (https://git-lfs.github.com/) 
-3. Patience or a fast Mac, a full build takes from 5 minutes to 30 minutes.
+OsiriX is the masterpiece of Antoine Rosset for medical imaging viewing.  Went from opensource to closed one. Remained almost unchanged, or at least without transcendant upgrades for years.  The licensing by subscriptions imposed now is a pain in the ass. 
 
-### Build
+In the last open source code published, there is a lot of distracción code to be cleaned up. After doing so, we well improve the product at its core thanks to a new tecnology, DCKV,  designed to work with huge studies and IA. This will be a transcendant upgrade.
 
-1. Clone the repository: `git clone https://github.com/frnext/horos.git`
 
-### Option 1 (GUI)
-
-1. Open `Horos.xcodeproj` in Xcode
-2. Build (Command+B)
-
-### Option 2 (terminal)
-
-1. Go to the project root directory
-2. `make`
-
-## Additional remarks
-
-The project uses git submodules and depends on files that are in a zipped format.
-The build process takes care of these dependencies, but you can invoke the steps manually:
-
-- To unzip the binaries, you can build the target `Unzip Binaries`
-- To initialize the submodules: `git submodule update --init --recursive`

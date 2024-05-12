@@ -176,6 +176,7 @@
 		434B46201A19F642008CF8CF /* OPJSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B461B1A19F631008CF8CF /* OPJSupport.cpp */; };
 		4A4DDD182BEF70B0005BBA89 /* hekaBadge.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4A4DDD162BEF70B0005BBA89 /* hekaBadge.icns */; };
 		4A4DDD192BEF70B0005BBA89 /* heka.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4A4DDD172BEF70B0005BBA89 /* heka.icns */; };
+		4A4DDD872BF1205B005BBA89 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A4DDD862BF1205B005BBA89 /* LICENSE.txt */; };
 		4AF8F58B2BEEDA6200AF4A5D /* log.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AF8F58A2BEEDA6100AF4A5D /* log.h */; };
 		4F00A9E4139A778000ABD529 /* CPRStretchedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00A9E3139A778000ABD529 /* CPRStretchedView.m */; };
 		4F00A9E8139A779200ABD529 /* CPRStretchedView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F00A9E7139A779200ABD529 /* CPRStretchedView.h */; };
@@ -650,8 +651,8 @@
 		84E191FB1369966A008DCFC8 /* WADODownload.h in Headers */ = {isa = PBXBuildFile; fileRef = 84E191F91369966A008DCFC8 /* WADODownload.h */; };
 		84E191FC1369966A008DCFC8 /* WADODownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E191FA1369966A008DCFC8 /* WADODownload.m */; };
 		991B8B5C1BB8B279006AF439 /* O2HMigrationAssistant.png in Resources */ = {isa = PBXBuildFile; fileRef = 991B8B5B1BB8B279006AF439 /* O2HMigrationAssistant.png */; };
-		992335882009A75A000E10BA /* Horos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0F3A2C1046BD2B004129DD /* Horos.framework */; };
-		992335892009A75A000E10BA /* Horos.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AB0F3A2C1046BD2B004129DD /* Horos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		992335882009A75A000E10BA /* heka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0F3A2C1046BD2B004129DD /* heka.framework */; };
+		992335892009A75A000E10BA /* heka.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AB0F3A2C1046BD2B004129DD /* heka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9939F7A91BCB0BF8009FEB69 /* FVTiff.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE73FC808F44724002A395F /* FVTiff.m */; };
 		994FABF11CEBF25800980A15 /* OnOffSwitchControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 994FABED1CEBF25800980A15 /* OnOffSwitchControl.h */; };
 		994FABF21CEBF25800980A15 /* OnOffSwitchControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 994FABEE1CEBF25800980A15 /* OnOffSwitchControl.m */; };
@@ -682,7 +683,7 @@
 		9966BCB51CEB5BA50086A8D7 /* osirixplugin.icns in Resources */ = {isa = PBXBuildFile; fileRef = 9966BCB41CEB5BA50086A8D7 /* osirixplugin.icns */; };
 		998309111BB62D4100CAB197 /* JRSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 9983090F1BB62D4100CAB197 /* JRSwizzle.h */; };
 		998309121BB62D4100CAB197 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 998309101BB62D4100CAB197 /* JRSwizzle.m */; };
-		998B52E21AE0890300D317CF /* Horos.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 998B52E11AE0890300D317CF /* Horos.sdef */; };
+		998B52E21AE0890300D317CF /* heka.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 998B52E11AE0890300D317CF /* heka.sdef */; };
 		999B0B631BB70F0800AF018A /* O2HMigrationAssistant.h in Headers */ = {isa = PBXBuildFile; fileRef = 999B0B601BB70F0800AF018A /* O2HMigrationAssistant.h */; };
 		999B0B641BB70F0800AF018A /* O2HMigrationAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 999B0B611BB70F0800AF018A /* O2HMigrationAssistant.m */; };
 		999B0B671BB711ED00AF018A /* CurvedArrowGrayLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 999B0B661BB711ED00AF018A /* CurvedArrowGrayLeft.png */; };
@@ -3247,7 +3248,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				992335892009A75A000E10BA /* Horos.framework in Copy Frameworks */,
+				992335892009A75A000E10BA /* heka.framework in Copy Frameworks */,
 				9966A1B51AE0B6EE00F2D81A /* DCM.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -3359,6 +3360,8 @@
 		4A4DDCF52BEF69F7005BBA89 /* TODO.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		4A4DDD162BEF70B0005BBA89 /* hekaBadge.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hekaBadge.icns; sourceTree = "<group>"; };
 		4A4DDD172BEF70B0005BBA89 /* heka.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = heka.icns; sourceTree = "<group>"; };
+		4A4DDD852BF1201A005BBA89 /* INSTALL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = INSTALL.txt; sourceTree = "<group>"; };
+		4A4DDD862BF1205B005BBA89 /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		4AF8F2612BECD6CB00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/iChatHelper.xib; sourceTree = "<group>"; };
 		4AF8F2622BECD6CB00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/3DPosition.xib; sourceTree = "<group>"; };
 		4AF8F2632BECD6CB00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AnonymizationCustomTagPanel.xib; sourceTree = "<group>"; };
@@ -3915,7 +3918,7 @@
 		9966BCB41CEB5BA50086A8D7 /* osirixplugin.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = osirixplugin.icns; sourceTree = "<group>"; };
 		9983090F1BB62D4100CAB197 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
 		998309101BB62D4100CAB197 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSwizzle.m; sourceTree = "<group>"; };
-		998B52E11AE0890300D317CF /* Horos.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Horos.sdef; sourceTree = "<group>"; };
+		998B52E11AE0890300D317CF /* heka.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = heka.sdef; sourceTree = "<group>"; };
 		998B52E31AE0893D00D317CF /* Horos.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Horos.icns; sourceTree = "<group>"; };
 		999B0B601BB70F0800AF018A /* O2HMigrationAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = O2HMigrationAssistant.h; path = Horos.xcodeproj/../O2HMigrationAssistant.h; sourceTree = "<group>"; };
 		999B0B611BB70F0800AF018A /* O2HMigrationAssistant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = O2HMigrationAssistant.m; path = Horos.xcodeproj/../O2HMigrationAssistant.m; sourceTree = "<group>"; };
@@ -4121,7 +4124,7 @@
 		AB0DF7450FD79FEA00A7C57E /* dviface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dviface.h; path = "Binaries/dcmtk-source/dcmpstat/dviface.h"; sourceTree = SOURCE_ROOT; };
 		AB0EA93B056EDC7E004BBDD3 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		AB0F20AB06460F7F0075465D /* Burner.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Burner.icns; sourceTree = "<group>"; };
-		AB0F3A2C1046BD2B004129DD /* Horos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Horos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB0F3A2C1046BD2B004129DD /* heka.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = heka.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB10FA221129302A009EB238 /* PopUpArrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PopUpArrows.png; path = nitrogen/Resources/PopUpArrows.png; sourceTree = SOURCE_ROOT; };
 		AB10FA670B96C95500D74684 /* OsirixDownload.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OsirixDownload.icns; sourceTree = "<group>"; };
 		AB10FA9F11293378009EB238 /* N2Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = N2Debug.h; sourceTree = "<group>"; };
@@ -4302,7 +4305,7 @@
 		AB9693BF0E823E3A00F09EEA /* ROIsAndKeys.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = ROIsAndKeys.tif; sourceTree = "<group>"; };
 		AB9DCD7A09A9C47800AA19E7 /* ReportTemplate.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReportTemplate.rtf; sourceTree = "<group>"; };
 		AB9E05460B30107A00661F7E /* key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = key.png; sourceTree = "<group>"; };
-		ABA71D3F06726B1800335A62 /* Horos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Horos.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABA71D3F06726B1800335A62 /* heka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = heka.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABAA284B058A4F7F00F0601D /* NSFullScreenWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSFullScreenWindow.h; sourceTree = "<group>"; };
 		ABAA284C058A4F7F00F0601D /* NSFullScreenWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFullScreenWindow.m; sourceTree = "<group>"; };
 		ABB218B705CF1E9300D8B619 /* WaitRendering.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WaitRendering.h; sourceTree = "<group>"; };
@@ -5623,7 +5626,7 @@
 				9966A1A51AE09D5100F2D81A /* CoreMedia.framework in Frameworks */,
 				9966A1A31AE09D4800F2D81A /* AVFoundation.framework in Frameworks */,
 				9966A1A11AE09D3F00F2D81A /* AddressBook.framework in Frameworks */,
-				992335882009A75A000E10BA /* Horos.framework in Frameworks */,
+				992335882009A75A000E10BA /* heka.framework in Frameworks */,
 				AB28B48805B7998800A9906C /* AppKit.framework in Frameworks */,
 				AB28B48A05B7998A00A9906C /* AGL.framework in Frameworks */,
 				AB28B48B05B7998A00A9906C /* OpenGL.framework in Frameworks */,
@@ -5742,10 +5745,10 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ABA71D3F06726B1800335A62 /* Horos.app */,
+				ABA71D3F06726B1800335A62 /* heka.app */,
 				AB724FF60ADE6ECB00A212A0 /* Decompress */,
 				844719AF0FD8EF50003BFDF8 /* DCM.framework */,
-				AB0F3A2C1046BD2B004129DD /* Horos.framework */,
+				AB0F3A2C1046BD2B004129DD /* heka.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5753,6 +5756,8 @@
 		29B97314FDCFA39411CA2CEA /* OsiriX */ = {
 			isa = PBXGroup;
 			children = (
+				4A4DDD862BF1205B005BBA89 /* LICENSE.txt */,
+				4A4DDD852BF1201A005BBA89 /* INSTALL.txt */,
 				4A4DDCF52BEF69F7005BBA89 /* TODO.txt */,
 				4AF8F5892BEEDA3B00AF4A5D /* heka */,
 				F3EFB87A2895825C0012A622 /* README.md */,
@@ -6279,7 +6284,7 @@
 				CE3F993E0C84724B00CB38F1 /* XMLViewer.xib */,
 				71E6C0871FB5984200FF75B6 /* CLUTs */,
 				CE286C100964196C001A4573 /* Localizable.strings */,
-				998B52E11AE0890300D317CF /* Horos.sdef */,
+				998B52E11AE0890300D317CF /* heka.sdef */,
 				B7CDAC730AB3003200068D70 /* PAGES */,
 			);
 			path = Resources;
@@ -9919,12 +9924,12 @@
 			);
 			name = API;
 			productName = "OsiriXHeaders Framework";
-			productReference = AB0F3A2C1046BD2B004129DD /* Horos.framework */;
+			productReference = AB0F3A2C1046BD2B004129DD /* heka.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		AB28B42E05B7921E00A9906C /* Horos */ = {
+		AB28B42E05B7921E00A9906C /* heka */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7E76BEC6085757B70073649A /* Build configuration list for PBXNativeTarget "Horos" */;
+			buildConfigurationList = 7E76BEC6085757B70073649A /* Build configuration list for PBXNativeTarget "heka" */;
 			buildPhases = (
 				AB28B42A05B7921E00A9906C /* Headers */,
 				AB28B42B05B7921E00A9906C /* Resources */,
@@ -9954,9 +9959,9 @@
 				71C99E9B1D19A7FD00208F3B /* PBXTargetDependency */,
 				71C99EA11D19A80A00208F3B /* PBXTargetDependency */,
 			);
-			name = Horos;
+			name = heka;
 			productName = Deployment;
-			productReference = ABA71D3F06726B1800335A62 /* Horos.app */;
+			productReference = ABA71D3F06726B1800335A62 /* heka.app */;
 			productType = "com.apple.product-type.application";
 		};
 		AB724F300ADE6ECB00A212A0 /* Decompress */ = {
@@ -10026,7 +10031,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7E76BED8085757B70073649A /* Build configuration list for PBXProject "Horos" */;
+			buildConfigurationList = 7E76BED8085757B70073649A /* Build configuration list for PBXProject "heka" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 1;
@@ -10041,7 +10046,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AB28B42E05B7921E00A9906C /* Horos */,
+				AB28B42E05B7921E00A9906C /* heka */,
 				7E0B3A3E067526CD00908593 /* DCM */,
 				AB0F3A2B1046BD2B004129DD /* API */,
 				AB724F300ADE6ECB00A212A0 /* Decompress */,
@@ -10390,10 +10395,11 @@
 				ABB7ADC7148CDDF2007D3C3F /* 2DMPRhorizontalPosition.tif in Resources */,
 				ABB7ADC9148CDDF2007D3C3F /* 2DMPRnormalPosition.tif in Resources */,
 				ABB7ADCB148CDDF2007D3C3F /* 2DMPRverticalPosition.tif in Resources */,
-				998B52E21AE0890300D317CF /* Horos.sdef in Resources */,
+				998B52E21AE0890300D317CF /* heka.sdef in Resources */,
 				CE114AC417F9568600CB4ED7 /* RTStructIcon.jpg in Resources */,
 				71512E99152349E500B87012 /* DiscMountedAskTheUserDialog.xib in Resources */,
 				CE2BFE57153B177C00037546 /* iPad.png in Resources */,
+				4A4DDD872BF1205B005BBA89 /* LICENSE.txt in Resources */,
 				71CE3C19157F489C00AC0112 /* List.pdf in Resources */,
 				99529DF81E0DA8E70045981E /* Horos Report.pages09.pages in Resources */,
 				CEA4F07515AEA5FE009584C7 /* Cloud.png in Resources */,
@@ -13286,7 +13292,7 @@
 					"-lCharLS",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.opendicom.heka;
-				PRODUCT_NAME = Horos;
+				PRODUCT_NAME = heka;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = NO;
 				SYSTEM_HEADER_SEARCH_PATHS = "$CONFIGURATION_TEMP_DIR/Grok.build/Install/include $CONFIGURATION_TEMP_DIR/GDCM.build/Install/include $CONFIGURATION_TEMP_DIR/OpenSSL.build/Install/include $CONFIGURATION_TEMP_DIR/CharLS.build/Install/include $CONFIGURATION_TEMP_DIR/ITK.build/Install/include $CONFIGURATION_TEMP_DIR/VTK.build/Install/include";
@@ -13384,7 +13390,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_CFLAGS = "-fvisibility=default";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_PREFIX).api";
-				PRODUCT_NAME = Horos;
+				PRODUCT_NAME = heka;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
@@ -13598,7 +13604,7 @@
 					"-lCharLS",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.opendicom.heka;
-				PRODUCT_NAME = Horos;
+				PRODUCT_NAME = heka;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = NO;
 				SYSTEM_HEADER_SEARCH_PATHS = "$CONFIGURATION_TEMP_DIR/Grok.build/Install/include $CONFIGURATION_TEMP_DIR/GDCM.build/Install/include $CONFIGURATION_TEMP_DIR/OpenSSL.build/Install/include $CONFIGURATION_TEMP_DIR/CharLS.build/Install/include $CONFIGURATION_TEMP_DIR/ITK.build/Install/include $CONFIGURATION_TEMP_DIR/VTK.build/Install/include";
@@ -13686,7 +13692,7 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				OTHER_CFLAGS = "-fvisibility=default";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_PREFIX).api";
-				PRODUCT_NAME = Horos;
+				PRODUCT_NAME = heka;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -13817,7 +13823,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7E76BEC6085757B70073649A /* Build configuration list for PBXNativeTarget "Horos" */ = {
+		7E76BEC6085757B70073649A /* Build configuration list for PBXNativeTarget "heka" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E76BEC7085757B70073649A /* Debug */,
@@ -13826,7 +13832,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7E76BED8085757B70073649A /* Build configuration list for PBXProject "Horos" */ = {
+		7E76BED8085757B70073649A /* Build configuration list for PBXProject "heka" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7E76BED9085757B70073649A /* Debug */,
