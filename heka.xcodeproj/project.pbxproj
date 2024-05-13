@@ -5595,7 +5595,7 @@
 		F3A24302289570ED00E2547B /* Changelog.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Changelog.md; sourceTree = "<group>"; };
 		F3C3F0702893A429004B2F61 /* Horos.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Horos.xcconfig; path = Horos/Horos.xcconfig; sourceTree = "<group>"; };
 		F3E3E6CA289527220037A247 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		F3EFB87A2895825C0012A622 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F3EFB87A2895825C0012A622 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -5760,7 +5760,7 @@
 				4A4DDD852BF1201A005BBA89 /* INSTALL.txt */,
 				4A4DDCF52BEF69F7005BBA89 /* TODO.txt */,
 				4AF8F5892BEEDA3B00AF4A5D /* heka */,
-				F3EFB87A2895825C0012A622 /* README.md */,
+				F3EFB87A2895825C0012A622 /* README.txt */,
 				F3A24302289570ED00E2547B /* Changelog.md */,
 				F3C3F0702893A429004B2F61 /* Horos.xcconfig */,
 				71C99EA41D1A7E9F00208F3B /* Info.plist */,
