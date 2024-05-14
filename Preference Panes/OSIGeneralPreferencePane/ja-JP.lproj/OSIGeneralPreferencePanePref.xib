@@ -39,7 +39,6 @@
                                     </buttonCell>
                                     <connections>
                                         <binding destination="167" name="value" keyPath="values.AUTHENTICATION" id="343"/>
-                                        <binding destination="167" name="hidden" keyPath="values.MACAPPSTORE" id="391"/>
                                     </connections>
                                 </button>
                                 <button verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="341">
@@ -83,7 +82,6 @@
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
                                     <connections>
-                                        <binding destination="167" name="hidden" keyPath="values.MACAPPSTORE" id="538"/>
                                         <binding destination="167" name="value" keyPath="values.SyncPreferencesFromURL" id="552"/>
                                     </connections>
                                 </button>

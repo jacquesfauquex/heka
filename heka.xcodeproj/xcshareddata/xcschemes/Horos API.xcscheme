@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AB0F3A2B1046BD2B004129DD"
-               BuildableName = "Horos.framework"
+               BuildableName = "heka.framework"
                BlueprintName = "API"
                ReferencedContainer = "container:heka.xcodeproj">
             </BuildableReference>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AB0F3A2B1046BD2B004129DD"
-            BuildableName = "Horos.framework"
+            BuildableName = "heka.framework"
             BlueprintName = "API"
             ReferencedContainer = "container:heka.xcodeproj">
          </BuildableReference>
@@ -60,7 +60,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AB0F3A2B1046BD2B004129DD"
-            BuildableName = "Horos.framework"
+            BuildableName = "heka.framework"
             BlueprintName = "API"
             ReferencedContainer = "container:heka.xcodeproj">
          </BuildableReference>

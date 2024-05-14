@@ -195,14 +195,6 @@ extern AppController* OsiriX;
 //- (IBAction)toggleActivityWindow:(id)sender;
 
 
-//===============HELP==========================
-- (IBAction) openHorosWebPage: (id) sender;
-- (IBAction) help: (id) sender;
-- (IBAction) openHorosSupport: (id) sender;
-- (IBAction) openCommunityPage: (id) sender;
-- (IBAction) openBugReportPage:(id)sender;
-- (IBAction) sendEmail: (id) sender;
-- (IBAction) osirix64bit: (id) sender;
 //=============================================
 
 - (IBAction) killAllStoreSCU:(id) sender;

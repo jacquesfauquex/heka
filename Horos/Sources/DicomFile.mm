@@ -38,7 +38,6 @@
 #include <stdio.h>
 
 #include "options.h"
-#include "url.h"
 #import "DCMUIDs.h"
 
 #include "FVTiff.h"
@@ -584,7 +583,7 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
         else	// FOR THE SAFEDBREBUILD ! Shell tool
         {
             NSMutableDictionary	*dict = [DefaultsOsiriX getDefaults];
-            [dict addEntriesFromDictionary: [[NSUserDefaults standardUserDefaults] persistentDomainForName:@BUNDLE_IDENTIFIER]];
+            [dict addEntriesFromDictionary: [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"heka.opendicom.com"]];
             
             DEFAULTSSET = YES;
             

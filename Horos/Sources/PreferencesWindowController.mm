@@ -50,8 +50,6 @@
 #import <Foundation/NSObjCRuntime.h>
 #include <algorithm>
 
-#include "url.h"
-
 //static NSMutableDictionary *paneBundles = nil;
 
 @interface PreferencesWindowController (Dummy)

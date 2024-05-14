@@ -47,7 +47,6 @@
 #import "NSMutableDictionary+N2.h"
 #import "PreferencesWindowController.h"
 #import "N2Debug.h"
-#import "url.h"
 #import "NSString+SymlinksAndAliases.h"
 
 static NSMutableDictionary		*plugins = nil, *pluginsDict = nil, *fileFormatPlugins = nil;
@@ -989,7 +988,6 @@ BOOL gPluginsAlertAlreadyDisplayed = NO;
 
 -(void) noPlugins:(id) sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_PLUGINS]];
 }
 
 
@@ -1608,133 +1606,6 @@ NSInteger sortPluginArray(id plugin1, id plugin2, void *context)
 	return [NSArray arrayWithObjects:NSLocalizedString(@"Current user", nil),
                                      NSLocalizedString(@"All users", nil),
                                      NSLocalizedString(@"Horos bundle", nil), nil];
-}
-
-
-#pragma mark -
-#pragma mark auto update
-
-- (NSArray*)checkForHorosPluginsUpdates:(id)sender
-{
-    NSMutableArray *pluginsToUpdate = [NSMutableArray array];
-    
-    
-    NSURL *url = [NSURL URLWithString:HOROS_PLUGIN_LIST_URL];
-    
-    NSMutableArray *onlinePlugins = [NSMutableArray arrayWithContentsOfURL:url];
-    
-    if (url == nil || onlinePlugins == nil || [onlinePlugins count] <= 0)
-    {
-        url = [NSURL URLWithString:HOROS_PLUGIN_LIST_ALT_URL];
-        
-        onlinePlugins = [NSMutableArray arrayWithContentsOfURL:url];
-    }
-    
-    if (url && onlinePlugins && [onlinePlugins count] > 0)
-    {
-        NSArray *installedPlugins = [PluginManager pluginsList];
-        
-        for (NSDictionary *installedPlugin in installedPlugins)
-        {
-            NSString *pluginName = [installedPlugin valueForKey:@"name"];
-            
-            NSDictionary *onlinePlugin = nil;
-            for (NSDictionary *plugin in onlinePlugins)
-            {
-                NSString *name = [[[plugin valueForKey:@"download_url"] lastPathComponent] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                name = [name stringByDeletingPathExtension]; // removes the .zip extension
-                name = [name stringByDeletingPathExtension]; // removes the .horosplugin
-                
-                if([pluginName isEqualToString:name])
-                {
-                    onlinePlugin = plugin;
-                    break;
-                }
-            }
-            
-            if( onlinePlugin)
-            {
-                NSString *currVersion = [installedPlugin objectForKey:@"version"];
-                NSString *onlineVersion = [onlinePlugin objectForKey:@"version"];
-                
-                if(currVersion && onlineVersion && [currVersion length] > 0 && [currVersion length] > 0)
-                {
-                    if( [currVersion isEqualToString:onlineVersion] == NO && [PluginManager compareVersion: currVersion withVersion: onlineVersion] < 0)
-                    {
-                        NSLog( @"PLUGIN UPDATE NEEDED -------> current vers: %@ versus online vers: %@ - %@", currVersion, onlineVersion, pluginName);
-                        NSMutableDictionary *modifiedOnlinePlugin = [NSMutableDictionary dictionaryWithDictionary:onlinePlugin];
-                        [modifiedOnlinePlugin setObject:pluginName forKey:@"name"];
-                        [pluginsToUpdate addObject:modifiedOnlinePlugin];
-                    }
-                }
-                [onlinePlugins removeObject:onlinePlugin];
-            }
-        }
-    }
-    
-    return pluginsToUpdate;
-}
-
-
-- (NSArray*) checkForOsiriXPluginsUpdates:(id)sender
-{
-    NSMutableArray *pluginsToUpdate = [NSMutableArray array];
-    
-    
-    NSURL *url = [NSURL URLWithString:OSIRIX_PLUGIN_LIST_URL];
-    
-    NSMutableArray *onlinePlugins = [NSMutableArray arrayWithContentsOfURL:url];
-    
-    if (url == nil || onlinePlugins == nil || [onlinePlugins count] <= 0)
-    {
-        url = [NSURL URLWithString:OSIRIX_PLUGIN_LIST_ALT_URL];
-        
-        onlinePlugins = [NSMutableArray arrayWithContentsOfURL:url];
-    }
-    
-    if (url && onlinePlugins && [onlinePlugins count] > 0)
-    {
-        NSArray *installedPlugins = [PluginManager pluginsList];
-        
-        for (NSDictionary *installedPlugin in installedPlugins)
-        {
-            NSString *pluginName = [installedPlugin valueForKey:@"name"];
-            
-            NSDictionary *onlinePlugin = nil;
-            for (NSDictionary *plugin in onlinePlugins)
-            {
-                NSString *name = [[[plugin valueForKey:@"download_url"] lastPathComponent] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                name = [name stringByDeletingPathExtension]; // removes the .zip extension
-                name = [name stringByDeletingPathExtension]; // removes the .osirixplugin extension
-                
-                if([pluginName isEqualToString:name])
-                {
-                    onlinePlugin = plugin;
-                    break;
-                }
-            }
-            
-            if( onlinePlugin)
-            {
-                NSString *currVersion = [installedPlugin objectForKey:@"version"];
-                NSString *onlineVersion = [onlinePlugin objectForKey:@"version"];
-                
-                if(currVersion && onlineVersion && [currVersion length] > 0 && [currVersion length] > 0)
-                {
-                    if( [currVersion isEqualToString:onlineVersion] == NO && [PluginManager compareVersion: currVersion withVersion: onlineVersion] < 0)
-                    {
-                        NSLog( @"PLUGIN UPDATE NEEDED -------> current vers: %@ versus online vers: %@ - %@", currVersion, onlineVersion, pluginName);
-                        NSMutableDictionary *modifiedOnlinePlugin = [NSMutableDictionary dictionaryWithDictionary:onlinePlugin];
-                        [modifiedOnlinePlugin setObject:pluginName forKey:@"name"];
-                        [pluginsToUpdate addObject:modifiedOnlinePlugin];
-                    }
-                }
-                [onlinePlugins removeObject:onlinePlugin];
-            }
-        }
-    }
-    
-    return pluginsToUpdate;
 }
 
 

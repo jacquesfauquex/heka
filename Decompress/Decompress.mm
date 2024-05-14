@@ -74,7 +74,6 @@
 #include "dcmjpls/djencode.h" //JPEG-LS
 
 #include "options.h"
-#include "url.h"
 
 extern "C"
 {
@@ -215,7 +214,7 @@ int main(int argc, const char *argv[])
 		NSInteger fileListFirstItemIndex = 3;
 		
 		NSMutableDictionary* dict = [DefaultsOsiriX getDefaults];
-		[dict addEntriesFromDictionary: [[NSUserDefaults standardUserDefaults] persistentDomainForName:@BUNDLE_IDENTIFIER]];
+		[dict addEntriesFromDictionary: [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"heka.opendicom.com"]];
 		
 		if ([what isEqualToString:@"SettingsPlist"])
 		{

@@ -430,11 +430,6 @@ OSStatus AuthorizationExecuteWithPrivilegesStdErrAndPid (
 //
 -(BOOL)executeCommand:(NSString *)pathToCommand withArgs:(NSArray *)arguments
 {
-    #ifdef MACAPPSTORE
-    NSTask *task = [NSTask launchedTaskWithLaunchPath: pathToCommand arguments: arguments];
-    [task waitUntilExit];
-    return YES;
-    #else
 	char* args[30]; // can only handle 30 arguments to a given command
 	OSStatus err = 0;
 	int i = 0;
@@ -452,8 +447,6 @@ OSStatus AuthorizationExecuteWithPrivilegesStdErrAndPid (
                                                              nil,
                                                              nil,
                                                              &processid);
-        
-//		err = AuthorizationExecuteWithPrivileges(authorizationRef, [pathToCommand UTF8String], 0, NULL, NULL);
 	}
 	else
 	{
@@ -496,7 +489,6 @@ OSStatus AuthorizationExecuteWithPrivilegesStdErrAndPid (
         
 		return YES;
 	}
-    #endif
 }
 
 

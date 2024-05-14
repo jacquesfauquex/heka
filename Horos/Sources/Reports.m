@@ -489,7 +489,6 @@
 
 +(void)checkForWordTemplates
 {
-#ifndef MACAPPSTORE
     @try {
         NSString *path = BrowserController.currentBrowser.database.baseDirPath;
         
@@ -527,7 +526,6 @@
     @catch (NSException *exception) {
         N2LogException( exception);
     }
-#endif
 }
 
 +(NSString*)databaseWordTemplatesDirPath {
@@ -786,8 +784,6 @@ static int Pages5orHigher = -1;
 
 + (void)checkForPagesTemplate;
 {
-#ifndef MACAPPSTORE
-    
 	NSString* templatesDirPath = [Reports databasePagesTemplatesDirPath];
 	
     if ([[NSFileManager defaultManager] fileExistsAtPath:templatesDirPath] == NO)
@@ -797,9 +793,6 @@ static int Pages5orHigher = -1;
     NSString *defaultReport = [templatesDirPath stringByAppendingPathComponent:@"/Horos Basic Report.pages"];
 	if ([[NSFileManager defaultManager] fileExistsAtPath: defaultReport] == NO)
         [[NSFileManager defaultManager] copyItemAtPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/Horos Report.pages"] toPath:defaultReport error:NULL];
-	
-
-#endif
 }
 
 

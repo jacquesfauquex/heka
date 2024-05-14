@@ -158,9 +158,6 @@ static float deg2rad = M_PI / 180.0;
             
             if( succeed == NO)
             {
-                if( NSRunAlertPanel( NSLocalizedString(@"32-bit",nil), NSLocalizedString( @"Cannot compute the high resolution data.\r\rUpgrade to Horos 64-bit or Horos MD to solve this issue.",nil), NSLocalizedString(@"OK", nil), NSLocalizedString(@"Horos 64-bit", nil), nil) == NSAlertAlternateReturn)
-                    [[AppController sharedAppController] osirix64bit: self];
-                
                 [HR_PixList release];
                 HR_PixList = nil;
                 

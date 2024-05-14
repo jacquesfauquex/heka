@@ -37,7 +37,6 @@
 
 #import "OSILocationsPreferencePanePref.h"
 #import "N2Debug.h"
-#import "url.h"
 
 //#import "DDKeychain.h"
 
@@ -930,13 +929,6 @@
 	else
 	{
 		NSInteger clickedButton = NSRunCriticalAlertPanel( NSLocalizedString( @"No Valid Certificate", nil), NSLocalizedString( @"Your Keychain does not contain any valid certificate.", nil), NSLocalizedString( @"Help", nil), NSLocalizedString( @"Cancel", nil), nil);
-		
-		if(clickedButton==NSOKButton)
-		{
-			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_DOC_SECURITY]];
-		}
-		
-		return;
 	}
 }
 

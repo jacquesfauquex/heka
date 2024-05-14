@@ -101,8 +101,6 @@
 #import "NSException+N2.h"
 
 
-#import "url.h"
-
 #import "Anonymization.h"
 #import "AnonymizationSavePanelController.h"
 #import "AnonymizationViewController.h"
@@ -12001,12 +11999,6 @@ constrainSplitPosition:(CGFloat)proposedPosition
                     if( memBlockTestPtr[ x] != nil) free( memBlockTestPtr[ x]);
                 }
                 
-                if( notEnoughMemory)
-                {
-                    if( NSRunCriticalAlertPanel( NSLocalizedString(@"32-bit", nil),  NSLocalizedString(@"Cannot load this series.\r\rUpgrade to OsiriX 64-bit or OsiriX MD to solve this issue.", nil), NSLocalizedString(@"OK",nil), NSLocalizedString(@"OsiriX 64-bit", nil), nil) == NSAlertAlternateReturn)
-                        [[AppController sharedAppController] osirix64bit: self];
-                }
-                
                 free( memBlockTestPtr);
                 fVolumePtr = nil;
             }
@@ -13326,14 +13318,6 @@ static NSArray*	openSubSeriesArray = nil;
     }
     else
     {
-        static BOOL firstTimeNotEnoughMemory = YES;
-        
-        if( firstTimeNotEnoughMemory)
-        {
-            firstTimeNotEnoughMemory = NO;
-            [[AppController sharedAppController] osirix64bit: nil];
-        }
-        
         [leftIcon setImage: [NSImage imageNamed: @"error"]];
         [rightIcon setImage: [NSImage imageNamed: @"error"]];
         
@@ -14896,15 +14880,9 @@ static NSArray*	openSubSeriesArray = nil;
     NSMenu *mainMenu = [[NSApplication sharedApplication] mainMenu];
     NSMenuItem *helpItem = [mainMenu addItemWithTitle:NSLocalizedString(@"Help", nil) action:nil keyEquivalent:@""];
     NSMenu *helpMenu = [[NSMenu allocWithZone: [NSMenu menuZone]] initWithTitle: NSLocalizedString(@"Help", nil)];
-    [helpItem setSubmenu:helpMenu];
-    
+    //[helpItem setSubmenu:helpMenu];
     //[helpMenu addItemWithTitle: NSLocalizedString(@"TBD", nil) action: @selector(help:) keyEquivalent: @""];
-    [helpMenu addItemWithTitle: NSLocalizedString(@"Professional support", nil) action: @selector(openHorosSupport:) keyEquivalent: @""];
-    [helpMenu addItemWithTitle: NSLocalizedString(@"Community support", nil) action: @selector(openCommunityPage:) keyEquivalent: @""];
-    [helpMenu addItem: [NSMenuItem separatorItem]];
-    [helpMenu addItemWithTitle: NSLocalizedString(@"Report a bug", nil) action: @selector(openBugReportPage:) keyEquivalent: @""];
     //[helpMenu addItem: [NSMenuItem separatorItem]];
-    //[helpMenu addItemWithTitle: NSLocalizedString(@"Send an email to Horos support", nil) action: @selector(sendEmail:) keyEquivalent: @""];
     
     [helpMenu release];
 }

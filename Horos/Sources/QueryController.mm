@@ -75,8 +75,6 @@
 #define INCLUDE_CSTDIO
 #include "ofstdinc.h"
 
-#include "url.h"
-
 static NSString *PatientName = @"PatientsName";
 static NSString *PatientID = @"PatientID";
 static NSString *AccessionNumber = @"AccessionNumber";

@@ -65,7 +65,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#import "url.h"
 #include <OpenJPEG/opj_config.h>
 #define BUILTIN_DCMTK YES
 
@@ -1000,53 +999,8 @@ void exceptionHandler(NSException *exception)
 	[[QueryController currentAutoQueryController] refreshAutoQR: sender];
 }
 
-//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-#pragma mark-
 
--(IBAction)openHorosWebPage:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_WEB_PAGE]];
-}
-
--(IBAction)help:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_LEARNING]];
-}
-
--(IBAction)openHorosSupport:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_SUPPORT_PAGE]];
-}
-
--(IBAction)openCommunityPage:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_COMMUNITY]];
-}
-
--(IBAction)openBugReportPage:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_BUG_REPORT_PAGE]];
-}
-
--(IBAction)sendEmail:(id)sender
-{
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"mailto:"URL_EMAIL]];
-}
-
--(IBAction) osirix64bit:(id)sender
-{
-    if( sender)
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_VIEWER@"/Horos-64bit.html"]];
-    else
-    {
-        NSArray* urls = [NSArray arrayWithObject: [NSURL URLWithString:URL_HOROS_VIEWER@"/Horos-64bit.html"]];
-        
-        [[NSWorkspace sharedWorkspace] openURLs:urls withAppBundleIdentifier: nil options: NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor: nil launchIdentifiers: nil];
-    }
-}
-
-//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 #pragma mark-
 
@@ -2628,23 +2582,7 @@ static BOOL initialized = NO;
 				NSLog( @"**** DEBUG MODE ****");
 				#endif
 				
-			//	if( [[NSCalendarDate dateWithYear:2006 month:6 day:2 hour:12 minute:0 second:0 timeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]] timeIntervalSinceNow] < 0)
-			//	{
-			//		NSRunCriticalAlertPanel(@"Update needed!", @"This version of Horos is outdated. Please download the latest version from Horos web site!", @"OK", nil, nil);
-			//		[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_VIEWER]];
-			//		exit(0);
-			//	}
-					
-				//	switch( NSRunInformationalAlertPanel(@"Horos", @"Thank you for using Horos!\rWe need your help! Send us comments, bugs and ideas!\r\rI need supporting emails to prove utility of Horos!\r\rThanks!", @"Continue", @"Send an email", @"Web Site"))
-				//	{
-				//		case 0:
-				//			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"mailto:horos@horosproject.org?subject=Horos"]];
-				//		break;
-				//		
-				//		case -1:
-				//			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_VIEWER]];
-				//		break;
-				//	}
+
 				
 				// ** REGISTER DEFAULTS DICTIONARY
                 
@@ -2667,7 +2605,6 @@ static BOOL initialized = NO;
                 
                 
                 
-//				[[NSUserDefaults standardUserDefaults] addSuiteNamed: @BUNDLE_IDENTIFIER]; // Backward compatibility
                 [[NSUserDefaults standardUserDefaults] setInteger:200 forKey:@"NSInitialToolTipDelay"];
                 [[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"DontUseUndoQueueForROIs"];
                 [[NSUserDefaults standardUserDefaults] setInteger: 20 forKey: @"UndoQueueSize"];
@@ -2696,20 +2633,8 @@ static BOOL initialized = NO;
 				if( [[NSUserDefaults standardUserDefaults] objectForKey: @"copyHideListenerError"])
 					[[NSUserDefaults standardUserDefaults] setBool: [[NSUserDefaults standardUserDefaults] boolForKey: @"copyHideListenerError"] forKey: @"hideListenerError"];
 				
-				#ifdef MACAPPSTORE
-				[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MACAPPSTORE"]; // Also modify in DefaultsOsiriX.m
-				[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"AUTHENTICATION"];
-				[[NSUserDefaults standardUserDefaults] setObject: NSLocalizedString( @"(~/Library/Application Support/Horos App/)", nil) forKey:@"DefaultDatabasePath"];
-				#else
-				[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"MACAPPSTORE"]; // Also modify in DefaultsOsiriX.m
-				[[NSUserDefaults standardUserDefaults] setObject: NSLocalizedString( @"(Current User Documents folder)", nil) forKey:@"DefaultDatabasePath"];
-				#endif
 				
-				#ifdef __LP64__
 				[[NSUserDefaults standardUserDefaults] setBool:YES forKey: @"LP64bit"];
-				#else
-				[[NSUserDefaults standardUserDefaults] setBool:NO forKey: @"LP64bit"];
-				#endif
                 
 //                [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"allow_qr_name"];
 //                [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"allow_qr_id"];
@@ -3118,32 +3043,11 @@ static BOOL initialized = NO;
     
 
     
-    // Remove PluginManager items...
-    #ifdef MACAPPSTORE
-    NSMenu *pluginsMenu = [filtersMenu supermenu];
-    
-    [pluginsMenu removeItemAtIndex: [pluginsMenu numberOfItems]-1];
-    [pluginsMenu removeItemAtIndex: [pluginsMenu numberOfItems]-1];
-    #endif
 	
 	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"hideListenerError"]) // Server mode
 		[[[BrowserController currentBrowser] window] orderOut: self];
 
-#ifdef OSIRIX_LIGHT
-	@try
-	{
-		int button = NSRunAlertPanel( NSLocalizedString( @"Horos Lite", nil), NSLocalizedString( @"This is the Lite version of Horos: many functions are not available. You can download the full version of Horos on the Internet.", nil), NSLocalizedString( @"Continue", nil), NSLocalizedString( @"Download", nil), nil);
-	
-		if (NSCancelButton == button)
-			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_VIEWER]];
-	}
-	@catch (NSException * e)
-	{
-		N2LogExceptionWithStackTrace(e);
-		exit( 0);
-	}
-	
-#endif
+
 	
 	
 //	NSString *source = [NSString stringWithContentsOfFile: [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/dicom.dic"]];
@@ -3293,7 +3197,7 @@ static BOOL initialized = NO;
 	
 	NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithDictionary: dict];
 	
-	NSDictionary *handlerForOsiriX = [NSDictionary dictionaryWithObjectsAndKeys: @BUNDLE_IDENTIFIER, @"LSHandlerRoleAll", @"dicom", @"LSHandlerURLScheme", nil];
+	NSDictionary *handlerForOsiriX = [NSDictionary dictionaryWithObjectsAndKeys: @"heka.opendicom.com", @"LSHandlerRoleAll", @"dicom", @"LSHandlerURLScheme", nil];
 	
 	[mutableDict setObject: [[dict objectForKey: @"LSHandlers"] arrayByAddingObject: handlerForOsiriX] forKey: @"LSHandlers"];
 	
@@ -3799,31 +3703,6 @@ static BOOL initialized = NO;
 	if( [msg isEqualToString:@"LISTENER"])
 	{
 		NSRunAlertPanel( NSLocalizedString( @"DICOM Listener Error", nil), NSLocalizedString( @"Horos listener cannot start. Is the Port valid? Is there another process using this Port?\r\rSee Listener - Preferences.", nil), NSLocalizedString( @"OK", nil), nil, nil);
-	}
-	
-	if( [msg isEqualToString:@"UPTODATE"])
-	{
-		NSRunAlertPanel( NSLocalizedString( @"Horos is up-to-date", nil), NSLocalizedString( @"You have the most recent version of Horos.", nil), NSLocalizedString( @"OK", nil), nil, nil);
-	}
-	
-	if( [msg isEqualToString:@"ERROR"])
-	{
-		NSRunAlertPanel( NSLocalizedString( @"No Internet connection", nil), NSLocalizedString( @"Unable to check latest version available.", nil), NSLocalizedString( @"OK", nil), nil, nil);
-	}
-	
-    if( [msg isEqualToString: @"UPDATECRASH"])
-    {
-        NSRunInformationalAlertPanel(NSLocalizedString(@"Horos crashed", nil), NSLocalizedString(@"Horos crashed... You are running an outdated version of Horos ! This bug is probably corrected in the last version !", nil), NSLocalizedString(@"OK",nil), nil, nil);
-        
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_UPDATE_CRASH]];
-    }
-    
-	if( [msg isEqualToString:@"UPDATE"])
-	{
-		int button = NSRunAlertPanel( NSLocalizedString( @"New Version Available", nil), NSLocalizedString( @"A new version of Horos is available. Would you like to download the new version now?", nil), NSLocalizedString( @"Download", nil), NSLocalizedString( @"Continue", nil), nil);
-		
-		if (NSOKButton == button)
-			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_HOROS_UPDATE]];
 	}
 }
 

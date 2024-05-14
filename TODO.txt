@@ -8,4 +8,6 @@ cannot remove all items of toolbar. Else it desappears
 
 cda not shown in database viewer... transform to pdf ...
 
-metadata pael color letter background
+metadata panel color letter background
+
+add wadors asoc and other plugins

@@ -36,7 +36,6 @@
  ============================================================================*/
 
 #import "DefaultsOsiriX.h"
-#import "PluginManager.h"
 #import "NSUserDefaults+OsiriX.h"
 #import "DCMAbstractSyntaxUID.h"
 #import <AVFoundation/AVFoundation.h>
@@ -49,8 +48,6 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 #include <IOKit/IOKitLib.h>
-
-#import "url.h"
 
 //static BOOL isHcugeCh = NO, isUnigeCh = NO, testIsHugDone = NO, testIsUniDone = NO;
 //static NSString *hostName = @"";
@@ -906,7 +903,7 @@ static NSHost *currentHost = nil;
     [defaultValues setObject:@"1" forKey:@"CFINDCommentsAndStatusSupport"];
     [defaultValues setObject:@"1" forKey:@"restorePasswordWebServer"];
     [defaultValues setObject:@"comment" forKey:@"commentFieldForAutoFill"];
-    [defaultValues setObject:[NSString stringWithFormat:@"%d", syncroRatio] forKey:@"DefaultModeForNonVolumicSeries"];
+    //[defaultValues setObject:[NSString stringWithFormat:@"%d", syncroRatio] forKey:@"DefaultModeForNonVolumicSeries"];
 	[defaultValues setObject:@"2" forKey:@"drawerState"]; // NSDrawerOpenState
     /*
     if( [[NSProcessInfo processInfo] processorCount] >= 4)
@@ -1065,7 +1062,7 @@ static NSHost *currentHost = nil;
 	[defaultValues setObject: @"1" forKey: @"DICOMSENDALLOWED"];
 	[defaultValues setObject: @"14.0" forKey: @"FONTSIZE"];
 	[defaultValues setObject: @"2" forKey: @"REPORTSMODE"];
-	[defaultValues setObject: URL_HOROS_VIEWER@"/internet.dcm" forKey: @"LASTURL"];
+	[defaultValues setObject: @"opendicom.dcm" forKey: @"LASTURL"];
 	[defaultValues setObject: @"0" forKey: @"MAPPERMODEVR"];
 	[defaultValues setObject: @"1" forKey: @"STARTCOUNT"];
 	[defaultValues setObject: @"1" forKey: @"editingLevel"];
@@ -1176,11 +1173,6 @@ static NSHost *currentHost = nil;
     
     [defaultValues setObject:@"1" forKey:@"bringOsiriXToFrontAfterReceivingMessage"];
     
-	#ifdef MACAPPSTORE
-	[defaultValues setObject:@"1" forKey:@"MACAPPSTORE"];
-	#else
-	[defaultValues setObject:@"0" forKey:@"MACAPPSTORE"];
-	#endif
 	
 	[defaultValues setObject: [NSArray arrayWithObjects: [DCMAbstractSyntaxUID MRSpectroscopyStorage], nil] forKey:@"additionalDisplayedStorageSOPClassUIDArray"];
 	

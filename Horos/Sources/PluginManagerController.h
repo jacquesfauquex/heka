@@ -64,7 +64,6 @@
 	IBOutlet NSTabViewItem *installedPluginsTabViewItem, *osirixPluginsTabViewItem, *horosPluginsTabViewItem;
 	
     IBOutlet WebView *osirixPluginWebView, *horosPluginWebView;
-	NSArray *osirixPluginListURLs, *horosPluginListURLs;
     IBOutlet NSPopUpButton *osirixPluginListPopUp, *horosPluginListPopUp;
 	NSString *osirixPluginDownloadURL, *horosPluginDownloadURL;
     BOOL osiriXPluginHorosCompatibility;
@@ -88,25 +87,7 @@
 - (IBAction)loadPlugins:(id)sender;
 - (void)refreshPluginList;
 
-- (NSArray*)availableOsiriXPlugins;
-- (NSArray*)availableHorosPlugins;
-- (void)generateAvailableOsiriXPluginsMenu;
-- (void)generateAvailableHorosPluginsMenu;
-- (void)setOsiriXPluginURL:(NSString*)url;
-- (void)setHorosPluginURL:(NSString*)url;
 - (IBAction) changeOsiriXPluginWebView:(id)sender;
 - (IBAction) changeHorosPluginWebView:(id)sender;
-- (void)setURLforOsiriXPluginWithName:(NSString*)name;
-- (void)setURLforHorosPluginWithName:(NSString*)name;
-- (void)setOsiriXPluginDownloadURL:(NSString*)url;
-- (void)setHorosPluginDownloadURL:(NSString*)url;
-
-- (IBAction) downloadOsiriXPlugin:(id)sender;
-- (IBAction) downloadHorosPlugin:(id)sender;
-
-- (void)installDownloadedPluginAtPath:(NSString*)path;
-- (BOOL)isZippedFileAtPath:(NSString*)path;
-- (BOOL)unZipFileAtPath:(NSString*)path;
-- (void)loadSubmitPluginPage;
 
 @end

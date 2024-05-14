@@ -2286,14 +2286,6 @@ static volatile int numberOfThreadsForRelisce = 0;
         NSRunAlertPanel(NSLocalizedString(@"Data Error", nil), NSLocalizedString(@"This tool works only with 3D data series.", nil), nil, nil, nil);
         return;
     }
-    
-    BOOL executed = [self setOrientation:newOrientationTool];
-    if( executed == NO)
-        {
-            // TODO check/create localizedStrings for first two strings
-            if( NSRunCriticalAlertPanel(@"Error", @"Cannot execute this reslicing.\r\rPlease report this issue in Horos Project Issue Tracker.", NSLocalizedString(@"OK", nil), nil, nil) == NSAlertAlternateReturn)
-                [[AppController sharedAppController] osirix64bit: self];
-        }
 }
 
 - (BOOL) setOrientation: (int) newOrientationTool
@@ -2440,13 +2432,7 @@ static volatile int numberOfThreadsForRelisce = 0;
                 break;
         }
         
-        if( succeed == NO)
-        {
-            if( NSRunCriticalAlertPanel(NSLocalizedString(@"32-bit", nil), NSLocalizedString(@"Cannot execute this reslicing.\r\rUpgrade to OsiriX 64-bit or OsiriX MD to solve this issue.", nil), NSLocalizedString(@"OK", nil), NSLocalizedString(@"OsiriX 64-bit", nil), nil) == NSAlertAlternateReturn)
-                [[AppController sharedAppController] osirix64bit: self];
-        }
-        else
-        {
+        if( succeed == YES)        {
             currentOrientationTool = newOrientationTool;
         }
         
@@ -9411,13 +9397,8 @@ static int avoidReentryRefreshDatabase = 0;
 - (IBAction)resampleDataBy2:(id)sender;
 {
     id waitWindow = [self startWaitWindow: NSLocalizedString( @"Resampling data...", nil)];
-    BOOL isResampled = [self resampleDataBy2];
+    [self resampleDataBy2];
     [self endWaitWindow: waitWindow];
-    if(!isResampled)
-    {
-        if( NSRunAlertPanel(NSLocalizedString(@"32-bit", nil), NSLocalizedString(@"Cannot complete the resampling\r\rUpgrade to OsiriX 64-bit or OsiriX MD to solve this issue.", nil), NSLocalizedString(@"OK", nil), NSLocalizedString(@"OsiriX 64-bit", nil), nil) == NSAlertAlternateReturn)
-            [[AppController sharedAppController] osirix64bit: self];
-    }
 }
 
 - (BOOL)resampleDataBy2;
