@@ -169,7 +169,6 @@ static void  updateRight(vtkObject*, unsigned long eid, void* clientdata, void *
 		display3DPoints = YES;
 		[self load3DPointsDefaultProperties];
 		
-		[self connect2SpaceNavigator];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name: NSWindowWillCloseNotification object: nil];
     }

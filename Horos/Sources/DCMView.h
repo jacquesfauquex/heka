@@ -277,10 +277,7 @@ typedef enum {DCMViewTextAlignLeft, DCMViewTextAlignCenter, DCMViewTextAlignRigh
 	GLString		*showDescriptionInLargeText;
 
     float           previousScalingFactor;
-	
-	//Context for rendering to iChat
-//	NSOpenGLContext *_alternateContext;
-	
+		
 	BOOL			drawing;
 	
 	int				repulsorRadius;
@@ -301,18 +298,6 @@ typedef enum {DCMViewTextAlignLeft, DCMViewTextAlignCenter, DCMViewTextAlignRigh
 	
 	int				resampledBaseAddrSize, blendingResampledBaseAddrSize;
 		
-	// iChat
-//	float			iChatWidth, iChatHeight;
-//	unsigned char*	iChatCursorTextureBuffer;
-//	GLuint			iChatCursorTextureName;
-//	NSSize			iChatCursorImageSize;
-//	NSPoint			iChatCursorHotSpot;
-//	BOOL			iChatDrawing;
-//	GLuint			iChatFontListGL;
-//	NSFont			*iChatFontGL;
-//	long			iChatFontListGLSize[ 256];
-//	NSMutableDictionary	*iChatStringTextureCache;
-//	NSSize			iChatStringSize;
 	NSRect			drawingFrameRect, screenCaptureRect;
 	
 	BOOL			exceptionDisplayed;
@@ -329,8 +314,6 @@ typedef enum {DCMViewTextAlignLeft, DCMViewTextAlignCenter, DCMViewTextAlignRigh
 	BOOL avoidMouseMovedRecursive;
 	BOOL avoidChangeWLWWRecursive;
 	BOOL TextureComputed32bitPipeline;
-    
-//    BOOL iChatRunning;
 	
 	NSImage *loupeImage, *loupeMaskImage;
 	GLuint loupeTextureID, loupeTextureWidth, loupeTextureHeight;
@@ -529,8 +512,6 @@ typedef enum {DCMViewTextAlignLeft, DCMViewTextAlignCenter, DCMViewTextAlignRigh
 - (void) drawRectAnyway:(NSRect)aRect;   // Subclassable, default does nothing.
 - (void) updateImage;
 - (BOOL) shouldPropagate;
-//- (NSPoint) convertFromView2iChat: (NSPoint) a;
-//- (NSPoint) convertFromNSView2iChat: (NSPoint) a;
 - (void) annotMenu:(id) sender;
 - (ROI*) clickInROI: (NSPoint) tempPt;
 - (void) switchShowDescriptionInLarge;
@@ -564,8 +545,6 @@ typedef enum {DCMViewTextAlignLeft, DCMViewTextAlignCenter, DCMViewTextAlignRigh
 +(NSDictionary*) hotKeyDictionary;
 +(NSDictionary*) hotKeyModifiersDictionary;
 
-//iChat
-// New Draw method to allow for IChat Theater
 - (void) drawRect:(NSRect)aRect withContext:(NSOpenGLContext *)ctx;
 - (BOOL)_checkHasChanged:(BOOL)flag;
 

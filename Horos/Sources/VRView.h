@@ -652,9 +652,6 @@ typedef char* VTKStereoVRView;
 
 - (void)recordFlyThru;
 
-// 3DConnexion SpaceNavigator
-- (void)connect2SpaceNavigator;
-void VRSpaceNavigatorMessageHandler(io_connect_t connection, natural_t messageType, void *messageArgument);
 
 #ifdef _STEREO_VISION_
 //Added SilvanWidmer 27-08-09

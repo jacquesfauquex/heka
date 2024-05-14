@@ -99,7 +99,6 @@
 {
     if ( self = [super initWithFrame:frame] )
     {
-		[self connect2SpaceNavigator];
 		
 //		dontUseAutoCropping = YES;
 		

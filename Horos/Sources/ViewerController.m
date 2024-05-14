@@ -3190,13 +3190,6 @@ static volatile int numberOfThreadsForRelisce = 0;
         timer = nil;
     }
     
-    //	if( timeriChat)
-    //    {
-    //        [timeriChat invalidate];
-    //        [timeriChat release];
-    //        timeriChat = nil;
-    //    }
-    
     if(t12BitTimer)
     {
         [t12BitTimer invalidate];
@@ -7607,10 +7600,6 @@ static ViewerController *draggedController = nil;
     }
     
     displayOnlyKeyImages = NO;
-    
-    //	[[IMService notificationCenter] addObserver:self selector:@selector(_stateChanged:) name:IMAVManagerStateChangedNotification object:nil];
-    //	[[IMAVManager sharedAVManager] setVideoDataSource:imageView];
-    //	[[IMAVManager sharedAVManager] setVideoOptimizationOptions:IMVideoOptimizationStills];
     
     [imageView setDrawing: YES];
     

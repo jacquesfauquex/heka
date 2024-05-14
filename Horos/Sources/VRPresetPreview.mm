@@ -385,7 +385,6 @@
 	volume = vtkVolume::New();
     volume->SetProperty( volumeProperty);
 	
-//	[self setEngine: [[NSUserDefaults standardUserDefaults] integerForKey: @"MAPPERMODEVR"]];
 	
 	vtkMatrix4x4	*matrice = vtkMatrix4x4::New();
 	matrice->Element[0][0] = cosines[0];		matrice->Element[1][0] = cosines[1];		matrice->Element[2][0] = cosines[2];		matrice->Element[3][0] = 0;

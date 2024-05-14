@@ -97,7 +97,7 @@
 #include <CoreVideo/CVPixelBuffer.h>
 
 #import <InstantMessage/IMService.h>
-#import <InstantMessage/IMAVManager.h>
+//#import <InstantMessage/IMAVManager.h>
 
 #ifdef _STEREO_VISION_
 // ****************************
@@ -1007,22 +1007,9 @@ public:
 
 - (void) setEngine: (long) newEngine showWait:(BOOL) showWait
 {
-    if( newEngine != 0)
-    {
-        NSRunCriticalAlertPanel( NSLocalizedString(@"GPU Rendering", nil),  NSLocalizedString( @"GPU Rendering requires MacOS 10.7 or higher.", nil), NSLocalizedString( @"OK", nil), nil, nil);
-        newEngine = 0;
-    }
-    
     if( newEngine == 1)
     {
         unsigned long vramMB = [VTKView VRAMSizeForDisplayID: [[[[[self window] screen] deviceDescription] objectForKey: @"NSScreenNumber"] intValue]];
-        
-        //vramMB /= 1024*1024;
-        
-        if( vramMB <= 512)
-        {
-            //NSRunCriticalAlertPanel(NSLocalizedString(@"GPU Rendering", nil),[NSString stringWithFormat: NSLocalizedString( @"Your graphic board has only %d MB of VRAM. Performances will be very limited with large dataset.", nil), vramMB],NSLocalizedString( @"OK", nil),nil,nil);
-        }
     }
     
     [self willChangeValueForKey: @"engine"];
@@ -2057,22 +2044,6 @@ public:
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name: NSWindowWillCloseNotification object: [self window]];
         
         advancedCLUT = NO;
-        
-        
-        
-        //        [[NSUserDefaults standardUserDefaults] setBool: YES forKey: @"InvertViewsColors"];
-        //        if( [[[[NSUserDefaults standardUserDefaults] persistentDomainForName: @"com.apple.CoreGraphics"] objectForKey: @"DisplayUseInvertedPolarity"] boolValue])
-        //        {
-        //            NSView *v = (NSView*) _cocoaRenderWindow->GetWindowId();
-        //
-        //            [v setWantsLayer: YES];
-        //            CIFilter *CIColorInvert = [CIFilter filterWithName:@"CIColorInvert"];
-        //            [CIColorInvert setDefaults];
-        //            v.contentFilters = [NSArray arrayWithObject:CIColorInvert];
-        //        }
-        
-        
-        //        [[IMService notificationCenter] addObserver:self selector:@selector(_iChatStateChanged:) name:IMAVManagerStateChangedNotification object:nil];
     }
     
     return self;
@@ -9118,16 +9089,7 @@ static NSString * const O2PasteboardTypeEventModifierFlags = @"com.opensource.os
 #pragma mark -
 #pragma mark IMAVManager delegate methods.
 
-// Callback from IMAVManager asking what pixel format we'll be providing frames in.
-- (void)getPixelBufferPixelFormat:(OSType *)pixelFormatOut {
-    //	NSLog(@"getPixelBufferPixelFormat");
-    *pixelFormatOut = kCVPixelFormatType_32ARGB;
-}
 
-// This callback is called periodically when we're in the IMAVActive state.
-// We copy (actually, re-render) what's currently on the screen into the provided
-// CVPixelBufferRef.
-//
 // Note that this will be called on a non-main thread.
 - (BOOL) renderIntoPixelBuffer:(CVPixelBufferRef)buffer forTime:(CVTimeStamp*)timeStamp
 {
@@ -9271,15 +9233,9 @@ static NSString * const O2PasteboardTypeEventModifierFlags = @"com.opensource.os
     }
 }
 
-//- (void)_iChatStateChanged:(NSNotification *)aNotification;
-//{
-//	[self setIChatFrame:[[IChatTheatreDelegate sharedDelegate] isIChatTheatreRunning]];
-//}
-
 - (BOOL)becomeFirstResponder
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:OsirixVRViewDidBecomeFirstResponderNotification object:self];
-    [self connect2SpaceNavigator];
     return [super becomeFirstResponder];
 }
 
@@ -9373,204 +9329,5 @@ static NSString * const O2PasteboardTypeEventModifierFlags = @"com.opensource.os
     snCloseEventTimer = nil;
 }
 
-#if USE3DCONNEXION
-- (void)connect2SpaceNavigator;
-{
-    snVRView = self;
-    snStopped = YES;
-    OSErr	error;
-    if(InstallConnexionHandlers != NULL)
-    {
-        // Install message handler and register our client
-        error = InstallConnexionHandlers(VRSpaceNavigatorMessageHandler, nil, nil);
-        
-        // This takes over in our application only
-        snConnexionClientID = RegisterConnexionClient('OsiX', (UInt8*) "\pOsiriX", kConnexionClientModeTakeOver, kConnexionMaskAll);
-    }
-}
 
-void VRSpaceNavigatorMessageHandler(io_connect_t connection, natural_t messageType, void *messageArgument)
-{
-    static ConnexionDeviceState	lastState;
-    ConnexionDeviceState		*state;
-    VRView *vV = (VRView*) snVRView;
-    
-    SInt16 tx, ty, tz, rx, ry, rz, xPos, yPos;
-    float axis_max, speed, rot;
-    
-    BOOL record = NO;
-    
-    switch(messageType)
-    {
-        case kConnexionMsgDeviceState:
-            state = (ConnexionDeviceState*)messageArgument;
-            
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            AbsoluteTime theTime = UpTime();
-#pragma clang diagnostic pop
-            uint64_t t = ((uint64_t*) &theTime)[0];
-            
-            if(t - state->time > 2*1000*1000)
-            {
-                break;
-            }
-            
-            if(state->client == snVRView->snConnexionClientID)
-            {
-                // decipher what command/event is being reported by the driver
-                switch (state->command)
-                {
-                    case kConnexionCmdHandleAxis:
-                        // get the axis movement (names are taken from the SDK documentation)
-                        tx = state->axis[0];
-                        ty = state->axis[1];
-                        tz = state->axis[2];
-                        rx = state->axis[3];
-                        ry = state->axis[4];
-                        rz = state->axis[5];
-                        
-                        // normalization
-                        axis_max = 500.0; // typical value according to the SDK
-                        
-                        // if shift is pressed -> faster movement
-                        BOOL faster;
-                        if([[[NSApplication sharedApplication] currentEvent] modifierFlags] & NSShiftKeyMask)
-                            faster = YES;
-                        else faster = NO;
-                        
-                        // if ctrl is pressed -> record
-                        if([[[NSApplication sharedApplication] currentEvent] modifierFlags] & NSControlKeyMask)
-                            record = YES;
-                        else record = NO;
-                        
-                        if( vV->snCloseEventTimer)
-                        {
-                            [vV->snCloseEventTimer invalidate];
-                            [vV->snCloseEventTimer release];
-                            vV->snCloseEventTimer = nil;
-                        }
-                        
-                        // *** zoom ***
-                        if( vV->projectionMode != 2)
-                        {
-                            speed = 0.2; // zoom speed 0.2 is slow 1.0 is fast
-                            float zoom = ((float)tz/axis_max)*speed +1.0;
-                            
-                            if( zoom < 0.98 || zoom > 1.02)
-                            {
-                                [vV vtkCamera]->Zoom(zoom);
-                                [vV setNeedsDisplay:YES];
-                            }
-                        }
-                        else // endosocpy
-                        {
-                            float distance = [vV vtkCamera]->GetDistance();
-                            float dolly = ((float)tz/axis_max) / 60.;
-                            if(faster) dolly*=3.;
-                            if( dolly < -0.9) dolly = -0.9;
-                            
-                            [vV vtkCamera]->Dolly( 1.0 + dolly);
-                            [vV vtkCamera]->SetDistance( distance);
-                            [vV vtkCamera]->ComputeViewPlaneNormal();
-                            [vV vtkCamera]->OrthogonalizeViewUp();
-                            [vV vtkRenderer]->ResetCameraClippingRange();
-                            [vV setNeedsDisplay:YES];
-                        }
-                        
-                        // *** rotation ***
-                        rot = -(float)rz;
-                        if( vV->projectionMode == 2) rot = (float)rz;
-                        
-                        float rotX, rotY;
-                        rotX = [vV frame].size.width/2.0 + cos(rot/axis_max)*50.0;
-                        rotY = [vV frame].size.height/2.0 + sin(rot/axis_max)*50.0;
-                        [vV vtkCamera]->Roll(rot/axis_max*10.0);
-                        [vV setNeedsDisplay:YES];
-                        
-                        // *** pan ***
-                        if( vV->projectionMode != 2)
-                        {
-                            [vV panX:[vV frame].size.width/2.0+tx*1000.0 Y:[vV frame].size.height/2.0-ty*1000.0];
-                            [vV setNeedsDisplay:YES];
-                        }
-                        // no pan for endoscopy mode
-                        
-                        // *** 3D rotation ***
-                        if( vV->projectionMode != 2)
-                        {
-                            xPos = lastState.axis[4]-(float)ry/axis_max*50.0;
-                            yPos = lastState.axis[3]-(float)rx/axis_max*50.0;
-                            [vV getInteractor]->SetEventInformation((int)xPos, (int)yPos, 0, 0);
-                            if( vV->snStopped)
-                            {
-                                [vV getInteractor]->InvokeEvent(vtkCommand::LeftButtonPressEvent,NULL);
-                                vV->snStopped = NO;
-                            }
-                            else
-                                [vV getInteractor]->InvokeEvent(vtkCommand::MouseMoveEvent, NULL);
-                            state->axis[3] = yPos;
-                            state->axis[4] = xPos;
-                        }
-                        else // endoscopy
-                        {
-                            if( vV->snStopped)
-                            {
-                                [vV getInteractor]->InvokeEvent(vtkCommand::LeftButtonPressEvent,NULL);
-                                vV->snStopped = NO;
-                            }
-                            
-                            [vV vtkCamera]->Yaw((float)ry/axis_max*8.0);
-                            [vV vtkCamera]->Pitch((float)rx/axis_max*8.0);
-                            [vV vtkCamera]->ComputeViewPlaneNormal();
-                            [vV vtkCamera]->OrthogonalizeViewUp();
-                            [vV vtkRenderer]->ResetCameraClippingRange();
-                            [vV computeOrientationText];
-                            [vV setNeedsDisplay:YES];
-                        }
-                        
-                        [[NSNotificationCenter defaultCenter] postNotificationName:OsirixVRCameraDidChangeNotification object:vV userInfo:nil];
-                        [vV computeOrientationText];
-                        
-                        [vV displayLowRes];
-                        
-                        vV->snCloseEventTimer = [[NSTimer scheduledTimerWithTimeInterval:0.1 target:vV selector:@selector(closeEvent:) userInfo:nil repeats:0] retain];
-                        break;
-                        
-                    case kConnexionCmdHandleButtons:
-                        if(state->buttons==0) // buttons released
-                        {
-                            [vV closeEvent:nil];
-                        }
-                        else if(state->buttons==1) // left button pressed
-                        {
-                            if( vV->projectionMode != 2) [vV coView:nil];
-                            else [vV yaw:180.0];
-                            [[NSNotificationCenter defaultCenter] postNotificationName:OsirixVRCameraDidChangeNotification object:vV userInfo:nil];
-                        }
-                        else if(state->buttons==2) // right button pressed
-                        {
-                            if( vV->projectionMode != 2) [vV saView:nil];
-                            else [vV yaw:90.0];
-                            [[NSNotificationCenter defaultCenter] postNotificationName:OsirixVRCameraDidChangeNotification object:vV userInfo:nil];
-                        }
-                        else if(state->buttons==3) // both button are presed
-                        {
-                            if( vV->projectionMode != 2) [vV saViewOpposite:nil];
-                            [[NSNotificationCenter defaultCenter] postNotificationName:OsirixVRCameraDidChangeNotification object:vV userInfo:nil];
-                        }
-                        break;
-                }
-                
-                memcpy( &lastState, state, (long)sizeof(ConnexionDeviceState));
-            }
-            break;
-    }
-    if(record) [vV recordFlyThru];
-}
-#else
-- (void)connect2SpaceNavigator
-{
-}
-#endif
 @end

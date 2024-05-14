@@ -444,9 +444,6 @@ typedef struct renderSurface
 - (void)yaw:(float)degrees;
 - (void)panX:(float)x Y:(float)y;
 
-// 3DConnexion SpaceNavigator
-- (void)connect2SpaceNavigator;
-void SRSpaceNavigatorMessageHandler(io_connect_t connection, natural_t messageType, void *messageArgument);
 #ifdef _STEREO_VISION_
 //Added SilvanWidmer 27-08-09
 - (ToolMode) getTool: (NSEvent*) event;

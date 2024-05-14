@@ -293,7 +293,7 @@ enum
     NSWindow                *StartingWindow;
     NSView                  *contentView;
     
-    NSTimer					*timer, *movieTimer;//, *timeriChat;
+    NSTimer					*timer, *movieTimer;
     NSTimeInterval			lastTime, lastTimeFrame;
 	NSTimeInterval			lastMovieTime;
 	
@@ -858,7 +858,6 @@ enum
 - (void) ActivateBlending:(ViewerController*) bC;
 - (void) setFusionMode:(long) m;
 - (short) curMovieIndex;
-//- (id) findiChatButton;
 - (IBAction) Panel3D:(id) sender;
 - (void) convertPETtoSUV;
 - (IBAction) fullScreenMenu:(id) sender;
