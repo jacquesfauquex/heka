@@ -455,13 +455,6 @@
 	
 	[[[self mainView] window] makeKeyAndOrderFront: self];
     
-    // TODO - It may be appropriate to request user to restart Horos, or upon trying to set a new location warn on iCloud Sync Issue.
-    // This should be done before setting the new path
-    
-    // Workaround (weak)
-    // On Horos initialization this will make Horos to check if local database folder is being synchronized over iCloud
-    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"ICLOUD_DRIVE_SYNC_RISK_USER_IGNORED"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (IBAction) resetDate:(id) sender
@@ -523,13 +516,6 @@
         
         [[[self mainView] window] makeKeyAndOrderFront: self];
        
-        // TODO - It may be appropriate to request user to restart Horos, or upon trying to set a new location warn on iCloud Sync Issue.
-        // This should be done before setting the new path
-        
-        // Workaround (weak)
-        // On Horos initialization this will make Horos to check if local database folder is being synchronized over iCloud
-        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"ICLOUD_DRIVE_SYNC_RISK_USER_IGNORED"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
     }];
     
 }
