@@ -504,7 +504,6 @@
 		71AD676D1FC4256E00A1E2F8 /* Tiling3x2.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71E6C0A81FB59A9000FF75B6 /* Tiling3x2.pdf */; };
 		71AD676E1FC4256E00A1E2F8 /* Tiling3x3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71E6C0A91FB59A9000FF75B6 /* Tiling3x3.pdf */; };
 		71CE3C19157F489C00AC0112 /* List.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 71CE3C18157F489C00AC0112 /* List.pdf */; };
-		71E6C0801FB5943B00FF75B6 /* O2HMigrationAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71E6C0821FB5943B00FF75B6 /* O2HMigrationAssistant.xib */; };
 		71EB83C016DCB7FF00D48646 /* O2DicomPredicateEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 71EB83B216DCB7FF00D48646 /* O2DicomPredicateEditor.h */; };
 		71EB83C116DCB7FF00D48646 /* O2DicomPredicateEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EB83B316DCB7FF00D48646 /* O2DicomPredicateEditor.m */; };
 		71EB83C216DCB7FF00D48646 /* O2DicomPredicateEditorCodeStrings.h in Headers */ = {isa = PBXBuildFile; fileRef = 71EB83B416DCB7FF00D48646 /* O2DicomPredicateEditorCodeStrings.h */; };
@@ -648,7 +647,6 @@
 		84DE8CD311AC227B0029396D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE790A19105D4DE200CE6AAF /* WebKit.framework */; };
 		84E191FB1369966A008DCFC8 /* WADODownload.h in Headers */ = {isa = PBXBuildFile; fileRef = 84E191F91369966A008DCFC8 /* WADODownload.h */; };
 		84E191FC1369966A008DCFC8 /* WADODownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E191FA1369966A008DCFC8 /* WADODownload.m */; };
-		991B8B5C1BB8B279006AF439 /* O2HMigrationAssistant.png in Resources */ = {isa = PBXBuildFile; fileRef = 991B8B5B1BB8B279006AF439 /* O2HMigrationAssistant.png */; };
 		992335882009A75A000E10BA /* heka.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0F3A2C1046BD2B004129DD /* heka.framework */; };
 		992335892009A75A000E10BA /* heka.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = AB0F3A2C1046BD2B004129DD /* heka.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		9939F7A91BCB0BF8009FEB69 /* FVTiff.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE73FC808F44724002A395F /* FVTiff.m */; };
@@ -679,8 +677,6 @@
 		998309111BB62D4100CAB197 /* JRSwizzle.h in Headers */ = {isa = PBXBuildFile; fileRef = 9983090F1BB62D4100CAB197 /* JRSwizzle.h */; };
 		998309121BB62D4100CAB197 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 998309101BB62D4100CAB197 /* JRSwizzle.m */; };
 		998B52E21AE0890300D317CF /* heka.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 998B52E11AE0890300D317CF /* heka.sdef */; };
-		999B0B631BB70F0800AF018A /* O2HMigrationAssistant.h in Headers */ = {isa = PBXBuildFile; fileRef = 999B0B601BB70F0800AF018A /* O2HMigrationAssistant.h */; };
-		999B0B641BB70F0800AF018A /* O2HMigrationAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 999B0B611BB70F0800AF018A /* O2HMigrationAssistant.m */; };
 		999B0B671BB711ED00AF018A /* CurvedArrowGrayLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 999B0B661BB711ED00AF018A /* CurvedArrowGrayLeft.png */; };
 		99C32EEF1CFF78E7001E71F3 /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = AB2C24E10677861300A08910 /* PluginFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0344496143DE4AA003E1AFA /* DCMUSRegion.m in Sources */ = {isa = PBXBuildFile; fileRef = A085E104141E53210072BF0D /* DCMUSRegion.m */; };
@@ -3264,7 +3260,6 @@
 		183C864708563F3A000E6A68 /* SRFlyThruAdapter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SRFlyThruAdapter.m; sourceTree = "<group>"; };
 		183C864808563F3A000E6A68 /* VRFlyThruAdapter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = VRFlyThruAdapter.h; sourceTree = "<group>"; };
 		183C864908563F3A000E6A68 /* VRFlyThruAdapter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = VRFlyThruAdapter.m; sourceTree = "<group>"; };
-		200BBAF320AA3BCA002914C4 /* ja-JP */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "ja-JP"; path = "ja-JP.lproj/O2HMigrationAssistant.xib"; sourceTree = "<group>"; };
 		200BBAF420AA3BCA002914C4 /* ja-JP */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "ja-JP"; path = "ja-JP.lproj/OSIPACSOnDemand.xib"; sourceTree = "<group>"; };
 		200BBAF520AA3BCB002914C4 /* ja-JP */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "ja-JP"; path = "ja-JP.lproj/OSIWebSharingPreferencePanePref.xib"; sourceTree = "<group>"; };
 		200BBAF620AA3BCB002914C4 /* ja-JP */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "ja-JP"; path = "ja-JP.lproj/OSIViewerPreferencePanePref.xib"; sourceTree = "<group>"; };
@@ -3389,7 +3384,6 @@
 		4AF8F28E2BECD6CC00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Wait.xib; sourceTree = "<group>"; };
 		4AF8F28F2BECD6CC00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/WaitRendering.xib; sourceTree = "<group>"; };
 		4AF8F2902BECD6CD00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/XMLViewer.xib; sourceTree = "<group>"; };
-		4AF8F2912BECD6CD00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/O2HMigrationAssistant.xib; sourceTree = "<group>"; };
 		4AF8F2922BECD6CD00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OSIPACSOnDemand.xib; sourceTree = "<group>"; };
 		4AF8F2932BECD6CD00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OSIWebSharingPreferencePanePref.xib; sourceTree = "<group>"; };
 		4AF8F2942BECD6CD00AF4A5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/OSIViewerPreferencePanePref.xib; sourceTree = "<group>"; };
@@ -3871,7 +3865,6 @@
 		84E191FA1369966A008DCFC8 /* WADODownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WADODownload.m; sourceTree = "<group>"; };
 		8B15E1602347CA600010A147 /* Horos.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Horos.entitlements; sourceTree = "<group>"; };
 		953DA3D517A1D194000C4BAC /* WebPortalDB 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WebPortalDB 8.xcdatamodel"; sourceTree = "<group>"; };
-		991B8B5B1BB8B279006AF439 /* O2HMigrationAssistant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = O2HMigrationAssistant.png; sourceTree = "<group>"; };
 		992264F92028CE62004C4995 /* homephone.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = homephone.framework; path = Binaries/homephone.framework; sourceTree = "<group>"; };
 		9923358B2009A7ED000E10BA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		994FABED1CEBF25800980A15 /* OnOffSwitchControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnOffSwitchControl.h; sourceTree = "<group>"; };
@@ -3896,8 +3889,6 @@
 		998309101BB62D4100CAB197 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSwizzle.m; sourceTree = "<group>"; };
 		998B52E11AE0890300D317CF /* heka.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = heka.sdef; sourceTree = "<group>"; };
 		998B52E31AE0893D00D317CF /* Horos.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Horos.icns; sourceTree = "<group>"; };
-		999B0B601BB70F0800AF018A /* O2HMigrationAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = O2HMigrationAssistant.h; path = Horos.xcodeproj/../O2HMigrationAssistant.h; sourceTree = "<group>"; };
-		999B0B611BB70F0800AF018A /* O2HMigrationAssistant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = O2HMigrationAssistant.m; path = Horos.xcodeproj/../O2HMigrationAssistant.m; sourceTree = "<group>"; };
 		999B0B661BB711ED00AF018A /* CurvedArrowGrayLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CurvedArrowGrayLeft.png; sourceTree = "<group>"; };
 		A085E103141E53210072BF0D /* DCMUSRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMUSRegion.h; sourceTree = "<group>"; };
 		A085E104141E53210072BF0D /* DCMUSRegion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMUSRegion.m; sourceTree = "<group>"; };
@@ -6136,7 +6127,6 @@
 				434B461A1A19F4E4008CF8CF /* OpenJPEG */,
 				BFBF3AAF09B6820C00545F5E /* DCMTK */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
-				99B7AAD51BB70E2F00A0605C /* MigrationAssitant */,
 				5997894211B7B3C6002DB107 /* Anonymization */,
 				59BDF10B117EE68F007F1F2C /* Preferences */,
 				592681FB11CF5F5000CFA81F /* Activity */,
@@ -6528,16 +6518,6 @@
 				59F1A4C7104BA5BE009E3215 /* HorosAPI.m */,
 			);
 			path = API;
-			sourceTree = "<group>";
-		};
-		99B7AAD51BB70E2F00A0605C /* MigrationAssitant */ = {
-			isa = PBXGroup;
-			children = (
-				999B0B601BB70F0800AF018A /* O2HMigrationAssistant.h */,
-				999B0B611BB70F0800AF018A /* O2HMigrationAssistant.m */,
-				71E6C0821FB5943B00FF75B6 /* O2HMigrationAssistant.xib */,
-			);
-			name = MigrationAssitant;
 			sourceTree = "<group>";
 		};
 		99BA4CC620A4ACF300B5CD02 /* EmbeddedPlugins */ = {
@@ -7172,7 +7152,6 @@
 			isa = PBXGroup;
 			children = (
 				9966BCB41CEB5BA50086A8D7 /* osirixplugin.icns */,
-				991B8B5B1BB8B279006AF439 /* O2HMigrationAssistant.png */,
 				999B0B661BB711ED00AF018A /* CurvedArrowGrayLeft.png */,
 				9966A1AF1AE09FFE00F2D81A /* Osirix.icns */,
 				718416061654022400180467 /* DownArrowGreyRev.pdf */,
@@ -9243,7 +9222,6 @@
 				BFBF409F09B6828D00545F5E /* jinclude8.h in Headers */,
 				BFBF40A009B6828D00545F5E /* jlossls8.h in Headers */,
 				BFBF40A109B6828D00545F5E /* jlossy8.h in Headers */,
-				999B0B631BB70F0800AF018A /* O2HMigrationAssistant.h in Headers */,
 				BFBF40A409B6828D00545F5E /* jmemsys8.h in Headers */,
 				BFBF40A509B6828D00545F5E /* jmorecfg8.h in Headers */,
 				BFBF40A609B6828D00545F5E /* jpegint8.h in Headers */,
@@ -10268,7 +10246,6 @@
 				A9D4D0490F738BEA00483A3A /* loupe.png in Resources */,
 				A9D4D06D0F73922500483A3A /* loupeMask.png in Resources */,
 				CE1C4EF20FDA6F4600185561 /* nameDictionary.plist in Resources */,
-				991B8B5C1BB8B279006AF439 /* O2HMigrationAssistant.png in Resources */,
 				71AD67681FC4256E00A1E2F8 /* Tiling2x1.pdf in Resources */,
 				CE1C4EF30FDA6F5300185561 /* tagDictionary.plist in Resources */,
 				CED1FD1B1035E9BB0076AB33 /* SetPixelValue.pdf in Resources */,
@@ -10344,7 +10321,6 @@
 				A9701A5C15C958020019EE55 /* burn_iris00.tif in Resources */,
 				71AD67551FC4248100A1E2F8 /* Perfusion.plist in Resources */,
 				A9701A5E15C958020019EE55 /* burn_iris01.tif in Resources */,
-				71E6C0801FB5943B00FF75B6 /* O2HMigrationAssistant.xib in Resources */,
 				A9701A6015C958020019EE55 /* burn_iris02.tif in Resources */,
 				A9701A6215C958020019EE55 /* burn_iris03.tif in Resources */,
 				A9701A6415C958020019EE55 /* burn_iris04.tif in Resources */,
@@ -11465,7 +11441,6 @@
 				BFBF3E8609B6828D00545F5E /* dcdictbi.cc in Sources */,
 				BFBF3E8709B6828D00545F5E /* dcdirrec.cc in Sources */,
 				BFBF3E8909B6828D00545F5E /* dcelem.cc in Sources */,
-				999B0B641BB70F0800AF018A /* O2HMigrationAssistant.m in Sources */,
 				BFBF3E8B09B6828D00545F5E /* dcerror.cc in Sources */,
 				BFBF3E8D09B6828D00545F5E /* dcfilefo.cc in Sources */,
 				BFBF3E8F09B6828D00545F5E /* dchashdi.cc in Sources */,
@@ -12605,16 +12580,6 @@
 			);
 			name = DiscMountedAskTheUserDialog.xib;
 			sourceTree = "<group>";
-		};
-		71E6C0821FB5943B00FF75B6 /* O2HMigrationAssistant.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				200BBAF320AA3BCA002914C4 /* ja-JP */,
-				4AF8F2912BECD6CD00AF4A5D /* Base */,
-			);
-			name = O2HMigrationAssistant.xib;
-			path = Horos/Resources;
-			sourceTree = SOURCE_ROOT;
 		};
 		848327A915ED08F3003BAEEB /* CustomIntervalPanel.xib */ = {
 			isa = PBXVariantGroup;
