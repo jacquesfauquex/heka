@@ -764,7 +764,6 @@
 		A97569581237D132003F00D3 /* PathAssistant.png in Resources */ = {isa = PBXBuildFile; fileRef = A97569571237D132003F00D3 /* PathAssistant.png */; };
 		A977ECAD0CD1F7E500C418D8 /* QRpartiallyInDatabase.tif in Resources */ = {isa = PBXBuildFile; fileRef = A977ECAB0CD1F7E500C418D8 /* QRpartiallyInDatabase.tif */; };
 		A977ECAE0CD1F7E500C418D8 /* QRalreadyInDatabase.tif in Resources */ = {isa = PBXBuildFile; fileRef = A977ECAC0CD1F7E500C418D8 /* QRalreadyInDatabase.tif */; };
-		A97B73980CB380EF00E5348D /* horosplugin.png in Resources */ = {isa = PBXBuildFile; fileRef = A97B73970CB380EF00E5348D /* horosplugin.png */; };
 		A97D4C610CE3459D003FE2E6 /* PieChartImage.h in Headers */ = {isa = PBXBuildFile; fileRef = A97D4C5F0CE3459D003FE2E6 /* PieChartImage.h */; };
 		A97D4C620CE3459D003FE2E6 /* PieChartImage.m in Sources */ = {isa = PBXBuildFile; fileRef = A97D4C600CE3459D003FE2E6 /* PieChartImage.m */; };
 		A987B3E20D5A069200BF89C0 /* Navigator.xib in Resources */ = {isa = PBXBuildFile; fileRef = A987B3DF0D5A069200BF89C0 /* Navigator.xib */; };
@@ -1440,7 +1439,6 @@
 		ABBB64B8063587B200D9531F /* Cropping.pdf in Resources */ = {isa = PBXBuildFile; fileRef = ABBB6486063587B200D9531F /* Cropping.pdf */; };
 		ABBB64BA063587B200D9531F /* DAT.icns in Resources */ = {isa = PBXBuildFile; fileRef = ABBB6488063587B200D9531F /* DAT.icns */; };
 		ABBB64BB063587B200D9531F /* dcm.icns in Resources */ = {isa = PBXBuildFile; fileRef = ABBB6489063587B200D9531F /* dcm.icns */; };
-		ABBB64BF063587B200D9531F /* Logo.tif in Resources */ = {isa = PBXBuildFile; fileRef = ABBB648D063587B200D9531F /* Logo.tif */; };
 		ABBB64C0063587B200D9531F /* MIP.tif in Resources */ = {isa = PBXBuildFile; fileRef = ABBB648E063587B200D9531F /* MIP.tif */; };
 		ABBB64C2063587B200D9531F /* Movie.pdf in Resources */ = {isa = PBXBuildFile; fileRef = ABBB6490063587B200D9531F /* Movie.pdf */; };
 		ABBB64C3063587B200D9531F /* MPR.tif in Resources */ = {isa = PBXBuildFile; fileRef = ABBB6491063587B200D9531F /* MPR.tif */; };
@@ -1485,7 +1483,6 @@
 		ABDEBD6C063D693F005B99B4 /* add.tif in Resources */ = {isa = PBXBuildFile; fileRef = ABDEBD51063D6938005B99B4 /* add.tif */; };
 		ABDEBD6D063D693F005B99B4 /* minus.tif in Resources */ = {isa = PBXBuildFile; fileRef = ABDEBD52063D6938005B99B4 /* minus.tif */; };
 		ABDF5A1D0A1B641F002A353A /* small_sharedSmartAlbum.tif in Resources */ = {isa = PBXBuildFile; fileRef = A9B411C10890496400913770 /* small_sharedSmartAlbum.tif */; };
-		ABE1E8B00649F4150028E2E0 /* iPod.icns in Resources */ = {isa = PBXBuildFile; fileRef = ABE1E8AE0649F4150028E2E0 /* iPod.icns */; };
 		ABE3336B063D624400C8E087 /* QueryFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABE33369063D624400C8E087 /* QueryFilter.h */; };
 		ABE3336C063D624400C8E087 /* QueryFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE3336A063D624400C8E087 /* QueryFilter.m */; };
 		ABE46F910A76410F00327466 /* jaricom.c in Sources */ = {isa = PBXBuildFile; fileRef = BFBF3C1409B6828200545F5E /* jaricom.c */; };
@@ -2407,7 +2404,6 @@
 		BFF5D24109F93B3F0077E16B /* LogManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BFF5D23F09F93B3F0077E16B /* LogManager.mm */; };
 		BFF97D710BDE8BE6008333CF /* ShadingArrayController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFF97D6B0BDE8BE6008333CF /* ShadingArrayController.h */; };
 		BFF97D720BDE8BE6008333CF /* ShadingArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF97D6C0BDE8BE6008333CF /* ShadingArrayController.m */; };
-		CE03A3CC0EA2AE0300951EF4 /* iPhone.tif in Resources */ = {isa = PBXBuildFile; fileRef = CE03A3CB0EA2AE0300951EF4 /* iPhone.tif */; };
 		CE06475210F12DA500551AD9 /* PlayTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = CE06475110F12DA500551AD9 /* PlayTemplate.png */; };
 		CE087B0C0DE9BD6E000E5593 /* GLString.m in Sources */ = {isa = PBXBuildFile; fileRef = CE087B0A0DE9BD6E000E5593 /* GLString.m */; };
 		CE087B0D0DE9BD6E000E5593 /* GLString.h in Headers */ = {isa = PBXBuildFile; fileRef = CE087B0B0DE9BD6E000E5593 /* GLString.h */; };
@@ -2446,7 +2442,6 @@
 		CE286C120964196C001A4573 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE286C100964196C001A4573 /* Localizable.strings */; };
 		CE289B1D0D00AF91004F0A93 /* Mail.scpt in Resources */ = {isa = PBXBuildFile; fileRef = CE289B020D00ADBA004F0A93 /* Mail.scpt */; };
 		CE2AC2681830BEFB00C2B67B /* ThickSlab.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE2AC2661830BEFB00C2B67B /* ThickSlab.xib */; };
-		CE2BFE57153B177C00037546 /* iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = CE2BFE56153B177C00037546 /* iPad.png */; };
 		CE2C82EC0C708B380093C162 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5F14C20B14E12700B309B9 /* CoreVideo.framework */; };
 		CE373AAA173FEBBB009F60AC /* WADOXML.h in Headers */ = {isa = PBXBuildFile; fileRef = CE373AA8173FEBBB009F60AC /* WADOXML.h */; };
 		CE373AAC173FEBBB009F60AC /* WADOXML.m in Sources */ = {isa = PBXBuildFile; fileRef = CE373AA9173FEBBB009F60AC /* WADOXML.m */; };
@@ -3877,12 +3872,10 @@
 		9966A1A61AE09D5D00F2D81A /* DiskArbitration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiskArbitration.framework; path = System/Library/Frameworks/DiskArbitration.framework; sourceTree = SDKROOT; };
 		9966A1A81AE09D6800F2D81A /* InstantMessage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InstantMessage.framework; path = System/Library/Frameworks/InstantMessage.framework; sourceTree = SDKROOT; };
 		9966A1AA1AE09D7C00F2D81A /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
-		9966A1AF1AE09FFE00F2D81A /* Osirix.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Osirix.icns; sourceTree = "<group>"; };
 		9966BCB41CEB5BA50086A8D7 /* osirixplugin.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = osirixplugin.icns; sourceTree = "<group>"; };
 		9983090F1BB62D4100CAB197 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
 		998309101BB62D4100CAB197 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSwizzle.m; sourceTree = "<group>"; };
 		998B52E11AE0890300D317CF /* heka.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = heka.sdef; sourceTree = "<group>"; };
-		998B52E31AE0893D00D317CF /* Horos.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Horos.icns; sourceTree = "<group>"; };
 		999B0B661BB711ED00AF018A /* CurvedArrowGrayLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CurvedArrowGrayLeft.png; sourceTree = "<group>"; };
 		A085E103141E53210072BF0D /* DCMUSRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMUSRegion.h; sourceTree = "<group>"; };
 		A085E104141E53210072BF0D /* DCMUSRegion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMUSRegion.m; sourceTree = "<group>"; };
@@ -3974,7 +3967,6 @@
 		A97569571237D132003F00D3 /* PathAssistant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PathAssistant.png; sourceTree = "<group>"; };
 		A977ECAB0CD1F7E500C418D8 /* QRpartiallyInDatabase.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = QRpartiallyInDatabase.tif; path = DatabaseStates/QRpartiallyInDatabase.tif; sourceTree = "<group>"; };
 		A977ECAC0CD1F7E500C418D8 /* QRalreadyInDatabase.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = QRalreadyInDatabase.tif; path = DatabaseStates/QRalreadyInDatabase.tif; sourceTree = "<group>"; };
-		A97B73970CB380EF00E5348D /* horosplugin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = horosplugin.png; sourceTree = "<group>"; };
 		A97D4C5F0CE3459D003FE2E6 /* PieChartImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieChartImage.h; sourceTree = "<group>"; };
 		A97D4C600CE3459D003FE2E6 /* PieChartImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieChartImage.m; sourceTree = "<group>"; };
 		A98795CC16DB9FD100926023 /* Unit Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Unit Tests-Info.plist"; sourceTree = "<group>"; };
@@ -4288,7 +4280,6 @@
 		ABBB6486063587B200D9531F /* Cropping.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Cropping.pdf; sourceTree = "<group>"; };
 		ABBB6488063587B200D9531F /* DAT.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = DAT.icns; sourceTree = "<group>"; };
 		ABBB6489063587B200D9531F /* dcm.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = dcm.icns; sourceTree = "<group>"; };
-		ABBB648D063587B200D9531F /* Logo.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Logo.tif; sourceTree = "<group>"; };
 		ABBB648E063587B200D9531F /* MIP.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = MIP.tif; sourceTree = "<group>"; };
 		ABBB6490063587B200D9531F /* Movie.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Movie.pdf; sourceTree = "<group>"; };
 		ABBB6491063587B200D9531F /* MPR.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = MPR.tif; sourceTree = "<group>"; };
@@ -4334,7 +4325,6 @@
 		ABDEBD52063D6938005B99B4 /* minus.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = minus.tif; sourceTree = "<group>"; };
 		ABE17661056D2659009C93B5 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
 		ABE17662056D2659009C93B5 /* ViewerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewerController.m; sourceTree = "<group>"; };
-		ABE1E8AE0649F4150028E2E0 /* iPod.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = iPod.icns; sourceTree = "<group>"; };
 		ABE33369063D624400C8E087 /* QueryFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QueryFilter.h; sourceTree = "<group>"; };
 		ABE3336A063D624400C8E087 /* QueryFilter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = QueryFilter.m; sourceTree = "<group>"; };
 		ABEF7E7609A21070006CEC3E /* Reports.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Reports.h; sourceTree = "<group>"; };
@@ -5270,7 +5260,6 @@
 		BFF97D6C0BDE8BE6008333CF /* ShadingArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShadingArrayController.m; sourceTree = "<group>"; };
 		BFF9D57809CDCA5600B3B940 /* dcmqrdbq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dcmqrdbq.h; sourceTree = "<group>"; };
 		BFF9D57909CDCA5600B3B940 /* dcmqrdbq.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = dcmqrdbq.mm; sourceTree = "<group>"; };
-		CE03A3CB0EA2AE0300951EF4 /* iPhone.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = iPhone.tif; sourceTree = "<group>"; };
 		CE06475110F12DA500551AD9 /* PlayTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlayTemplate.png; sourceTree = "<group>"; };
 		CE087B0A0DE9BD6E000E5593 /* GLString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLString.m; sourceTree = "<group>"; };
 		CE087B0B0DE9BD6E000E5593 /* GLString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLString.h; sourceTree = "<group>"; };
@@ -5286,7 +5275,6 @@
 		CE0E3A530D87C56D008135A8 /* ThreeDPanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeDPanView.h; sourceTree = "<group>"; };
 		CE0E3A540D87C56D008135A8 /* ThreeDPanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeDPanView.m; sourceTree = "<group>"; };
 		CE114AC317F9568600CB4ED7 /* RTStructIcon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = RTStructIcon.jpg; sourceTree = "<group>"; };
-		CE1335E806B02DC000B7FC03 /* iChat.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = iChat.icns; sourceTree = "<group>"; };
 		CE1366B40B41D0F200944876 /* mpeg2.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = mpeg2.tif; sourceTree = "<group>"; };
 		CE1D97CE0883B65E005A3A22 /* FlyThru.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = FlyThru.pdf; sourceTree = "<group>"; };
 		CE1E7F5A07E2DD0D00A85908 /* DatabaseWindow.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = DatabaseWindow.icns; sourceTree = "<group>"; };
@@ -5301,7 +5289,6 @@
 		CE2808640B6B76730093E9D3 /* CalciumScoringWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CalciumScoringWindowController.m; sourceTree = "<group>"; };
 		CE286C110964196C001A4573 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CE289B020D00ADBA004F0A93 /* Mail.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file; path = Mail.scpt; sourceTree = "<group>"; };
-		CE2BFE56153B177C00037546 /* iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPad.png; sourceTree = "<group>"; };
 		CE3368571595888D00167676 /* WebPortalDB 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WebPortalDB 7.xcdatamodel"; sourceTree = "<group>"; };
 		CE373AA8173FEBBB009F60AC /* WADOXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WADOXML.h; sourceTree = "<group>"; };
 		CE373AA9173FEBBB009F60AC /* WADOXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WADOXML.m; sourceTree = "<group>"; };
@@ -7143,7 +7130,6 @@
 			children = (
 				9966BCB41CEB5BA50086A8D7 /* osirixplugin.icns */,
 				999B0B661BB711ED00AF018A /* CurvedArrowGrayLeft.png */,
-				9966A1AF1AE09FFE00F2D81A /* Osirix.icns */,
 				718416061654022400180467 /* DownArrowGreyRev.pdf */,
 				ABBB647B063587B200D9531F /* 2DBlending.tif */,
 				ABB7ADC4148CDDF2007D3C3F /* 2DMPRhorizontalPosition.tif */,
@@ -7228,19 +7214,14 @@
 				A917CF1A0BF49314002F415E /* HUDLeftArrowButtonPressed.tif */,
 				A917CF1B0BF49314002F415E /* HUDRightArrowButtonNeutral.tif */,
 				A917CF1C0BF49314002F415E /* HUDRightArrowButtonPressed.tif */,
-				CE1335E806B02DC000B7FC03 /* iChat.icns */,
 				A9EFC40C15C6CBE3000D1179 /* Import.pdf */,
 				BF398B8A065B124700AD1F25 /* InArrow.tif */,
-				CE2BFE56153B177C00037546 /* iPad.png */,
-				CE03A3CB0EA2AE0300951EF4 /* iPhone.tif */,
 				CE99E88E073AB4C500725ABC /* Photos.icns */,
-				ABE1E8AE0649F4150028E2E0 /* iPod.icns */,
 				CEDEF7D50D020E9100CADB15 /* JPEGSmall.tif */,
 				AB9E05460B30107A00661F7E /* key.png */,
 				84A220E70F25E41800C6C3EB /* Keys.tif */,
 				A9B23D1815CFE8E2000E47C3 /* Length.pdf */,
 				71CE3C18157F489C00AC0112 /* List.pdf */,
-				ABBB648D063587B200D9531F /* Logo.tif */,
 				A9D4D0480F738BEA00483A3A /* loupe.png */,
 				A9D4D06C0F73922500483A3A /* loupeMask.png */,
 				AB9139B806839830006F3936 /* lsm.icns */,
@@ -7267,7 +7248,6 @@
 				CEE619EE0912C73000C31D78 /* OrientationWidget.tif */,
 				A9FEC13F0907EBA600B218BE /* orthogonalReslice.tif */,
 				AB10FA670B96C95500D74684 /* OsirixDownload.icns */,
-				A97B73970CB380EF00E5348D /* horosplugin.png */,
 				CEAF4ECC089D6E9400DE46AF /* OsiriXTables.pdf */,
 				A9B23D1215CFE8B3000E47C3 /* Oval.pdf */,
 				B7CDAD000AB30E7600068D70 /* page.tif */,
@@ -7361,7 +7341,6 @@
 				ABBB64AA063587B200D9531F /* XML.icns */,
 				A9B23D0915CFDF81000E47C3 /* Zoom.pdf */,
 				ABBB64AC063587B200D9531F /* ZoomToFit.tif */,
-				998B52E31AE0893D00D317CF /* Horos.icns */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -9996,7 +9975,6 @@
 				ABBB64B8063587B200D9531F /* Cropping.pdf in Resources */,
 				ABBB64BA063587B200D9531F /* DAT.icns in Resources */,
 				ABBB64BB063587B200D9531F /* dcm.icns in Resources */,
-				ABBB64BF063587B200D9531F /* Logo.tif in Resources */,
 				ABBB64C0063587B200D9531F /* MIP.tif in Resources */,
 				71AD67501FC4248100A1E2F8 /* Hue1.plist in Resources */,
 				ABBB64C2063587B200D9531F /* Movie.pdf in Resources */,
@@ -10029,7 +10007,6 @@
 				ABF09BBA0642FD220044FE6C /* Stereo.icns in Resources */,
 				AB0F20AD06460F7F0075465D /* Burner.icns in Resources */,
 				AB73E14A0649839300545980 /* Studies.tif in Resources */,
-				ABE1E8B00649F4150028E2E0 /* iPod.icns in Resources */,
 				AB746744065938DB005838D5 /* Pencil.tif in Resources */,
 				BF398B8B065B124700AD1F25 /* InArrow.tif in Resources */,
 				7E9C6D26066D2BCD00D33966 /* greenLight.tif in Resources */,
@@ -10183,7 +10160,6 @@
 				CE3F99710C84724B00CB38F1 /* XMLViewer.xib in Resources */,
 				CE3F99720C84724B00CB38F1 /* AYDicomPrint.xib in Resources */,
 				CECDBE6A0C95467B006B11A5 /* AnnotationsDefault.plist in Resources */,
-				A97B73980CB380EF00E5348D /* horosplugin.png in Resources */,
 				CEEB5CCC0CCDD161008803E2 /* Centerline.tif in Resources */,
 				A977ECAD0CD1F7E500C418D8 /* QRpartiallyInDatabase.tif in Resources */,
 				71AD674A1FC4248100A1E2F8 /* French.plist in Resources */,
@@ -10205,7 +10181,6 @@
 				AB9693C00E823E3A00F09EEA /* ROIsAndKeys.tif in Resources */,
 				71AD675D1FC4248100A1E2F8 /* Ratio.plist in Resources */,
 				71AD675F1FC4248100A1E2F8 /* Stern.plist in Resources */,
-				CE03A3CC0EA2AE0300951EF4 /* iPhone.tif in Resources */,
 				AB932A960EA38DEF0006DF1B /* CobbAngle.tif in Resources */,
 				71AD67601FC4248100A1E2F8 /* UCLA.plist in Resources */,
 				84A220E80F25E41800C6C3EB /* ROIs.tif in Resources */,
@@ -10283,7 +10258,6 @@
 				998B52E21AE0890300D317CF /* heka.sdef in Resources */,
 				CE114AC417F9568600CB4ED7 /* RTStructIcon.jpg in Resources */,
 				71512E99152349E500B87012 /* DiscMountedAskTheUserDialog.xib in Resources */,
-				CE2BFE57153B177C00037546 /* iPad.png in Resources */,
 				4A4DDD872BF1205B005BBA89 /* LICENSE.txt in Resources */,
 				71CE3C19157F489C00AC0112 /* List.pdf in Resources */,
 				99529DF81E0DA8E70045981E /* Horos Report.pages09.pages in Resources */,
