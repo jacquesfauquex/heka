@@ -8621,7 +8621,7 @@ static NSConditionLock *threadLock = nil;
     
     NSSavePanel *sPanel	= [NSSavePanel savePanel];
     [sPanel setAllowedFileTypes:@[@"txt"]];
-    sPanel.nameFieldStringValue = NSLocalizedString(@"Horos Database List", nil);
+    sPanel.nameFieldStringValue = NSLocalizedString(@"hekaDir(s)", nil);
     
     [sPanel beginWithCompletionHandler:^(NSInteger result) {
         if (result != NSFileHandlingPanelOKButton)
@@ -19666,7 +19666,7 @@ restart:
     @catch (NSException* e)
     {
         N2LogExceptionWithStackTrace(e);
-        NSRunAlertPanel(NSLocalizedString(@"Horos Database", nil), NSLocalizedString( @"Horos cannot read/create this file/folder. Permissions error?", nil), nil, nil, nil);
+        NSRunAlertPanel(NSLocalizedString(@"hekaDir", nil), NSLocalizedString( @"cannot read/create this file/folder. Permissions error?", nil), nil, nil, nil);
         [self resetToLocalDatabase];
     }
     

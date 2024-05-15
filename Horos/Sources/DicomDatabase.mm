@@ -3465,7 +3465,7 @@ if (
                 r = NSAlertDefaultReturn;
             }
             else
-                r = NSRunAlertPanel(NSLocalizedString(@"Horos Database", nil), NSLocalizedString(@"Horos cannot understand the model of current saved database... The database index will be deleted and reconstructed (no images are lost).", nil), NSLocalizedString(@"OK", nil), NSLocalizedString(@"Quit", nil), nil);
+                r = NSRunAlertPanel(NSLocalizedString(@"heka db", nil), NSLocalizedString(@"Horos cannot understand the model of current saved database... The database index will be deleted and reconstructed (no images are lost).", nil), NSLocalizedString(@"OK", nil), NSLocalizedString(@"Quit", nil), nil);
             
             if (r == NSAlertAlternateReturn)
             {

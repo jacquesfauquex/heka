@@ -16,7 +16,6 @@
                 <outlet property="_window" destination="12" id="26"/>
                 <outlet property="addLocalPath" destination="259" id="275"/>
                 <outlet property="addServerDICOM" destination="101" id="230"/>
-                <outlet property="addServerSharing" destination="177" id="231"/>
                 <outlet property="characterSetPopup" destination="106" id="115"/>
                 <outlet property="dicomNodes" destination="283" id="320"/>
                 <outlet property="loadNodes" destination="249" id="321"/>
@@ -30,15 +29,15 @@
         <window title="&lt;&lt; do not localize &gt;&gt;" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" deferred="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="12" userLabel="PrefPane">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="119" y="83" width="831" height="807"/>
+            <rect key="contentRect" x="119" y="83" width="831" height="596"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="224.66300000000001" height="10"/>
             <view key="contentView" horizontalCompressionResistancePriority="1000" id="6">
-                <rect key="frame" x="0.0" y="0.0" width="831" height="807"/>
+                <rect key="frame" x="0.0" y="0.0" width="831" height="596"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box fixedFrame="YES" title="DICOM Nodes for DICOM Query/Retrieve and DICOM Send" translatesAutoresizingMaskIntoConstraints="NO" id="112">
-                        <rect key="frame" x="17" y="429" width="797" height="370"/>
+                        <rect key="frame" x="17" y="218" width="797" height="370"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="MJs-vY-QQ0">
                             <rect key="frame" x="3" y="3" width="791" height="352"/>
@@ -501,169 +500,16 @@
                             </subviews>
                         </view>
                     </box>
-                    <box verticalHuggingPriority="249" fixedFrame="YES" title="Network - Horos Databases with Fixed Addresses (tcp/ip port 8780):" translatesAutoresizingMaskIntoConstraints="NO" id="175">
-                        <rect key="frame" x="17" y="197" width="797" height="228"/>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1131">
+                        <rect key="frame" x="659" y="577" width="154" height="11"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <view key="contentView" id="lzr-xt-m2i">
-                            <rect key="frame" x="3" y="3" width="791" height="210"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="177">
-                                    <rect key="frame" x="678" y="55" width="113" height="28"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="push" title="Add new server" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="336">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="osirixNewServer:" target="-2" id="204"/>
-                                        <binding destination="240" name="enabled" keyPath="values.syncOsiriXDB" id="408">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="196">
-                                    <rect key="frame" x="7" y="84" width="779" height="120"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <clipView key="contentView" id="Baf-dq-jzh">
-                                        <rect key="frame" x="1" y="0.0" width="777" height="119"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <subviews>
-                                            <tableView verticalHuggingPriority="750" tag="1" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="14" headerView="353" id="197" customClass="ServerTableView">
-                                                <rect key="frame" x="0.0" y="0.0" width="777" height="96"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <size key="intercellSpacing" width="3" height="2"/>
-                                                <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
-                                                <tableColumns>
-                                                    <tableColumn identifier="Address" width="233" minWidth="40" maxWidth="1000" id="201">
-                                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Address">
-                                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </tableHeaderCell>
-                                                        <textFieldCell key="dataCell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="344">
-                                                            <font key="font" metaFont="smallSystem"/>
-                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </textFieldCell>
-                                                        <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="Address"/>
-                                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                                        <connections>
-                                                            <binding destination="282" name="value" keyPath="arrangedObjects.Address" id="300"/>
-                                                        </connections>
-                                                    </tableColumn>
-                                                    <tableColumn identifier="Description" width="538" minWidth="4" maxWidth="1000" id="198">
-                                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Description">
-                                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                                        </tableHeaderCell>
-                                                        <textFieldCell key="dataCell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="343">
-                                                            <font key="font" metaFont="smallSystem"/>
-                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                        <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="Description"/>
-                                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                                        <connections>
-                                                            <binding destination="282" name="value" keyPath="arrangedObjects.Description" id="301"/>
-                                                        </connections>
-                                                    </tableColumn>
-                                                </tableColumns>
-                                                <connections>
-                                                    <binding destination="282" name="content" keyPath="arrangedObjects" id="296"/>
-                                                    <binding destination="240" name="enabled" keyPath="values.syncOsiriXDB" id="412">
-                                                        <dictionary key="options">
-                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                        </dictionary>
-                                                    </binding>
-                                                    <outlet property="dataSource" destination="282" id="286"/>
-                                                    <outlet property="delegate" destination="282" id="287"/>
-                                                </connections>
-                                            </tableView>
-                                        </subviews>
-                                    </clipView>
-                                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="352">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </scroller>
-                                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="351">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </scroller>
-                                    <tableHeaderView key="headerView" id="353">
-                                        <rect key="frame" x="0.0" y="0.0" width="777" height="23"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </tableHeaderView>
-                                </scrollView>
-                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="391">
-                                    <rect key="frame" x="565" y="29" width="20" height="19"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="roundTextured" title="Button" bezelStyle="texturedRounded" image="NSRefreshTemplate" imagePosition="only" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="396">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="refreshNodesOsiriXDB:" target="-2" id="415"/>
-                                        <binding destination="240" name="enabled" keyPath="values.syncOsiriXDB" id="405"/>
-                                    </connections>
-                                </button>
-                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="392">
-                                    <rect key="frame" x="264" y="32" width="295" height="19"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" title="http://www.dicom.dcm/OsiriXDB.plist" drawsBackground="YES" id="395">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                    <connections>
-                                        <action selector="refreshNodesOsiriXDB:" target="-2" id="416"/>
-                                        <binding destination="240" name="enabled" keyPath="values.syncOsiriXDB" id="404"/>
-                                        <binding destination="240" name="value" keyPath="values.syncOsiriXDBURL" id="402"/>
-                                    </connections>
-                                </textField>
-                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="393">
-                                    <rect key="frame" x="15" y="32" width="243" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Automatically sync this list from this URL:" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" scrollable="YES" lineBreakMode="clipping" inset="2" id="394">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="refreshNodesOsiriXDB:" target="-2" id="417"/>
-                                        <binding destination="240" name="value" keyPath="values.syncOsiriXDB" id="401"/>
-                                    </connections>
-                                </button>
-                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="397">
-                                    <rect key="frame" x="96" y="55" width="92" height="28"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="push" title="Load from..." bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="400">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="OsiriXDBloadFrom:" target="-2" id="414"/>
-                                        <binding destination="240" name="enabled" keyPath="values.syncOsiriXDB" id="410">
-                                            <dictionary key="options">
-                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                            </dictionary>
-                                        </binding>
-                                    </connections>
-                                </button>
-                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="398">
-                                    <rect key="frame" x="2" y="55" width="92" height="28"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="push" title="Save as..." bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" inset="2" id="399">
-                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <action selector="OsiriXDBsaveAs:" target="-2" id="413"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                        </view>
-                    </box>
-                    <box fixedFrame="YES" title="Local - Horos Databases files / folder:" translatesAutoresizingMaskIntoConstraints="NO" id="252">
+                        <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Press Delete key to remove a node" id="1132">
+                            <font key="font" metaFont="miniSystem"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <box fixedFrame="YES" title="Local hekaDir(s)" translatesAutoresizingMaskIntoConstraints="NO" id="252">
                         <rect key="frame" x="17" y="16" width="797" height="177"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="mjQ-dI-b1Y">
@@ -759,27 +605,9 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1129">
-                        <rect key="frame" x="642" y="414" width="171" height="11"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Press Delete key to remove a database" id="1130">
-                            <font key="font" metaFont="miniSystem"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1131">
-                        <rect key="frame" x="659" y="788" width="154" height="11"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Press Delete key to remove a node" id="1132">
-                            <font key="font" metaFont="miniSystem"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="36" y="147"/>
+            <point key="canvasLocation" x="35.5" y="41"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="240" userLabel="Shared Defaults"/>
         <arrayController id="262" userLabel="localPaths" customClass="DNDArrayController">
@@ -808,7 +636,6 @@
                         <integer key="NSHandlesContentAsCompoundValue" value="1"/>
                     </dictionary>
                 </binding>
-                <outlet property="tableView" destination="197" id="284"/>
             </connections>
         </arrayController>
         <arrayController id="283" userLabel="dicomNodes" customClass="DNDArrayController">
