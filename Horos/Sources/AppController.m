@@ -34,7 +34,6 @@
 #import "NSFileManager+N2.h"
 #import <objc/runtime.h>
 #import "NSPanel+N2.h"
-#import "PluginManagerController.h"
 #import "OSIWindowController.h"
 #import "Notifications.h"
 #import "WaitRendering.h"
@@ -885,91 +884,6 @@ void exceptionHandler(NSException *exception)
 	[[[BrowserController currentBrowser] database] unlock]; // was checkIncomingLock
 }
 
-// Plugins installation
-- (void) installPlugins: (NSArray*) pluginsArray
-{	
-	NSMutableString *pluginNames = [NSMutableString string];
-	NSMutableString *replacingPlugins = [NSMutableString string];
-	
-	NSString *replacing = NSLocalizedString(@" will be replaced by ", @"");
-	NSString *strVersion = NSLocalizedString(@" version ", @"");
-	
-	
-	for(NSString *path in pluginsArray)
-	{
-		[pluginNames appendFormat:@"%@, ", [[path lastPathComponent] stringByDeletingPathExtension]];
-		
-		NSString *pluginBundleName = [[path lastPathComponent] stringByDeletingPathExtension];
-		
-		NSURL *bundleURL = [NSURL fileURLWithPath:path.stringByResolvingAlias];
-		CFDictionaryRef bundleInfoDict = CFBundleCopyInfoDictionaryInDirectory((CFURLRef)bundleURL);
-		
-		CFStringRef versionString = nil;
-		if(bundleInfoDict != NULL)
-        {
-			versionString = CFDictionaryGetValue(bundleInfoDict, CFSTR("CFBundleVersion"));
-		
-            if( versionString == nil)
-                versionString = CFDictionaryGetValue(bundleInfoDict, CFSTR("CFBundleShortVersionString"));
-        }
-        
-		NSString *pluginBundleVersion = nil;
-		if(versionString != NULL)
-            pluginBundleVersion = CFBridgingRelease(versionString);
-		else
-			pluginBundleVersion = @"";		
-		
-		for(NSDictionary *plug in [PluginManager pluginsList])
-		{
-			if([pluginBundleName isEqualToString: [plug objectForKey:@"name"]])
-			{
-				[replacingPlugins appendString: [plug objectForKey:@"name"]];
-				[replacingPlugins appendString: strVersion];
-				[replacingPlugins appendString: [plug objectForKey:@"version"]];
-				[replacingPlugins appendString: replacing];
-				[replacingPlugins appendString: pluginBundleName];
-				[replacingPlugins appendString: strVersion];
-				[replacingPlugins appendString: pluginBundleVersion];
-				[replacingPlugins appendString: @".\n\n"];
-			}
-		}
-		
-		if( bundleInfoDict)
-			CFRelease( bundleInfoDict);
-	}
-	
-	pluginNames = [NSMutableString stringWithString: [pluginNames substringToIndex:[pluginNames length]-2]];
-	if([replacingPlugins length]) replacingPlugins = [NSMutableString stringWithString:[replacingPlugins substringToIndex:[replacingPlugins length]-2]];
-	
-	NSString *msg;
-	NSString *areYouSure = NSLocalizedString(@"Are you sure you want to install", @"");
-	
-	if( [pluginsArray count] == 1)
-		msg = [NSString stringWithFormat:NSLocalizedString(@"%@ the plugin named : %@ ?", @""), areYouSure, pluginNames];
-	else
-		msg = [NSString stringWithFormat:NSLocalizedString(@"%@ the following plugins : %@ ?", @""), areYouSure, pluginNames];
-	
-	if( [replacingPlugins length])
-		msg = [NSString stringWithFormat:@"%@\n\n%@", msg, replacingPlugins];
-	
-	NSInteger res = NSRunAlertPanel(NSLocalizedString(@"Plugins Installation", @""), @"%@", NSLocalizedString(@"OK", @""), NSLocalizedString(@"Cancel", @""), nil, msg);
-	
-	if( res)
-	{
-		for( NSString *path in pluginsArray)
-            [PluginManager installPluginFromPath: path];
-		
-		[PluginManager setMenus: filtersMenu :roisMenu :othersMenu :dbMenu];
-		
-		// refresh the plugin manager window (if open)
-		NSArray *winList = [NSApp windows];		
-		for(NSWindow *window in winList)
-		{
-			if( [[window windowController] isKindOfClass:[PluginManagerController class]])
-				[[window windowController] refreshPluginList];
-		}
-	}
-}
 
 - (NSString *)computerName
 {

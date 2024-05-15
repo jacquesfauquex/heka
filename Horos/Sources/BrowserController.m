@@ -61,7 +61,6 @@
 #import "BrowserMatrix.h"
 #import "DicomAlbum.h"
 #import "PluginManager.h"
-#import "PluginManagerController.h"
 #import "N2OpenGLViewWithSplitsWindow.h"
 #import "XMLController.h"
 #import "WebPortalConnection.h"

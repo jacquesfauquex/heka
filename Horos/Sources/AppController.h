@@ -1,17 +1,3 @@
-
-// This will be added to the main inded page of the Doxygen documentation
-/** \mainpage Horos index page
-*  <img src= "../../../osirix/Binaries/Icons/SmallLogo.tif">
-* \section Intro Horos DICOM workstation
-*  Osirix is a free open source DICOM workstation with full 64 bit support.
-*
-*  We extend out thanks to other in the open source community.
-*
-*  VTK, ITK, and DCMTK open source projects are extensively used in Horos.
-*
-*  The OsiriX team.
-*/
-
 #import <AppKit/AppKit.h>
 #import "XMLRPCMethods.h"
 #import "UserNotifications/UserNotifications.h"

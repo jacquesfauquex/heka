@@ -679,8 +679,6 @@
 		999B0B671BB711ED00AF018A /* CurvedArrowGrayLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 999B0B661BB711ED00AF018A /* CurvedArrowGrayLeft.png */; };
 		99C32EEF1CFF78E7001E71F3 /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = AB2C24E10677861300A08910 /* PluginFilter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A0344496143DE4AA003E1AFA /* DCMUSRegion.m in Sources */ = {isa = PBXBuildFile; fileRef = A085E104141E53210072BF0D /* DCMUSRegion.m */; };
-		A90202BE0B980CD60001A00B /* PluginManagerController.h in Headers */ = {isa = PBXBuildFile; fileRef = A90202BA0B980CD60001A00B /* PluginManagerController.h */; };
-		A90202BF0B980CD60001A00B /* PluginManagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A90202BB0B980CD60001A00B /* PluginManagerController.m */; };
 		A90A04970BF09BA000D00273 /* VRPresetPreview.h in Headers */ = {isa = PBXBuildFile; fileRef = A90A04950BF09BA000D00273 /* VRPresetPreview.h */; };
 		A90A04980BF09BA000D00273 /* VRPresetPreview.mm in Sources */ = {isa = PBXBuildFile; fileRef = A90A04960BF09BA000D00273 /* VRPresetPreview.mm */; };
 		A910FB310D5767610095A956 /* NavigatorWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = A910FB2D0D5767610095A956 /* NavigatorWindowController.h */; };
@@ -3879,8 +3877,6 @@
 		999B0B661BB711ED00AF018A /* CurvedArrowGrayLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CurvedArrowGrayLeft.png; sourceTree = "<group>"; };
 		A085E103141E53210072BF0D /* DCMUSRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMUSRegion.h; sourceTree = "<group>"; };
 		A085E104141E53210072BF0D /* DCMUSRegion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMUSRegion.m; sourceTree = "<group>"; };
-		A90202BA0B980CD60001A00B /* PluginManagerController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PluginManagerController.h; sourceTree = "<group>"; };
-		A90202BB0B980CD60001A00B /* PluginManagerController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PluginManagerController.m; sourceTree = "<group>"; };
 		A90A04950BF09BA000D00273 /* VRPresetPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VRPresetPreview.h; sourceTree = "<group>"; };
 		A90A04960BF09BA000D00273 /* VRPresetPreview.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VRPresetPreview.mm; sourceTree = "<group>"; };
 		A90C722516E4F0B90060302F /* MANIX-IM-0001-0021.dcm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MANIX-IM-0001-0021.dcm"; sourceTree = "<group>"; };
@@ -6841,8 +6837,6 @@
 				AB2C24E00677861300A08910 /* PluginFilter.m */,
 				AB2C25210677873200A08910 /* PluginManager.h */,
 				AB2C25200677873200A08910 /* PluginManager.m */,
-				A90202BA0B980CD60001A00B /* PluginManagerController.h */,
-				A90202BB0B980CD60001A00B /* PluginManagerController.m */,
 			);
 			name = Plugins;
 			sourceTree = "<group>";
@@ -9432,7 +9426,6 @@
 				ABC3E55B0B330A69006704E3 /* sourcesTableView.h in Headers */,
 				A9F8A4180B5F6460002CC763 /* CLUTOpacityView.h in Headers */,
 				CE28086B0B6B76730093E9D3 /* CalciumScoringWindowController.h in Headers */,
-				A90202BE0B980CD60001A00B /* PluginManagerController.h in Headers */,
 				A94469E30BA7FFE7008643E5 /* BLAuthentication.h in Headers */,
 				BFF97D710BDE8BE6008333CF /* ShadingArrayController.h in Headers */,
 				CE96D0E30BEE6F9800C4E397 /* XMLControllerDCMTKCategory.h in Headers */,
@@ -11128,7 +11121,6 @@
 				ABC3E55A0B330A69006704E3 /* sourcesTableView.m in Sources */,
 				A9F8A4190B5F6460002CC763 /* CLUTOpacityView.mm in Sources */,
 				CE28086C0B6B76730093E9D3 /* CalciumScoringWindowController.m in Sources */,
-				A90202BF0B980CD60001A00B /* PluginManagerController.m in Sources */,
 				A94469E40BA7FFE7008643E5 /* BLAuthentication.m in Sources */,
 				BFF97D720BDE8BE6008333CF /* ShadingArrayController.m in Sources */,
 				CE96D0E40BEE6F9800C4E397 /* XMLControllerDCMTKCategory.mm in Sources */,
