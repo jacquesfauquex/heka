@@ -417,10 +417,9 @@
 		5FCC11F22423D0220039EE8F /* dicom.dic in Resources */ = {isa = PBXBuildFile; fileRef = ABBB639E0635874D00D9531F /* dicom.dic */; };
 		5FCC11F32423D0220039EE8F /* dsr2html in Resources */ = {isa = PBXBuildFile; fileRef = 84B5EA4211A2BC0900193FDB /* dsr2html */; };
 		5FCC11F42423D0220039EE8F /* echoscu in Resources */ = {isa = PBXBuildFile; fileRef = CE9C73490B34946B0062FCCC /* echoscu */; };
-		710EF1F31FD00E29000B555B /* Horos.h in Headers */ = {isa = PBXBuildFile; fileRef = 710EF1F11FD00E28000B555B /* Horos.h */; };
-		710EF1F41FD00E29000B555B /* Horos.m in Sources */ = {isa = PBXBuildFile; fileRef = 710EF1F21FD00E29000B555B /* Horos.m */; };
-		710EF1F61FD025BC000B555B /* Horos.m in Sources */ = {isa = PBXBuildFile; fileRef = 710EF1F21FD00E29000B555B /* Horos.m */; };
-		71125D4B215376FC00EB0AA5 /* PathForImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 71125D4A215376FC00EB0AA5 /* PathForImage.h */; };
+		710EF1F31FD00E29000B555B /* heka.h in Headers */ = {isa = PBXBuildFile; fileRef = 710EF1F11FD00E28000B555B /* heka.h */; };
+		710EF1F41FD00E29000B555B /* heka.m in Sources */ = {isa = PBXBuildFile; fileRef = 710EF1F21FD00E29000B555B /* heka.m */; };
+		710EF1F61FD025BC000B555B /* heka.m in Sources */ = {isa = PBXBuildFile; fileRef = 710EF1F21FD00E29000B555B /* heka.m */; };
 		711849771590A377006AB447 /* SMTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 711849751590A377006AB447 /* SMTPClient.h */; };
 		711849781590A377006AB447 /* SMTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 711849761590A377006AB447 /* SMTPClient.m */; };
 		7128FD771487D54A00AB54A1 /* N2UnclickableSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7128FD751487D54A00AB54A1 /* N2UnclickableSplitView.h */; };
@@ -2741,12 +2740,8 @@
 		CE54877A0989363200CF4C60 /* Brush.tif in Resources */ = {isa = PBXBuildFile; fileRef = CE5487790989363200CF4C60 /* Brush.tif */; };
 		CE569B740E29612100F4A234 /* ThumbnailCell.h in Headers */ = {isa = PBXBuildFile; fileRef = CE569B720E29612100F4A234 /* ThumbnailCell.h */; };
 		CE569B750E29612100F4A234 /* ThumbnailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CE569B730E29612100F4A234 /* ThumbnailCell.m */; };
-		CE594409155E3838007BDF5B /* NSApplication-Dock.h in Headers */ = {isa = PBXBuildFile; fileRef = CE594403155E3838007BDF5B /* NSApplication-Dock.h */; };
-		CE59440A155E3838007BDF5B /* NSApplication-Dock.m in Sources */ = {isa = PBXBuildFile; fileRef = CE594404155E3838007BDF5B /* NSApplication-Dock.m */; };
 		CE59440B155E3838007BDF5B /* NSString+SymlinksAndAliases.h in Headers */ = {isa = PBXBuildFile; fileRef = CE594405155E3838007BDF5B /* NSString+SymlinksAndAliases.h */; };
 		CE59440C155E3838007BDF5B /* NSString+SymlinksAndAliases.m in Sources */ = {isa = PBXBuildFile; fileRef = CE594406155E3838007BDF5B /* NSString+SymlinksAndAliases.m */; };
-		CE59440D155E3838007BDF5B /* PFMoveApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = CE594407155E3838007BDF5B /* PFMoveApplication.h */; };
-		CE59440E155E3838007BDF5B /* PFMoveApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = CE594408155E3838007BDF5B /* PFMoveApplication.m */; };
 		CE5D33B509E1C26400CC6884 /* add-large.tif in Resources */ = {isa = PBXBuildFile; fileRef = CE5D33B309E1C26400CC6884 /* add-large.tif */; };
 		CE5D33B609E1C26400CC6884 /* minus-large.tif in Resources */ = {isa = PBXBuildFile; fileRef = CE5D33B409E1C26400CC6884 /* minus-large.tif */; };
 		CE5EEFC9182D249B009D2045 /* ThumbnailsListPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5EEFC7182D249B009D2045 /* ThumbnailsListPanel.m */; };
@@ -3634,9 +3629,8 @@
 		5F026FFB242055690083A650 /* Decompress.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Decompress.entitlements; sourceTree = "<group>"; };
 		5F92185F23F45592000B8754 /* dcmpsprt */ = {isa = PBXFileReference; lastKnownFileType = text; name = dcmpsprt; path = DCMTK/dcmpsprt; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F92186123F455A8000B8754 /* dcmprscu */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = dcmprscu; path = DCMTK/dcmprscu; sourceTree = BUILT_PRODUCTS_DIR; };
-		710EF1F11FD00E28000B555B /* Horos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Horos.h; sourceTree = "<group>"; };
-		710EF1F21FD00E29000B555B /* Horos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Horos.m; sourceTree = "<group>"; };
-		71125D4A215376FC00EB0AA5 /* PathForImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathForImage.h; sourceTree = "<group>"; };
+		710EF1F11FD00E28000B555B /* heka.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = heka.h; sourceTree = "<group>"; };
+		710EF1F21FD00E29000B555B /* heka.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = heka.m; sourceTree = "<group>"; };
 		711849751590A377006AB447 /* SMTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTPClient.h; sourceTree = "<group>"; };
 		711849761590A377006AB447 /* SMTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMTPClient.m; sourceTree = "<group>"; };
 		7128FD751487D54A00AB54A1 /* N2UnclickableSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = N2UnclickableSplitView.h; sourceTree = "<group>"; };
@@ -5340,12 +5334,8 @@
 		CE569B720E29612100F4A234 /* ThumbnailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailCell.h; sourceTree = "<group>"; };
 		CE569B730E29612100F4A234 /* ThumbnailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbnailCell.m; sourceTree = "<group>"; };
 		CE58A260146ECCE800F50080 /* WebPortalDB 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WebPortalDB 5.xcdatamodel"; sourceTree = "<group>"; };
-		CE594403155E3838007BDF5B /* NSApplication-Dock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSApplication-Dock.h"; sourceTree = "<group>"; };
-		CE594404155E3838007BDF5B /* NSApplication-Dock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSApplication-Dock.m"; sourceTree = "<group>"; };
 		CE594405155E3838007BDF5B /* NSString+SymlinksAndAliases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SymlinksAndAliases.h"; sourceTree = "<group>"; };
 		CE594406155E3838007BDF5B /* NSString+SymlinksAndAliases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SymlinksAndAliases.m"; sourceTree = "<group>"; };
-		CE594407155E3838007BDF5B /* PFMoveApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFMoveApplication.h; sourceTree = "<group>"; };
-		CE594408155E3838007BDF5B /* PFMoveApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PFMoveApplication.m; sourceTree = "<group>"; };
 		CE5D33B309E1C26400CC6884 /* add-large.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "add-large.tif"; sourceTree = "<group>"; };
 		CE5D33B409E1C26400CC6884 /* minus-large.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "minus-large.tif"; sourceTree = "<group>"; };
 		CE5EEFC7182D249B009D2045 /* ThumbnailsListPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbnailsListPanel.m; sourceTree = "<group>"; };
@@ -5735,17 +5725,16 @@
 			name = OsiriX;
 			sourceTree = "<group>";
 		};
-		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+		29B97315FDCFA39411CA2CEA /* heka */ = {
 			isa = PBXGroup;
 			children = (
-				710EF1F11FD00E28000B555B /* Horos.h */,
-				710EF1F21FD00E29000B555B /* Horos.m */,
+				710EF1F11FD00E28000B555B /* heka.h */,
+				710EF1F21FD00E29000B555B /* heka.m */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				32E422140C97301600E193CA /* altivecFunctions.h */,
 				434B46151A19F2A3008CF8CF /* options.h */,
-				71125D4A215376FC00EB0AA5 /* PathForImage.h */,
 			);
-			name = "Other Sources";
+			name = heka;
 			sourceTree = "<group>";
 		};
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
@@ -6126,7 +6115,7 @@
 			children = (
 				434B461A1A19F4E4008CF8CF /* OpenJPEG */,
 				BFBF3AAF09B6820C00545F5E /* DCMTK */,
-				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97315FDCFA39411CA2CEA /* heka */,
 				5997894211B7B3C6002DB107 /* Anonymization */,
 				59BDF10B117EE68F007F1F2C /* Preferences */,
 				592681FB11CF5F5000CFA81F /* Activity */,
@@ -6974,6 +6963,8 @@
 		ABAA285A058A675600F0601D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				CE594405155E3838007BDF5B /* NSString+SymlinksAndAliases.h */,
+				CE594406155E3838007BDF5B /* NSString+SymlinksAndAliases.m */,
 				994FABED1CEBF25800980A15 /* OnOffSwitchControl.h */,
 				994FABEE1CEBF25800980A15 /* OnOffSwitchControl.m */,
 				994FABEF1CEBF25800980A15 /* OnOffSwitchControlCell.h */,
@@ -6982,7 +6973,6 @@
 				998309101BB62D4100CAB197 /* JRSwizzle.m */,
 				849B44BA1552B2D800194728 /* OsiriXNotificationCenter.m */,
 				597BB92F12A7E0F200D0A172 /* NSUserDefaults+OsiriX.h */,
-				CE594401155E382B007BDF5B /* LetsMoveAndDock */,
 				597BB93012A7E0F200D0A172 /* NSUserDefaults+OsiriX.mm */,
 				59BDEF3F117DA2DF007F1F2C /* NSUserDefaultsController+OsiriX.h */,
 				59BDEF40117DA2DF007F1F2C /* NSUserDefaultsController+OsiriX.mm */,
@@ -8552,19 +8542,6 @@
 			name = ITK;
 			sourceTree = "<group>";
 		};
-		CE594401155E382B007BDF5B /* LetsMoveAndDock */ = {
-			isa = PBXGroup;
-			children = (
-				CE594403155E3838007BDF5B /* NSApplication-Dock.h */,
-				CE594404155E3838007BDF5B /* NSApplication-Dock.m */,
-				CE594405155E3838007BDF5B /* NSString+SymlinksAndAliases.h */,
-				CE594406155E3838007BDF5B /* NSString+SymlinksAndAliases.m */,
-				CE594407155E3838007BDF5B /* PFMoveApplication.h */,
-				CE594408155E3838007BDF5B /* PFMoveApplication.m */,
-			);
-			path = LetsMoveAndDock;
-			sourceTree = SOURCE_ROOT;
-		};
 		CE88574908AF936200B72DA7 /* ROIVolume */ = {
 			isa = PBXGroup;
 			children = (
@@ -9264,7 +9241,7 @@
 				BFBF415009B6828D00545F5E /* dcmqropt.h in Headers */,
 				BFBF415409B6828D00545F5E /* dcmqrsrv.h in Headers */,
 				BFBF415809B6828D00545F5E /* dcsignat.h in Headers */,
-				710EF1F31FD00E29000B555B /* Horos.h in Headers */,
+				710EF1F31FD00E29000B555B /* heka.h in Headers */,
 				BFBF415909B6828D00545F5E /* sialgo.h in Headers */,
 				BFBF415B09B6828D00545F5E /* siautopr.h in Headers */,
 				BFBF415D09B6828D00545F5E /* sibrsapr.h in Headers */,
@@ -9313,7 +9290,6 @@
 				BFBF41B309B6828D00545F5E /* dsrscotn.h in Headers */,
 				BFBF41B509B6828D00545F5E /* dsrscovl.h in Headers */,
 				BFBF41B709B6828D00545F5E /* dsrsoprf.h in Headers */,
-				71125D4B215376FC00EB0AA5 /* PathForImage.h in Headers */,
 				BFBF41B909B6828D00545F5E /* dsrstrvl.h in Headers */,
 				BFBF41BB09B6828D00545F5E /* dsrtcodt.h in Headers */,
 				BFBF41BD09B6828D00545F5E /* dsrtcosp.h in Headers */,
@@ -9759,9 +9735,7 @@
 				714D3BB1152AE40C003EB087 /* O2ScreensPrefsView.h in Headers */,
 				714D3BC4152B2410003EB087 /* NSArray+N2.h in Headers */,
 				84D7BBE3154A941A007B5A86 /* NSNotificationCenter+N2.h in Headers */,
-				CE594409155E3838007BDF5B /* NSApplication-Dock.h in Headers */,
 				CE59440B155E3838007BDF5B /* NSString+SymlinksAndAliases.h in Headers */,
-				CE59440D155E3838007BDF5B /* PFMoveApplication.h in Headers */,
 				CE3B7E5A1580F518003CB266 /* Quaternion.h in Headers */,
 				CE3B7E5E1580F534003CB266 /* FlyAssistant+Histo.h in Headers */,
 				840C2D5E1588CE4600C4FE09 /* CustomIntervalPanel.h in Headers */,
@@ -11629,7 +11603,7 @@
 				BFBF41C909B6828D00545F5E /* dsrtncsr.cc in Sources */,
 				BFBF41CB09B6828D00545F5E /* dsrtree.cc in Sources */,
 				BFBF41CD09B6828D00545F5E /* dsrtypes.cc in Sources */,
-				710EF1F41FD00E29000B555B /* Horos.m in Sources */,
+				710EF1F41FD00E29000B555B /* heka.m in Sources */,
 				BFBF41CF09B6828D00545F5E /* dsruidtn.cc in Sources */,
 				BFBF41D109B6828D00545F5E /* dsrwavch.cc in Sources */,
 				BFBF41D309B6828D00545F5E /* dsrwavtn.cc in Sources */,
@@ -11923,9 +11897,7 @@
 				714D3BC6152B2410003EB087 /* NSScreen+N2.m in Sources */,
 				84D7BBE5154A941A007B5A86 /* NSNotificationCenter+N2.mm in Sources */,
 				849B44BD1552B2D800194728 /* OsiriXNotificationCenter.m in Sources */,
-				CE59440A155E3838007BDF5B /* NSApplication-Dock.m in Sources */,
 				CE59440C155E3838007BDF5B /* NSString+SymlinksAndAliases.m in Sources */,
-				CE59440E155E3838007BDF5B /* PFMoveApplication.m in Sources */,
 				CE3B7E5F1580F534003CB266 /* FlyAssistant+Histo.mm in Sources */,
 				CE3B7E641580F762003CB266 /* Quaternion.mm in Sources */,
 				840C2D601588CE4600C4FE09 /* CustomIntervalPanel.m in Sources */,
@@ -12111,7 +12083,7 @@
 				AB724FE20ADE6ECB00A212A0 /* jidctfst.c in Sources */,
 				AB724FE30ADE6ECB00A212A0 /* jidctint.c in Sources */,
 				AB724FE40ADE6ECB00A212A0 /* jidctred.c in Sources */,
-				710EF1F61FD025BC000B555B /* Horos.m in Sources */,
+				710EF1F61FD025BC000B555B /* heka.m in Sources */,
 				AB724FE50ADE6ECB00A212A0 /* jmemmgr.c in Sources */,
 				AB724FE60ADE6ECB00A212A0 /* jmemnobs.c in Sources */,
 				AB724FE70ADE6ECB00A212A0 /* jquant1.c in Sources */,

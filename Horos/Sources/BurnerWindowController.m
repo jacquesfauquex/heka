@@ -61,7 +61,7 @@
 #import "DicomFileDCMTKCategory.h"
 #import "DCMUIDs.h"
 #import "DicomDatabase+DCMTK.h"
-#import "Horos.h"
+#import "heka.h"
 
 @implementation BurnerWindowController
 

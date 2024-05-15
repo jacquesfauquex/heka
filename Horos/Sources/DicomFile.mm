@@ -74,7 +74,7 @@
 
 #include <GDCM/gdcmScanner.h>
 
-#include "Horos.h"
+#include "heka.h"
 
 extern NSString * convertDICOM( NSString *inputfile);
 extern NSRecursiveLock *PapyrusLock;

@@ -75,7 +75,7 @@
 #import "N2Alignment.h"
 #import "AppController.h"
 #import "PluginManager.h"
-#import "Horos.h"
+#import "heka.h"
 
 #import "JSON.h"
 
