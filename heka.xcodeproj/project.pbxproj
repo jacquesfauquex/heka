@@ -3823,8 +3823,6 @@
 		A085E104141E53210072BF0D /* DCMUSRegion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCMUSRegion.m; sourceTree = "<group>"; };
 		A90A04950BF09BA000D00273 /* VRPresetPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VRPresetPreview.h; sourceTree = "<group>"; };
 		A90A04960BF09BA000D00273 /* VRPresetPreview.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VRPresetPreview.mm; sourceTree = "<group>"; };
-		A90C722516E4F0B90060302F /* MANIX-IM-0001-0021.dcm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MANIX-IM-0001-0021.dcm"; sourceTree = "<group>"; };
-		A90C722616E4F0B90060302F /* PNEUMATIX-IM-0001-0010.dcm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PNEUMATIX-IM-0001-0010.dcm"; sourceTree = "<group>"; };
 		A910FB2D0D5767610095A956 /* NavigatorWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigatorWindowController.h; sourceTree = "<group>"; };
 		A910FB2E0D5767610095A956 /* NavigatorWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigatorWindowController.m; sourceTree = "<group>"; };
 		A910FB330D57728A0095A956 /* NavigatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigatorView.h; sourceTree = "<group>"; };
@@ -3903,18 +3901,11 @@
 		A9701A8915C9587C0019EE55 /* burn_anim09.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = burn_anim09.tif; sourceTree = "<group>"; };
 		A9701A8A15C9587C0019EE55 /* burn_anim10.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = burn_anim10.tif; sourceTree = "<group>"; };
 		A9701A8B15C9587C0019EE55 /* burn_anim11.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = burn_anim11.tif; sourceTree = "<group>"; };
-		A970651116EE2CA9009092D4 /* DICOMFiles.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DICOMFiles.plist; sourceTree = "<group>"; };
 		A97569571237D132003F00D3 /* PathAssistant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PathAssistant.png; sourceTree = "<group>"; };
 		A977ECAB0CD1F7E500C418D8 /* QRpartiallyInDatabase.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = QRpartiallyInDatabase.tif; path = DatabaseStates/QRpartiallyInDatabase.tif; sourceTree = "<group>"; };
 		A977ECAC0CD1F7E500C418D8 /* QRalreadyInDatabase.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = QRalreadyInDatabase.tif; path = DatabaseStates/QRalreadyInDatabase.tif; sourceTree = "<group>"; };
 		A97D4C5F0CE3459D003FE2E6 /* PieChartImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PieChartImage.h; sourceTree = "<group>"; };
 		A97D4C600CE3459D003FE2E6 /* PieChartImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PieChartImage.m; sourceTree = "<group>"; };
-		A98795CC16DB9FD100926023 /* Unit Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Unit Tests-Info.plist"; sourceTree = "<group>"; };
-		A98795D016DB9FD100926023 /* DICOMFilesTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DICOMFilesTests.h; sourceTree = "<group>"; };
-		A98795D116DB9FD100926023 /* DICOMFilesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DICOMFilesTests.m; sourceTree = "<group>"; };
-		A98795D316DB9FD100926023 /* Unit Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Unit Tests-Prefix.pch"; sourceTree = "<group>"; };
-		A98795DB16DBA51500926023 /* UnitTestingBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitTestingBase.h; sourceTree = "<group>"; };
-		A98795DC16DBA51500926023 /* UnitTestingBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitTestingBase.m; sourceTree = "<group>"; };
 		A9897D970D4A142200BAC447 /* displayRGB.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = displayRGB.tif; sourceTree = "<group>"; };
 		A9897D980D4A142200BAC447 /* displayTotoku.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = displayTotoku.tif; sourceTree = "<group>"; };
 		A98FFBE30CA92B58000291C8 /* altivecFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = altivecFunctions.c; sourceTree = "<group>"; };
@@ -5957,15 +5948,14 @@
 		710EF1F51FD014E8000B555B /* Horos */ = {
 			isa = PBXGroup;
 			children = (
+				8B15E1602347CA600010A147 /* Horos.entitlements */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				32E422140C97301600E193CA /* altivecFunctions.h */,
-				8B15E1602347CA600010A147 /* Horos.entitlements */,
 				71BC461B1F272CA400FD6CCF /* Scripts */,
 				719D3F1A1FB461CA004CFB27 /* Sources */,
 				29B97315FDCFA39411CA2CEA /* Sources2 */,
 				719D3F261FB46892004CFB27 /* Resources */,
 				324AD88708B23B0500101139 /* Models */,
-				A98795CA16DB9FD100926023 /* Unit Tests */,
 			);
 			indentWidth = 4;
 			path = Horos;
@@ -6369,16 +6359,6 @@
 			path = ../../Binaries/EmbeddedPlugins;
 			sourceTree = "<group>";
 		};
-		A90C722016E4D8AE0060302F /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				A970651116EE2CA9009092D4 /* DICOMFiles.plist */,
-				A90C722516E4F0B90060302F /* MANIX-IM-0001-0021.dcm */,
-				A90C722616E4F0B90060302F /* PNEUMATIX-IM-0001-0010.dcm */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
 		A90D665D094D7071000B425B /* Endoscopy */ = {
 			isa = PBXGroup;
 			children = (
@@ -6409,28 +6389,6 @@
 				A9333D240F56E6800097DAB7 /* MPRDCMView.m */,
 			);
 			name = MPR;
-			sourceTree = "<group>";
-		};
-		A98795CA16DB9FD100926023 /* Unit Tests */ = {
-			isa = PBXGroup;
-			children = (
-				A90C722016E4D8AE0060302F /* Data */,
-				A98795DB16DBA51500926023 /* UnitTestingBase.h */,
-				A98795DC16DBA51500926023 /* UnitTestingBase.m */,
-				A98795D016DB9FD100926023 /* DICOMFilesTests.h */,
-				A98795D116DB9FD100926023 /* DICOMFilesTests.m */,
-				A98795CB16DB9FD100926023 /* Supporting Files */,
-			);
-			path = "Unit Tests";
-			sourceTree = "<group>";
-		};
-		A98795CB16DB9FD100926023 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				A98795CC16DB9FD100926023 /* Unit Tests-Info.plist */,
-				A98795D316DB9FD100926023 /* Unit Tests-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		A99B7E4F08858D0D004328C0 /* Bonjour */ = {
