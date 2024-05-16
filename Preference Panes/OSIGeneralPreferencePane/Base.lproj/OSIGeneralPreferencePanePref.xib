@@ -17,14 +17,14 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="&lt;&lt; do not localize &gt;&gt;" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" deferred="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="12" userLabel="PrefPane">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
-            <rect key="contentRect" x="0.0" y="0.0" width="722" height="566"/>
+            <rect key="contentRect" x="0.0" y="0.0" width="722" height="608"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <view key="contentView" horizontalCompressionResistancePriority="1000" id="6">
-                <rect key="frame" x="0.0" y="0.0" width="722" height="566"/>
+                <rect key="frame" x="0.0" y="0.0" width="722" height="608"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box horizontalCompressionResistancePriority="1000" fixedFrame="YES" title="Global" translatesAutoresizingMaskIntoConstraints="NO" id="157">
-                        <rect key="frame" x="17" y="400" width="688" height="157"/>
+                        <rect key="frame" x="17" y="442" width="688" height="157"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="rBx-In-YYz">
                             <rect key="frame" x="3" y="3" width="682" height="139"/>
@@ -108,27 +108,6 @@
                                     <connections>
                                         <action selector="refreshPreferencesURLSync:" target="-2" id="553"/>
                                         <binding destination="167" name="enabled" keyPath="values.SyncPreferencesFromURL" id="555"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                        </view>
-                    </box>
-                    <box horizontalCompressionResistancePriority="1000" fixedFrame="YES" title="DICOM Editing" translatesAutoresizingMaskIntoConstraints="NO" id="169">
-                        <rect key="frame" x="17" y="175" width="688" height="54"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <view key="contentView" id="esv-ec-tVO">
-                            <rect key="frame" x="3" y="3" width="682" height="36"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <button toolTip="Connect to Horos and check for latest version." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="171">
-                                    <rect key="frame" x="15" y="10" width="311" height="18"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="check" title="Allow DICOM Editing. See Meta-Data Window." bezelStyle="regularSquare" imagePosition="left" alignment="left" scrollable="YES" lineBreakMode="clipping" inset="2" id="184">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="system"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="167" name="value" keyPath="values.ALLOWDICOMEDITING" id="173"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -218,7 +197,7 @@ If multiple languages are enabled, the used language will be chosen according to
                         </view>
                     </box>
                     <box verticalHuggingPriority="249" horizontalCompressionResistancePriority="1000" fixedFrame="YES" title="JPEG Compression" translatesAutoresizingMaskIntoConstraints="NO" id="357">
-                        <rect key="frame" x="17" y="311" width="688" height="85"/>
+                        <rect key="frame" x="17" y="353" width="688" height="85"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="Reb-OR-1Q5">
                             <rect key="frame" x="3" y="3" width="682" height="67"/>
@@ -259,14 +238,14 @@ If multiple languages are enabled, the used language will be chosen according to
                         </view>
                     </box>
                     <box hidden="YES" horizontalCompressionResistancePriority="1000" fixedFrame="YES" title="DICOM Toolkits" translatesAutoresizingMaskIntoConstraints="NO" id="133">
-                        <rect key="frame" x="17" y="-85" width="688" height="97"/>
+                        <rect key="frame" x="17" y="256" width="688" height="93"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="Jyb-7l-RTl">
-                            <rect key="frame" x="3" y="3" width="682" height="79"/>
+                            <rect key="frame" x="3" y="3" width="682" height="75"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autorecalculatesCellSize="YES" translatesAutoresizingMaskIntoConstraints="NO" id="141">
-                                    <rect key="frame" x="26" y="34" width="175" height="38"/>
+                                    <rect key="frame" x="26" y="30" width="175" height="38"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     <size key="cellSize" width="173" height="18"/>
@@ -292,7 +271,7 @@ If multiple languages are enabled, the used language will be chosen according to
                                     </connections>
                                 </matrix>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="174">
-                                    <rect key="frame" x="26" y="10" width="416" height="18"/>
+                                    <rect key="frame" x="26" y="6" width="416" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="For CD/DVD Media, always use Papyrus Toolkit (faster reading)" bezelStyle="regularSquare" imagePosition="left" alignment="left" scrollable="YES" lineBreakMode="clipping" inset="2" id="182">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -305,9 +284,30 @@ If multiple languages are enabled, the used language will be chosen according to
                             </subviews>
                         </view>
                     </box>
+                    <box horizontalCompressionResistancePriority="1000" fixedFrame="YES" title="DICOM Editing" translatesAutoresizingMaskIntoConstraints="NO" id="169">
+                        <rect key="frame" x="17" y="191" width="688" height="54"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <view key="contentView" id="esv-ec-tVO">
+                            <rect key="frame" x="3" y="3" width="682" height="36"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <button toolTip="Connect to Horos and check for latest version." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="171">
+                                    <rect key="frame" x="15" y="10" width="311" height="18"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <buttonCell key="cell" type="check" title="Allow DICOM Editing. See Meta-Data Window." bezelStyle="regularSquare" imagePosition="left" alignment="left" scrollable="YES" lineBreakMode="clipping" inset="2" id="184">
+                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                    <connections>
+                                        <binding destination="167" name="value" keyPath="values.ALLOWDICOMEDITING" id="173"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </view>
+                    </box>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="778" y="231"/>
+            <point key="canvasLocation" x="778" y="252"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="167" userLabel="Shared Defaults"/>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" visibleAtLaunch="NO" animationBehavior="default" id="209" userLabel="settings Window">

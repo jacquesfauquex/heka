@@ -11,3 +11,7 @@ cda not shown in database viewer... transform to pdf ...
 metadata panel color letter background
 
 add wadors asoc and other plugins
+
+DCMPix image annotations and icons
+
+... many sources disabled... centerline and others...¿unavailable functions?

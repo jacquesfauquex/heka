@@ -6,9 +6,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import "DCM.h"
 #import "DCMAbstractSyntaxUID.h"
-#import "BrowserController.h"
-#import "BrowserControllerDCMTKCategory.h"
-#import "PluginManager.h"
+//#import "BrowserController.h"
+//#import "BrowserControllerDCMTKCategory.h"
+//#import "PluginManager.h"
 #import "ROI.h"
 #import "SRAnnotation.h"
 #import "Notifications.h"
@@ -33,17 +33,7 @@
 #import "DicomFile.h"
 #import "PluginFileFormatDecoder.h"
 
-//#define uint64 tiff_uint64
-//#import <vtk_tiff.h>
 
-
-#include "FVTiff.h"
-#include "Analyze.h"
-
-#ifndef DECOMPRESS_APP
-#include "nifti1.h"
-#include "nifti1_io.h"
-#endif
 
 #include <Accelerate/Accelerate.h>
 #include "AppController.h"
@@ -1339,44 +1329,32 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 
 - (DicomImage*) imageObj
 {
-#ifdef OSIRIX_VIEWER
 #ifdef NDEBUG
 #else
     if( [NSThread isMainThread] == NO)
         NSLog( @"******************* warning this object should be used only on the main thread. Create your own Context !");
 #endif
-    return [[[BrowserController currentBrowser] database] objectWithID: imageObjectID];
-#else
     return nil;
-#endif
 }
 
 - (DicomSeries*) seriesObj
 {
-#ifdef OSIRIX_VIEWER
 #ifdef NDEBUG
 #else
     if( [NSThread isMainThread] == NO)
         NSLog( @"******************* warning this object should be used only on the main thread. Create your own Context !");
 #endif
-    return [[[[BrowserController currentBrowser] database] objectWithID: imageObjectID] valueForKey: @"series"];
-#else
     return nil;
-#endif
 }
 
 - (DicomStudy*) studyObj
 {
-#ifdef OSIRIX_VIEWER
 #ifdef NDEBUG
 #else
     if( [NSThread isMainThread] == NO)
         NSLog( @"******************* warning this object should be used only on the main thread. Create your own Context !");
 #endif
-    return [[[[BrowserController currentBrowser] database] objectWithID: imageObjectID] valueForKeyPath: @"series.study"];
-#else
     return nil;
-#endif
 }
 
 +(int) maxProcessors
@@ -3555,9 +3533,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
         sliceThickness = 0;
         
         memset( orientation, 0, sizeof orientation);
-#ifdef OSIRIX_VIEWER
-        [self loadCustomImageAnnotationsPapyLink:-1 DCMLink:nil];
-#endif
     }
     return self;
 }
@@ -3619,11 +3594,11 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
             
             if( [iO valueForKeyPath: @"series.study.dateOfBirth"] && [iO valueForKeyPath: @"series.study.date"])
                 self.yearOldAcquisition = [iO valueForKeyPath: @"series.study.yearOldAcquisition"];
-            
+/*
 #ifdef OSIRIX_VIEWER
             [self loadCustomImageAnnotationsDBFields: (DicomImage*) iO];
 #endif
-            
+*/
             savedHeightInDB = [[iO valueForKey:@"height"] intValue];
             savedWidthInDB = [[iO valueForKey:@"width"] intValue];
         }
@@ -3755,1133 +3730,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     return copy;
 }
 
-#include "BioradHeader.h"
-
--(void) LoadBioradPic
-{
-    FILE		*fp = fopen(self.srcFile.UTF8String, "r");
-    long		i;
-    
-    //NSLog(@"Handling Biorad PIC File in CheckLoad");
-    if( fp)
-    {
-        long					totSize, maxImage;
-        struct BioradHeader 	header;
-        
-        fread(&header, BIORAD_HEADER_LENGTH, 1, fp);
-        
-        // Note that Biorad files are in little endian format
-        height = NSSwapLittleShortToHost(header.ny);
-        width = NSSwapLittleShortToHost(header.nx);
-        
-#ifdef OSIRIX_VIEWER
-        NSManagedObjectContext *iContext = nil;
-        
-        if( savedWidthInDB != 0 && savedWidthInDB != width)
-        {
-            if( savedWidthInDB != OsirixDicomImageSizeUnknown)
-                NSLog( @"******* [[imageObj valueForKey:@'width'] intValue] != width - %d versus %d", (int)savedWidthInDB, (int) width);
-            
-            if( iContext == nil)
-                iContext = ([[NSThread currentThread] isMainThread] ? [[[BrowserController currentBrowser] database] managedObjectContext] : [[[BrowserController currentBrowser] database] independentContext]);
-            
-            [[iContext existingObjectWithID: imageObjectID error: nil]setValue: [NSNumber numberWithInt: width] forKey: @"width"];
-            
-            if( width > savedWidthInDB && fExternalOwnedImage)
-                width = savedWidthInDB;
-        }
-        
-        if( savedHeightInDB != 0 && savedHeightInDB != height)
-        {
-            if( savedHeightInDB != OsirixDicomImageSizeUnknown)
-                NSLog( @"******* [[imageObj valueForKey:@'height'] intValue] != height - %d versus %d", (int)savedHeightInDB, (int)height);
-            
-            if( iContext == nil)
-                iContext = ([[NSThread currentThread] isMainThread] ? [[[BrowserController currentBrowser] database] managedObjectContext] : [[[BrowserController currentBrowser] database] independentContext]);
-            
-            [[iContext existingObjectWithID: imageObjectID error: nil] setValue: [NSNumber numberWithInt: height] forKey: @"height"];
-            
-            if( height > savedHeightInDB && fExternalOwnedImage)
-                height = savedHeightInDB;
-        }
-        [iContext save: nil];
-#endif
-        
-        maxImage = NSSwapLittleShortToHost(header.npic);
-        
-        int bytesPerPixel=1;
-        // if 8bit, byte_format==1 otherwise 16bit
-        if (NSSwapLittleShortToHost(header.byte_format)!=1)
-        {
-            bytesPerPixel=2;
-        }
-        
-        totSize = height * width * 2;
-        short *oImage = malloc( totSize);
-        
-        if( NSSwapLittleShortToHost(header.byte_format) != 1)  // 16 bit
-        {  // GJ: Fetch the data from an offset given by header + frame *bytes per frame
-            
-            fseek(fp, BIORAD_HEADER_LENGTH +frameNo*(height * width * 2), SEEK_SET);
-            
-            fread( oImage, height * width * 2, 1, fp);
-            
-            i = height * width;
-            while( i-- > 0)
-            {
-                oImage[ i] = NSSwapLittleShortToHost( oImage[ i]);
-            }
-        }
-        else {  // 8 bit image
-            unsigned char   *bufPtr;
-            short			*ptr;
-            long			loop;
-            //NSLog(@"Reading 8 bit PIC file");
-            // GJ: Fetch the data from an offset given by header + frame *bytes per frame
-            
-            fseek(fp, BIORAD_HEADER_LENGTH +frameNo*(height * width), SEEK_SET);
-            
-            bufPtr = malloc( height * width);
-            fread( bufPtr, height * width, 1, fp);
-            
-            ptr    = oImage;
-            
-            loop = totSize/2;
-            while( loop-- > 0)
-            {
-                *ptr++ = *bufPtr++;
-            }
-        }
-        
-        
-        // FIND THICKNESS AND PIXEL SIZE
-        // NSLog(@"Entering Biorad PIC File footer");
-        
-        // GJ: This isn't strictly necessary and some files don't have this flag set.
-        //if( header.notesAvailable || 1) {
-        
-        long numBytes = height*width*maxImage*bytesPerPixel;
-        
-        fseek(fp, BIORAD_HEADER_LENGTH + numBytes, SEEK_SET);
-        
-        // iterate over Biorad Notes
-        struct BioradNote bnote;
-        long curPos=0;
-        
-        NSRange charRange = {32,127-32+1};
-        NSCharacterSet *goodSet = [NSCharacterSet characterSetWithRange:charRange];
-        NSScanner *noteCleaner;
-        NSString *aLine = @"";
-        double zCorrection=1.0;
-        
-        // Iterate ovet the file's footer
-        while( feof(fp) == 0)
-        {
-            fread( &bnote, BIORAD_NOTE_LENGTH, 1, fp);
-            bnote.noteText[ BIORAD_NOTE_TEXT_LENGTH-1] = 0;
-            
-            NSString *noteText = [NSString stringWithCString:bnote.noteText encoding: NSISOLatin1StringEncoding];
-            //NSLog(@"noteText %@",noteText);
-            
-            //Remove any illegal characters
-            noteCleaner = [NSScanner scannerWithString:noteText];
-            if([noteCleaner scanCharactersFromSet:goodSet intoString:&aLine])
-            {
-                //NSLog(@"aLine %@",aLine);
-                
-                // now try and see if we can find any indication of axis information
-                if([aLine rangeOfString:@"AXIS_"].location!=NSNotFound)
-                {
-                    NSString	*axisNumberString, *pixelSpacingString;
-                    
-                    // The number of the axis (2,3,4 = X,Y,Z)
-                    axisNumberString = [aLine substringWithRange:NSMakeRange(5,1)];
-                    // The pixel size is:  - field 3 (0 indexed)
-                    NSArray *listItems = [aLine componentsSeparatedByString:@" "];
-                    if([listItems count]>=5)
-                    {
-                        pixelSpacingString=[listItems objectAtIndex:3];
-                    }else{
-                        pixelSpacingString=@"";
-                    }
-                    
-                    switch( [axisNumberString intValue])
-                    {
-                        case 2: pixelSpacingX = [pixelSpacingString doubleValue];  		break;
-                        case 3: pixelSpacingY = [pixelSpacingString doubleValue];  		break;
-                        case 4: sliceInterval = sliceThickness = [pixelSpacingString floatValue];
-                            sliceLocation = frameNo * sliceInterval;		break;
-                    }
-                } else{
-                    //check if this line contains z correction information
-                    //Z_CORRECT_FACTOR = 0.950000 -2.821782
-                    if([aLine rangeOfString:@"Z_CORRECT_FACTOR"].location!=NSNotFound)
-                    {
-                        NSArray *listItems = [aLine componentsSeparatedByString:@" "];
-                        NSString	*subStringVal;
-                        if ( listItems.count >= 3)
-                        {
-                            subStringVal=[listItems objectAtIndex:2];
-                            zCorrection=[subStringVal floatValue];
-                            NSLog(@"Set zCorrection factor = %f",zCorrection);
-                        }
-                        else
-                        {
-                            NSLog(@"LoadBioradPic: Error setting zCorrection factor - insufficient fields");
-                        }
-                    }
-                    
-                }
-            }
-            curPos+=BIORAD_NOTE_LENGTH;
-        }
-        // GJ: implement Z correction for air/oil/sample refractive index mismatch
-        //NSLog(@"zCorrection factor = %f",zCorrection);
-        //NSLog(@"sliceInterval factor = %f, sliceThickness = %f",sliceInterval,sliceThickness);
-        sliceInterval/=zCorrection; sliceThickness/=zCorrection;
-        sliceLocation = frameNo * sliceInterval;
-        //NSLog(@"After Z correction: sliceInterval factor = %f, sliceThickness = %f",sliceInterval,sliceThickness);
-        
-        // END OF READING FOOTER
-        
-        // CONVERSION TO FLOAT
-        
-        vImage_Buffer src16, dstf;
-        
-        dstf.height = src16.height = height;
-        dstf.width = src16.width = width;
-        src16.rowBytes = width*2;
-        dstf.rowBytes = width*sizeof(float);
-        
-        src16.data = oImage;
-        
-        if( fExternalOwnedImage)
-        {
-            fImage = fExternalOwnedImage;
-        }
-        else
-        {
-            fImage = malloc(width*height*sizeof(float) + 100);
-        }
-        
-        dstf.data = fImage;
-        
-        if( dstf.data)
-            vImageConvert_16SToF( &src16, &dstf, 0, 1, 0);
-        else N2LogStackTrace( @"*** Not enough memory - malloc failed");
-        
-        free(oImage);
-        oImage = nil;
-        
-        fclose( fp);
-        
-        savedWL = wl = 127;
-        savedWW = ww = 256;
-    }
-}
-
--(void) LoadTiff:(long) directory
-{
-#ifndef STATIC_DICOM_LIB
-    long			i, totSize;
-    int				w, h, row;
-    short			bpp, count, tifspp;
-    short			dataType = 0;
-    short			planarConfig = 0;
-    
-    isRGB = NO;
-    
-    TIFF* tif = TIFFOpen(self.srcFile.UTF8String, "r");
-    if( tif)
-    {
-        count = 0;
-        while (count < directory && TIFFReadDirectory (tif))
-            count++;
-        
-        TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &w);
-        TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &h);
-        TIFFGetField(tif, TIFFTAG_BITSPERSAMPLE, &bpp);
-        TIFFGetField(tif, TIFFTAG_SAMPLESPERPIXEL, &tifspp);
-        TIFFGetField(tif, TIFFTAG_DATATYPE, &dataType);
-        TIFFGetField(tif, TIFFTAG_PLANARCONFIG, &planarConfig);
-        
-        height = h;
-        width = w;
-        
-#ifdef OSIRIX_VIEWER
-        NSManagedObjectContext *iContext = nil;
-        
-        if( savedHeightInDB != 0 && savedHeightInDB != height)
-        {
-            if( savedHeightInDB != OsirixDicomImageSizeUnknown)
-                NSLog( @"******* [[imageObj valueForKey:@'height'] intValue] != height - %d versus %d", (int)savedHeightInDB, (int)height);
-            
-            if( iContext == nil)
-                iContext = ([[NSThread currentThread] isMainThread] ? [[[BrowserController currentBrowser] database] managedObjectContext] : [[[BrowserController currentBrowser] database] independentContext]);
-            
-            [[iContext existingObjectWithID: imageObjectID error: nil] setValue: [NSNumber numberWithInt: height] forKey: @"height"];
-            
-            if( height > savedHeightInDB && fExternalOwnedImage)
-                height = savedHeightInDB;
-        }
-        
-        if( savedWidthInDB != 0 && savedWidthInDB != width)
-        {
-            if( savedWidthInDB != OsirixDicomImageSizeUnknown)
-                NSLog( @"******* [[imageObj valueForKey:@'width'] intValue] != width - %d versus %d", (int)savedWidthInDB, (int)width);
-            
-            if( iContext == nil)
-                iContext = ([[NSThread currentThread] isMainThread] ? [[[BrowserController currentBrowser] database] managedObjectContext] : [[[BrowserController currentBrowser] database] independentContext]);
-            
-            [[iContext existingObjectWithID: imageObjectID error: nil] setValue: [NSNumber numberWithInt: width] forKey: @"width"];
-            
-            if( width > savedWidthInDB && fExternalOwnedImage)
-                width = savedWidthInDB;
-        }
-        [iContext save: nil];
-#endif
-        
-        totSize = (height+1) * (width+1);
-        
-        if( tifspp == 3)	// RGB
-        {
-            isRGB = YES;
-            totSize *= 4;
-        }
-        else totSize *= 2;
-        
-        short *oImage = malloc( totSize);
-        
-        if( bpp == 16)
-        {
-            if( tifspp == 3)	// RGB
-            {
-                if( planarConfig == PLANARCONFIG_SEPARATE)
-                {
-                    unsigned char  *dst = (unsigned char*) oImage;
-                    
-                    TIFFReadRGBAImage(tif, w, h, (uint32 *) dst, 0);
-                    
-                    for( i =0; i < height*width*4; i+= 4)
-                    {
-                        dst[ i+3] = dst[ i+2];
-                        dst[ i+2] = dst[ i+1];
-                        dst[ i+1] = dst[ i];
-                        
-                        dst[ i] = 0;
-                    }
-                }
-                else
-                {
-                    unsigned short *buf = _TIFFmalloc(TIFFScanlineSize(tif));
-                    unsigned char  *dst, *aImage = (unsigned char*) oImage;
-                    long scanline = TIFFScanlineSize(tif);
-                    
-                    BOOL trueRGB = NO;
-                    
-                    for (row = 0; row < h; row++)
-                    {
-                        TIFFReadScanline(tif, buf, row, 0);
-                        
-                        dst = aImage + (row*(scanline/6) * 4);
-                        for( i = 0; i < scanline/6; i++)
-                        {
-                            dst[ i*4 + 0] = 0;
-                            dst[ i*4 + 1] = buf[ i*3 + 0] / 256;
-                            dst[ i*4 + 2] = buf[ i*3 + 1] / 256;
-                            dst[ i*4 + 3] = buf[ i*3 + 2] / 256;
-                            
-                            if( buf[ i*3 + 0] == buf[ i*3 + 1] && buf[ i*3 + 0] == buf[ i*3 + 2])
-                            {
-                            }
-                            else trueRGB = YES;
-                        }
-                    }
-                    
-                    _TIFFfree(buf);
-                    
-                    if( trueRGB == NO)	// Convert it to BW
-                    {
-                        isRGB = NO;
-                        
-                        unsigned char  *dst = (unsigned char*) oImage;
-                        
-                        for( i =0; i < height*width*4; i+= 4)
-                        {
-                            oImage[ i/4] = dst[ i+1];
-                        }
-                    }
-                }
-                
-                //check for true rgb
-            }
-            else
-            {
-                for (row = 0; row < h; row++)
-                {
-                    TIFFReadScanline(tif, oImage + (row*TIFFScanlineSize(tif))/2, row, 0);
-                }
-            }
-        }
-        else if( bpp == 8)
-        {
-            if( tifspp == 3)	// RGB
-            {
-                if( planarConfig == PLANARCONFIG_SEPARATE)
-                {
-                    unsigned char  *dst = (unsigned char*) oImage;
-                    
-                    TIFFReadRGBAImage(tif, w, h, (uint32 *) dst, 0);
-                    
-                    BOOL trueRGB = NO;
-                    
-                    for( i =0; i < height*width*4; i+= 4)
-                    {
-                        dst[ i+3] = dst[ i+2];
-                        dst[ i+2] = dst[ i+1];
-                        dst[ i+1] = dst[ i];
-                        
-                        if( dst[ i+1] == dst[ i+2] && dst[ i+2] == dst[ i+3])
-                        {
-                        }
-                        else trueRGB = YES;
-                        
-                        dst[ i] = 0;
-                    }
-                    
-                    if( trueRGB == NO)	// Convert it to BW
-                    {
-                        isRGB = NO;
-                        
-                        unsigned char  *dst = (unsigned char*) oImage;
-                        
-                        for( i =0; i < height*width*4; i+= 4)
-                        {
-                            oImage[ i/4] = dst[ i+1];
-                        }
-                    }
-                }
-                else
-                {
-                    unsigned char *buf = _TIFFmalloc( TIFFScanlineSize(tif));
-                    unsigned char  *dst, *aImage = (unsigned char*) oImage;
-                    long scanline = TIFFScanlineSize(tif);
-                    
-                    BOOL trueRGB = NO;
-                    
-                    for (row = 0; row < h; row++)
-                    {
-                        TIFFReadScanline(tif, buf, row, 0);
-                        
-                        dst = aImage + (row*(scanline/3) * 4);
-                        for( i = 0; i < scanline/3; i++)
-                        {
-                            dst[ i*4 + 0] = 0;
-                            dst[ i*4 + 1] = buf[ i*3 + 0];
-                            dst[ i*4 + 2] = buf[ i*3 + 1];
-                            dst[ i*4 + 3] = buf[ i*3 + 2];
-                            
-                            if( buf[ i*3 + 0] == buf[ i*3 + 1] && buf[ i*3 + 0] == buf[ i*3 + 2])
-                            {
-                            }
-                            else trueRGB = YES;
-                        }
-                    }
-                    
-                    if( trueRGB == NO)	// Convert it to BW
-                    {
-                        isRGB = NO;
-                        
-                        unsigned char  *dst = (unsigned char*) oImage;
-                        
-                        for( i =0; i < height*width*4; i+= 4)
-                        {
-                            oImage[ i/4] = dst[ i+1];
-                        }
-                    }
-                    
-                    _TIFFfree(buf);
-                }
-            }
-            else if( tifspp == 1)
-            {
-                unsigned char *buf = _TIFFmalloc(TIFFScanlineSize(tif));
-                short  *dst;
-                long scanline = TIFFScanlineSize(tif);
-                
-                for (row = 0; row < h; row++)
-                {
-                    TIFFReadScanline(tif, buf, row, 0);
-                    
-                    dst = oImage + (row*scanline);
-                    for( i = 0; i < scanline; i++)
-                    {
-                        dst[ i] = buf[ i];
-                    }
-                }
-                
-                _TIFFfree(buf);
-            }
-        }
-        else if( bpp == 32)
-        {
-            unsigned short  fmt;
-            float			*buf, max=-FLT_MAX, min=FLT_MAX, diff;
-            short			*dst;
-            
-            TIFFGetField(tif, TIFFTAG_SAMPLEFORMAT, &fmt);
-            
-            if( fmt == SAMPLEFORMAT_IEEEFP)
-            {
-                buf = _TIFFmalloc(TIFFScanlineSize(tif));
-                
-                // FIND MIN AND MAX
-                for (row = 0; row < h; row++)
-                {
-                    i = TIFFReadScanline(tif, buf, row, 0);
-                    if( i!= 1) NSLog(@"ERROR");
-                    
-                    for( i = 0; i < TIFFScanlineSize(tif)/4; i++)
-                    {
-                        if( buf[ i] < min) min = buf[ i];
-                        if( buf[ i] > max) max = buf[ i];
-                    }
-                }
-                
-                diff = max - min;
-                
-                for (row = 0; row < h; row++)
-                {
-                    i = TIFFReadScanline(tif, buf, row, 0);
-                    if( i!= 1) NSLog(@"ERROR");
-                    
-                    dst = oImage + (row*TIFFScanlineSize(tif))/4;
-                    for( i = 0; i < TIFFScanlineSize(tif)/4; i++)
-                    {
-                        dst[ i] = ((buf[ i] - min) * 16000.f) / diff;
-                    }
-                }
-                _TIFFfree(buf);
-            }
-        }
-        
-        if( isRGB == NO)
-        {
-            // CONVERSION TO FLOAT
-            
-            vImage_Buffer src16, dstf;
-            
-            dstf.height = src16.height = height;
-            dstf.width = src16.width = width;
-            src16.rowBytes = width*2;
-            dstf.rowBytes = width*sizeof(float);
-            
-            src16.data = oImage;
-            
-            if( fExternalOwnedImage)
-            {
-                fImage = fExternalOwnedImage;
-            }
-            else
-            {
-                fImage = malloc(width*height*sizeof(float) + 100);
-            }
-            
-            dstf.data = fImage;
-            
-            if( dstf.data)
-            {
-                switch( dataType)
-                {
-                    case TIFF_SSHORT:
-                    case TIFF_SLONG:
-                        vImageConvert_16SToF( &src16, &dstf, 0, 1, 0);
-                        break;
-                        
-                    default:
-                        vImageConvert_16UToF( &src16, &dstf, 0, 1, 0);
-                        break;
-                }
-            }
-            else N2LogStackTrace( @"*** Not enough memory - malloc failed");
-        }
-        else
-        {
-            if( fExternalOwnedImage)
-            {
-                fImage = fExternalOwnedImage;
-            }
-            else
-            {
-                fImage = malloc(width*height*sizeof(float) + 100);
-            }
-            
-            if( fImage)
-                memcpy( fImage, oImage, width*height*4);
-            else N2LogStackTrace( @"*** Not enough memory - malloc failed");
-        }
-        
-        free(oImage);
-        oImage = nil;
-        
-        TIFFClose(tif);
-    }
-    else NSLog( @"ERROR TIFF UNKNOWN");
-#endif
-}
-
--(void) LoadFVTiff
-{
-#ifndef STATIC_DICOM_LIB
-    int success = 0, i;
-    short head_size = 0;
-    char* head_data = 0;
-    int NoOfFrames = 1, NoOfSeries = 1;
-    TIFF* tif = TIFFOpen(self.srcFile.UTF8String, "r");
-    if(tif)
-        success = TIFFGetField(tif, TIFFTAG_FV_MMHEADER, &head_size, &head_data);
-    if (success)
-    {
-        FV_MM_HEAD mm_head;
-        
-        FV_Read_MM_HEAD(head_data, &mm_head);
-        for(i = 0; i < FV_SPATIAL_DIMENSION; i++)
-        {
-            if (*(mm_head.DimInfo[i].Name) == 'Z')
-                NoOfFrames = mm_head.DimInfo[i].Size;
-            else if (*(mm_head.DimInfo[i].Name) != 'X' && *(mm_head.DimInfo[i].Name) != 'Y')
-                NoOfSeries *= mm_head.DimInfo[i].Size;
-        }
-        TIFFClose(tif);
-        tif = 0;
-        int directory = (NoOfFrames*serieNo)+frameNo;
-        [self LoadTiff:directory];
-        
-        // Fill in image dimensions info
-        for(i = 0; i < FV_SPATIAL_DIMENSION; i++)
-        {
-            if (*(mm_head.DimInfo[i].Name) == 'X')
-            {
-                originX = mm_head.DimInfo[i].Origin / 1000.0;
-                pixelSpacingX = mm_head.DimInfo[i].Resolution / 1000.0;
-                
-                isOriginDefined = YES;
-            }
-            else if (*(mm_head.DimInfo[i].Name) == 'Y')
-            {
-                originY = mm_head.DimInfo[i].Origin / 1000.0;
-                pixelSpacingY = mm_head.DimInfo[i].Resolution / 1000.0;
-                
-                isOriginDefined = YES;
-            }
-            else if (*(mm_head.DimInfo[i].Name) == 'Z')
-            {
-                originZ = (mm_head.DimInfo[i].Origin + (mm_head.DimInfo[i].Resolution * frameNo)) / 1000.0;
-                sliceThickness = sliceInterval = mm_head.DimInfo[i].Resolution / 1000.0;
-                
-                isOriginDefined = YES;
-            }
-        }
-        sliceLocation = originZ;
-        if( pixelSpacingY != 0.0 && pixelSpacingX != 0.0)
-            pixelRatio = pixelSpacingY / pixelSpacingX;
-    }
-    if(tif) TIFFClose(tif);
-#endif
-}
-
-
--(void) LoadLSM
-{
-    // This function has been modified twice by Greg Jefferis on 9 June 2004
-    // early am and late pm respectively.  After the second iteration it has been
-    // tested on new and old style 16 and 8 bit LSM tiff files.  Comments?
-    FILE *fp = fopen(self.srcFile.UTF8String, "r");
-    int	i,it = 0;
-    int	nextoff = 0;
-    int counter = 0;
-    int	pos = 8, k;
-    short shortval;
-    int lsmDebug=0;  // Flag to determine if debugging messages are printed
-    
-    int	TIF_NEWSUBFILETYPE = 0; // GJ: flag indicating whether image is "real" or thumbnail
-    int	LENGTH2, TIF_STRIPOFFSETS; // GJ: Number of channels & offset containing file offset to image data
-    int	TIF_CZ_LSMINFO, TIF_COMPRESSION = 0; // GJ: Offset of additional data about image
-    /* No longer required as of 040609 pm with simplified reader
-     int	LENGTH1, TIF_BITSPERSAMPLE_CHANNEL1, TIF_BITSPERSAMPLE_CHANNEL2, TIF_BITSPERSAMPLE_CHANNEL3;
-     int	TIF_COMPRESSION, TIF_PHOTOMETRICINTERPRETATION, TIF_STRIPOFFSETS, TIF_SAMPLESPERPIXEL, TIF_STRIPBYTECOUNTS;
-     int	TIF_STRIPOFFSETS1, TIF_STRIPOFFSETS2, TIF_STRIPOFFSETS3;
-     int	TIF_STRIPBYTECOUNTS1, TIF_STRIPBYTECOUNTS2, TIF_STRIPBYTECOUNTS3;
-     int	TIF_STRIPOFFSETS_ARRAY[3];
-     */
-    // GJ: this will store the location of the data for this frame
-    int	imageDataOffsetForThisFrame;
-    int	goodFramesChecked=0;
-    
-    // do / while loop which iterates over each image in the directory
-    // there will be as many directory entries as there are slices
-    // Some of the directory entries will be thumbnails - we will ignore those
-    // When we have reached the frame we want (ie frameNo) break out of the loop
-    
-    
-    
-    do
-    {
-        // 0) Move to the right place
-        fseek(fp, pos, SEEK_SET); // GJ: 040609 this fseek should have been pos not 8
-        fread(&shortval, 2, 1, fp);
-        it = EndianU16_LtoN( shortval);
-        
-        // 1) Parse the tags at this location
-        if(lsmDebug) NSLog(@"Parsing tags in first do/while loop: there are %d tags to parse",it);  //GJ:
-        TIF_NEWSUBFILETYPE=-1;
-        for( k=0 ; k<it ; k++)
-        {
-            // read raw tag data
-            unsigned char   tags2[ 12];
-            fseek(fp, pos+2+12*k, SEEK_SET);
-            fread( &tags2, 12, 1, fp);
-            
-            int TAGTYPE = 0;
-            int LENGTH = 0;
-            int MASK = 0x00ff;
-            int MASK2 = 0x000000ff;
-            
-            TAGTYPE = ((tags2[1] & MASK) << 8) | ((tags2[0] & MASK) <<0);
-            LENGTH = ((tags2[7] & MASK2) << 24) | ((tags2[6] & MASK2) << 16) | ((tags2[5] & MASK2) << 8) | (tags2[4] & MASK2);
-            if(lsmDebug) NSLog(@"FirstTagRound: Analysing tag %d of type %d and length %d",k,TAGTYPE,LENGTH);  //GJ: for reporting
-            switch (TAGTYPE)
-            {
-                case 254:
-                    // GJ figure out whether this is a thumbnail (!0) or a real image (0)
-                    TIF_NEWSUBFILETYPE = ((tags2[11] & MASK2) << 24) | ((tags2[10] & MASK2) << 16) | ((tags2[9] & MASK2) << 8) | (tags2[8] & MASK2);
-                    if(lsmDebug) NSLog(@"LoadLSM: TIF_NEWSUBFILETYPE= %d",TIF_NEWSUBFILETYPE);
-                    break;
-                case 273:
-                    //GJ: number of image channels (some of which can be empty)
-                    LENGTH2 = ((tags2[7] & MASK2) << 24) | ((tags2[6] & MASK2) << 16) | ((tags2[5] & MASK2) << 8) | (tags2[4] & MASK2);
-                    // Offset of the place where STRIPOFFSETS are recorded
-                    TIF_STRIPOFFSETS = ((tags2[11] & MASK2) << 24) | ((tags2[10] & MASK2) << 16) | ((tags2[9] & MASK2) << 8) | (tags2[8] & MASK2);
-                    break;
-                    //case 279:
-                    // the file offset
-                    // at which the size of the individual images for each slice are stored
-                    // (up to 3 numbers in bytes)
-                    //	TIF_STRIPBYTECOUNTS = ((tags2[11] & MASK2) << 24) | ((tags2[10] & MASK2) << 16) | ((tags2[9] & MASK2) << 8) | (tags2[8] & MASK2);
-                    //	break;
-                    //				case 34412:
-                    //					TIF_CZ_LSMINFO = ((tags2[11] & MASK2) << 24) | ((tags2[10] & MASK2) << 16) | ((tags2[9] & MASK2) << 8) | (tags2[8] & MASK2);
-                    //				default:
-                    break;
-            }
-            // We don't need to process all the tags if this is a thumbnail
-            if(TIF_NEWSUBFILETYPE>0) continue;
-            
-        }  // End of parsing tags at this location
-        
-        //		if( TIF_CZ_LSMINFO)
-        //		{
-        //			fseek(fp, TIF_CZ_LSMINFO + 8, SEEK_SET);
-        //
-        //			int	DIMENSION_X, DIMENSION_Y, DIMENSION_Z, NUMBER_OF_CHANNELS, TIMESTACKSIZE, DATATYPE, DATATYPE2;
-        //			short   SCANTYPE, SPECTRALSCAN;
-        //			double   VOXELSIZE_X, VOXELSIZE_Y, VOXELSIZE_Z;
-        //
-        //			fread( &DIMENSION_X, 4, 1, fp);		DIMENSION_X = EndianU32_LtoN( DIMENSION_X);
-        //			fread( &DIMENSION_Y, 4, 1, fp);		DIMENSION_Y = EndianU32_LtoN( DIMENSION_Y);
-        //			fread( &DIMENSION_Z, 4, 1, fp);		DIMENSION_Z = EndianU32_LtoN( DIMENSION_Z);
-        //
-        //			fread( &NUMBER_OF_CHANNELS, 4, 1, fp);		NUMBER_OF_CHANNELS = EndianU32_LtoN( NUMBER_OF_CHANNELS);
-        //			//GJ:
-        //			//NSLog(@"LoadLSM: Number of Channels %d",NUMBER_OF_CHANNELS);
-        //			fread( &TIMESTACKSIZE, 4, 1, fp);			TIMESTACKSIZE = EndianU32_LtoN( TIMESTACKSIZE);
-        //
-        //			fread( &DATATYPE, 4, 1, fp);			DATATYPE = EndianU32_LtoN( DATATYPE);
-        //
-        //			fseek(fp, TIF_CZ_LSMINFO + 88, SEEK_SET);
-        //			fread( &SCANTYPE, 2, 1, fp);			SCANTYPE = EndianU16_LtoN( SCANTYPE);
-        //
-        //			switch (SCANTYPE)
-        //			{
-        //				case 6:
-        //				{
-        //					int group = serieNo / LENGTH2;
-        //
-        //					frameNo = frameNo + group * DIMENSION_Z;
-        //
-        //					serieNo = serieNo - group;
-        //				}
-        //				break;
-        //			}
-        //		}
-        
-        // 2) See if this was the frame that we wanted
-        // and if it was store the relevant imageDataOffsetForThisFrame
-        if(TIF_NEWSUBFILETYPE==0)
-        {
-            // This directory entry was a main image
-            // Is it also the entry for the image we are looking for?
-            if(goodFramesChecked++ == frameNo)
-            {
-                // yes, so record the imageDataOffsetForThisFrame
-                if(LENGTH2==1)
-                {
-                    // for a single channel image it is just TIF_STRIPOFFSETS
-                    imageDataOffsetForThisFrame = TIF_STRIPOFFSETS;
-                }
-                else
-                {
-                    // if this is a multi channel image, check that serieNo has a sensible value
-                    if(LENGTH2>1 && serieNo>=LENGTH2)
-                    {
-                        NSLog(@"LoadLSM: zero indexed serieNo (%d) is greater than number of channels (%d)",(int)serieNo,(int)LENGTH2);
-                        return;
-                    }
-                    // ok serieNo is sensible use the TIF_STRIPOFFSETS to move to the right place
-                    fseek(fp, TIF_STRIPOFFSETS, SEEK_SET);
-                    for (i=0; i<=serieNo;i++)
-                    {
-                        // read serieNo+1 times to get the offset of the relevant channel's data
-                        fread(&imageDataOffsetForThisFrame,4,1,fp);
-                        imageDataOffsetForThisFrame=EndianU32_LtoN(imageDataOffsetForThisFrame);
-                    }
-                }
-                // break out of the do/while loop since we have found the image we want
-                if(lsmDebug)  NSLog(@"Found frame number %d - breaking out of first loop",(int)frameNo);
-                break;
-            }
-            
-            if(lsmDebug) NSLog(@"goodFramesChecked = %d",goodFramesChecked);
-        }
-        
-        // 3) If not ... move to location containing the offset of the next image directory
-        fseek(fp, (int)pos + 2 + 12 * (int)it, SEEK_SET);
-        fread( &nextoff, 4, 1, fp);
-        pos = EndianU32_LtoN( nextoff);
-        if(lsmDebug)NSLog(@"new pos = %d",pos);
-        counter++;
-        
-    } while (pos!=0); //while (nextoff!=0);
-    
-    //GJ: OK this next loop is going to parse the first image in the directory in detail
-    // we assume this will contain a real image (rather than a thumbnail)
-    /* Searches for the number of tags in the first image directory */
-    
-    int iterator1;
-    fseek(fp, 8, SEEK_SET);
-    fread(&shortval, 2, 1, fp);
-    iterator1 = EndianU16_LtoN( shortval);
-    //NSLog(@"iterator1 = %d",iterator1);
-    
-    NSManagedObjectContext *iContext = nil;
-    
-    // Analyses each tag found
-    for ( k=0 ; k<iterator1 ; k++)
-    {
-        unsigned char   TAG1[ 12];
-        fseek(fp, 10+12*k, SEEK_SET);
-        fread( &TAG1, 12, 1, fp);
-        
-        {
-            int TAGTYPE = 0;
-            int LENGTH = 0;
-            int MASK = 0x00ff;
-            int MASK2 = 0x000000ff;
-            
-            
-            TAGTYPE = ((TAG1[1] & MASK) << 8) | ((TAG1[0] & MASK) <<0);
-            LENGTH = ((TAG1[7] & MASK2) << 24) | ((TAG1[6] & MASK2) << 16) | ((TAG1[5] & MASK2) << 8) | (TAG1[4] & MASK2);
-            
-            //NSLog(@"Analysing tag %d of type %d and length %d",k,TAGTYPE,LENGTH);  //GJ: for reporting
-            
-            switch (TAGTYPE)
-            {
-                case 254:
-                    TIF_NEWSUBFILETYPE = ((TAG1[11] & MASK2) << 24) | ((TAG1[10] & MASK2) << 16) | ((TAG1[9] & MASK2) << 8) | (TAG1[8] & MASK2);
-                    // GJ: this is condition which cannot be handled by the present version of LoadLSM
-                    if(TIF_NEWSUBFILETYPE!=0)
-                    {
-                        NSLog(@"LoadLSM unable to handle files in which the first image directory entry is a thumbnail");
-                        // give up on trying to read this file and exit method!
-                        return;
-                    }
-                    break;
-                    
-                case 256:
-                    width = ((TAG1[11] & MASK2) << 24) | ((TAG1[10] & MASK2) << 16) | ((TAG1[9] & MASK2) << 8) | (TAG1[8] & MASK2);
-#ifdef OSIRIX_VIEWER
-                    if( savedWidthInDB != 0 && savedWidthInDB != width)
-                    {
-                        if( savedWidthInDB != OsirixDicomImageSizeUnknown)
-                            NSLog( @"******* [[imageObj valueForKey:@'width'] intValue] != width - %d versus %d", (int)savedWidthInDB, (int)width);
-                        
-                        if( iContext == nil)
-                            iContext = ([[NSThread currentThread] isMainThread] ? [[[BrowserController currentBrowser] database] managedObjectContext] : [[[BrowserController currentBrowser] database] independentContext]);
-                        
-                        [[iContext existingObjectWithID: imageObjectID error: nil] setValue: [NSNumber numberWithInt: width] forKey: @"width"];
-                        
-                        if( width > savedWidthInDB && fExternalOwnedImage)
-                            width = savedWidthInDB;
-                    }
-#endif
-                    break;
-                    
-                case 257:
-                    height = ((TAG1[11] & MASK2) << 24) | ((TAG1[10] & MASK2) << 16) | ((TAG1[9] & MASK2) << 8) | (TAG1[8] & MASK2);
-#ifdef OSIRIX_VIEWER
-                    if( savedHeightInDB != 0 && savedHeightInDB != height)
-                    {
-                        if( savedHeightInDB != OsirixDicomImageSizeUnknown)
-                            NSLog( @"******* [[imageObj valueForKey:@'height'] intValue] != height - %d versus %d", (int)savedHeightInDB, (int)height);
-                        
-                        if( iContext == nil)
-                            iContext = ([[NSThread currentThread] isMainThread] ? [[[BrowserController currentBrowser] database] managedObjectContext] : [[[BrowserController currentBrowser] database] independentContext]);
-                        
-                        [[iContext existingObjectWithID: imageObjectID error: nil] setValue: [NSNumber numberWithInt: height] forKey: @"height"];
-                        
-                        if( height > savedHeightInDB && fExternalOwnedImage)
-                            height = savedHeightInDB;
-                    }
-#endif
-                    break;
-                    
-                    // GJ: don't need to parse these tags as things are wriiten now
-                    /*
-                     case 258:
-                     LENGTH1 = ((TAG1[7] & MASK2) << 24) | ((TAG1[6] & MASK2) << 16) | ((TAG1[5] & MASK2) << 8) | (TAG1[4] & MASK2);
-                     TIF_BITSPERSAMPLE_CHANNEL1 = ((TAG1[8] & MASK2) << 0);
-                     TIF_BITSPERSAMPLE_CHANNEL2 = ((TAG1[9] & MASK2) << 0);
-                     TIF_BITSPERSAMPLE_CHANNEL3 = ((TAG1[10] & MASK2) << 0);
-                     break;*/
-                    
-                case 259:
-                    TIF_COMPRESSION = ((TAG1[8] & MASK2) << 0);
-                    NSLog( @"COMPRESSION: %d", TIF_COMPRESSION);
-                    break;
-                    
-                    /*	case 262:
-                     TIF_PHOTOMETRICINTERPRETATION = ((TAG1[8] & MASK2) << 0);
-                     break;
-                     case 273:
-                     LENGTH2 = ((TAG1[7] & MASK2) << 24) | ((TAG1[6] & MASK2) << 16) | ((TAG1[5] & MASK2) << 8) | (TAG1[4] & MASK2);
-                     TIF_STRIPOFFSETS = ((TAG1[11] & MASK2) << 24) | ((TAG1[10] & MASK2) << 16) | ((TAG1[9] & MASK2) << 8) | (TAG1[8] & MASK2);
-                     //NSLog(@"LoadLSM:TIF_STRIPOFFSETS = %d; LENGTH2 = %d",TIF_STRIPOFFSETS,LENGTH2);
-                     break;
-                     case 277:
-                     TIF_SAMPLESPERPIXEL = ((TAG1[8] & MASK2) << 0);
-                     break;
-                     case 279:
-                     TIF_STRIPBYTECOUNTS = ((TAG1[11] & MASK2) << 24) | ((TAG1[10] & MASK2) << 16) | ((TAG1[9] & MASK2) << 8) | (TAG1[8] & MASK2);
-                     break; */
-                    
-                case 34412:
-                    TIF_CZ_LSMINFO = ((TAG1[11] & MASK2) << 24) | ((TAG1[10] & MASK2) << 16) | ((TAG1[9] & MASK2) << 8) | (TAG1[8] & MASK2);
-                    //NSLog(@"LoadLSM: TIF_CZ_LSMINFO = %d",TIF_CZ_LSMINFO);
-                    break;
-                    
-                default:
-                    break;
-            }
-        }
-    } // end for loop parsing info of first frame
-    
-    [iContext save: nil];
-    
-    if( TIF_CZ_LSMINFO)
-    {
-        fseek(fp, TIF_CZ_LSMINFO + 8, SEEK_SET);
-        
-        int	DIMENSION_X, DIMENSION_Y, DIMENSION_Z, NUMBER_OF_CHANNELS, TIMESTACKSIZE, DATATYPE;
-        short   SCANTYPE;
-        double   VOXELSIZE_X, VOXELSIZE_Y, VOXELSIZE_Z;
-        
-        fread( &DIMENSION_X, 4, 1, fp);		DIMENSION_X = EndianU32_LtoN( DIMENSION_X);
-        fread( &DIMENSION_Y, 4, 1, fp);		DIMENSION_Y = EndianU32_LtoN( DIMENSION_Y);
-        fread( &DIMENSION_Z, 4, 1, fp);		DIMENSION_Z = EndianU32_LtoN( DIMENSION_Z);
-        
-        fread( &NUMBER_OF_CHANNELS, 4, 1, fp);		NUMBER_OF_CHANNELS = EndianU32_LtoN( NUMBER_OF_CHANNELS);
-        //GJ:
-        //NSLog(@"LoadLSM: Number of Channels %d",NUMBER_OF_CHANNELS);
-        fread( &TIMESTACKSIZE, 4, 1, fp);			TIMESTACKSIZE = EndianU32_LtoN( TIMESTACKSIZE);
-        
-        fread( &DATATYPE, 4, 1, fp);			DATATYPE = EndianU32_LtoN( DATATYPE);
-        
-        fseek(fp, TIF_CZ_LSMINFO + 88, SEEK_SET);
-        fread( &SCANTYPE, 2, 1, fp);			SCANTYPE = EndianU16_LtoN( SCANTYPE);
-        
-        //		switch (SCANTYPE) {
-        //			case 3:
-        //				NoOfFrames = TIMESTACKSIZE;
-        //				break;
-        //			case 4:
-        //				NoOfFrames = TIMESTACKSIZE;
-        //				break;
-        //			case 6:
-        //				NoOfFrames = TIMESTACKSIZE * DIMENSION_Z;
-        //				break;
-        //			default:
-        //				NoOfFrames = DIMENSION_Z;
-        //				break;
-        //		}
-        
-        if( fExternalOwnedImage) fImage = fExternalOwnedImage;
-        else fImage = malloc(width*height*sizeof(float) + 100);
-        
-        int numPixels = (int)(height * width);
-        
-        // GJ: Move to correct location for image data
-        fseek(fp, imageDataOffsetForThisFrame, SEEK_SET);
-        // Then read data according to datatype
-        
-        short *oImage = nil;
-        
-        switch( DATATYPE)
-        {
-            default:
-            case 1:		// 8 bit image data
-                oImage = malloc( numPixels * 2);
-                unsigned char   *eightBitData;
-                eightBitData = malloc(numPixels);
-                /* 040609 GJ: rationalised this
-                 if( LENGTH2 == 1)  // Single channel image
-                 {
-                 fseek(fp, TIF_STRIPOFFSETS + frameNo * ((numPixels* NUMBER_OF_CHANNELS) +thumbnailDataSize), SEEK_SET);
-                 fread( eightBitData, numPixels, 1 ,fp);
-                 } else {
-                 // multi channel image
-                 fseek(fp, TIF_STRIPOFFSETS_ARRAY[serieNo] + frameNo * ((numPixels* NUMBER_OF_CHANNELS) +thumbnailDataSize), SEEK_SET);
-                 fread( eightBitData, numPixels, 1 ,fp);
-                 }
-                 */
-                fseek(fp, imageDataOffsetForThisFrame, SEEK_SET);
-                fread( eightBitData, numPixels, 1 ,fp);
-                
-                // Test
-                //NSData  *outData = [NSData dataWithBytes: eightBitData+4 length : numPixels];
-                //[outData writeToFile:@"out" atomically:YES];
-                
-                // Now copy the pixels from the temporary 8 bit array
-                // to the 16 bit "oImage"
-                i = numPixels;
-                while( i-- > 0) oImage[i] = eightBitData[ i];
-                free( eightBitData);
-                
-                if( TIF_COMPRESSION)
-                {
-                    [self LoadTiff: counter];
-                    
-                    // RGBA -> separate according to SerieNo
-                    
-                    if( isRGB && serieNo < 3)
-                    {
-                        isRGB = NO;
-                        unsigned char  *dst = (unsigned char*) fImage;
-                        
-                        i = numPixels;
-                        while( i-- > 0)
-                        {
-                            oImage[ i] = dst[ i*4+ 1 + serieNo];
-                        }
-                    }
-                }
-                break;
-                
-            case 2:
-                // GJ: 040608 added code to handle 16 bit data including multi channels
-                oImage = malloc(numPixels*2);
-                
-                /*
-                 // GJ: Move to correct location for image data
-                 if( LENGTH2 == 1)
-                 {  // Single channel image
-                 fseek(fp, TIF_STRIPOFFSETS + frameNo * ((numPixels*2* NUMBER_OF_CHANNELS) +thumbnailDataSize) , SEEK_SET);
-                 } else {
-                 // Multi channel image nb serieNo has already been bounds checked
-                 fseek(fp, TIF_STRIPOFFSETS_ARRAY[serieNo] + frameNo * ((numPixels*2* NUMBER_OF_CHANNELS) +thumbnailDataSize), SEEK_SET);
-                 }
-                 */
-                //GJ: read image data
-                fread( oImage, numPixels*2, 1 ,fp);
-                
-                // GJ added conversion of Little/Big endian format
-                i = numPixels;
-                while( i-- > 0) oImage[i]=NSSwapLittleShortToHost( oImage[ i]);
-                break;
-                
-            case 5:		// float - GJ: I have no test images for this format
-                oImage = nil;
-                /*
-                 if( LENGTH2 == 1) fseek(fp, TIF_STRIPOFFSETS + height * width * ((frameNo * NUMBER_OF_CHANNELS)) * 4, SEEK_SET);
-                 else fseek(fp, TIF_STRIPOFFSETS1 + height * width * ((frameNo * NUMBER_OF_CHANNELS)), SEEK_SET);
-                 */
-                // GJ: LSM float data is 32 bit according to LSM_Reader.java
-                fread( fImage, numPixels * 4, 1 ,fp);
-                i = numPixels;
-                while( i-- > 0) ConvertFloatToNative( &fImage[i]);
-                break;
-        }
-        
-        if( oImage)
-        {
-            // CONVERSION TO FLOAT
-            
-            vImage_Buffer src16, dstf;
-            
-            dstf.height = src16.height = height;
-            dstf.width = src16.width = width;
-            src16.rowBytes = width*2;
-            dstf.rowBytes = width*sizeof(float);
-            
-            src16.data = oImage;
-            dstf.data = fImage;
-            
-            vImageConvert_16SToF( &src16, &dstf, 0, 1, 0);
-            
-            free(oImage);
-        }
-        oImage = nil;
-        
-        NSSwappedDouble tt;
-        
-        fseek(fp, TIF_CZ_LSMINFO + 40, SEEK_SET);
-        fread( &tt, 8, 1, fp);
-        VOXELSIZE_X = NSSwapLittleDoubleToHost( tt);
-        pixelSpacingX = VOXELSIZE_X*1000;
-        
-        fseek(fp, TIF_CZ_LSMINFO + 48, SEEK_SET);
-        fread( &tt, 8, 1, fp);
-        VOXELSIZE_Y = NSSwapLittleDoubleToHost( tt);
-        pixelSpacingY = VOXELSIZE_Y*1000;
-        
-        fseek(fp, TIF_CZ_LSMINFO + 56, SEEK_SET);
-        fread( &tt, 8, 1, fp);
-        VOXELSIZE_Z = NSSwapLittleDoubleToHost( tt);
-        sliceInterval = sliceThickness = VOXELSIZE_Z*1000;
-        sliceLocation = frameNo * sliceInterval;
-        
-        savedWL = wl = 127;
-        savedWW = ww = 255;
-        //
-        
-        //			stream.seek((int)position + 108);
-        //			OFFSET_CHANNELSCOLORS = swap(stream.readInt());
-        //
-        //			stream.seek((int)position + 120);
-        //			OFFSET_CHANNELDATATYPES = swap(stream.readInt());
-        //
-        //			stream.seek((int)position+124);
-        //			OFFSET_SCANINFO = swap(stream.readInt());
-        //
-        //			stream.seek((int)position+132);
-        //			OFFSET_TIMESTAMPS = swap(stream.readInt());
-        //
-        //			stream.seek((int)position+204);
-        //			OFFSET_CHANNELWAVELENGTH = swap(stream.readInt());
-    }
-    
-    
-    fclose( fp);
-}
 
 - (void) computeTotalDoseCorrected
 {
@@ -4893,6 +3741,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 
 - (void)createROIsFromRTSTRUCT: (DCMObject*)dcmObject
 {
+    /*
 #ifdef OSIRIX_VIEWER
     
     
@@ -4908,10 +3757,12 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     [[ThreadsManager defaultManager] addThreadAndStart: t];
     
 #endif
+     */
 }
 
 - (void)createROIsFromRTSTRUCTThread: (NSDictionary*)dict
 {
+    /*
 #ifdef OSIRIX_VIEWER
     
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];  // Cuz this is run as a detached thread.
@@ -4949,17 +3800,15 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
                     NSPredicate *pred = [NSPredicate predicateWithFormat: @"series.seriesDICOMUID == %@", refSeriesUID];
                     [refSeriesUIDPredicates addObject: pred];
                     
-                    /*
-                     DCMSequenceAttribute *contourImgSeq = (DCMSequenceAttribute *)[refSeriesSeqItem attributeWithName: @"ContourImageSequence"];
-                     NSEnumerator *contourImgSeqEnum = [[contourImgSeq sequence] objectEnumerator];
-                     DCMObject *contourImgSeqItem;
+                     //DCMSequenceAttribute *contourImgSeq = (DCMSequenceAttribute *)[refSeriesSeqItem attributeWithName: @"ContourImageSequence"];
+                     //NSEnumerator *contourImgSeqEnum = [[contourImgSeq sequence] objectEnumerator];
+                     //DCMObject *contourImgSeqItem;
                      
-                     while ( contourImgSeqItem = [contourImgSeqEnum nextObject]) {
-                     NSString *refImgUID = [contourImgSeqItem attributeValueWithName: @"ReferencedSOPInstanceUID"];
-                     NSPredicate *pred = [NSPredicate predicateWithFormat: @"sopInstanceUID like %@", refImgUID];
-                     [refImgUIDPredicates addObject: pred];
-                     }
-                     */
+                     //while ( contourImgSeqItem = [contourImgSeqEnum nextObject]) {
+                     //NSString *refImgUID = [contourImgSeqItem attributeValueWithName: @"ReferencedSOPInstanceUID"];
+                     //NSPredicate *pred = [NSPredicate predicateWithFormat: @"sopInstanceUID like %@", refImgUID];
+                     //[refImgUIDPredicates addObject: pred];
+                     //}
                 }
             }
         }
@@ -5274,6 +4123,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     
     [pool release];
 #endif
+*/
 } // end createROIsFromRTSTRUCT
 
 
@@ -5545,7 +4395,8 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     {
         width =  [[dcmObject attributeValueWithName:@"Columns"] intValue];
     }
-    
+
+    /*
 #ifdef OSIRIX_VIEWER
     NSManagedObjectContext *iContext = nil;
     
@@ -5578,7 +4429,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     }
     [iContext save: nil];
 #endif
-    
+    */
     if( shutterRect.size.width == 0) shutterRect.size.width = width;
     if( shutterRect.size.height == 0) shutterRect.size.height = height;
     
@@ -5862,9 +4713,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
         
         [self getDataFromNSImage: pdfImage];
         
-#ifdef OSIRIX_VIEWER
-        [self loadCustomImageAnnotationsPapyLink:-1 DCMLink:dcmObject];
-#endif
         
         [purgeCacheLock lock];
         [purgeCacheLock unlockWithCondition: [purgeCacheLock condition]-1];
@@ -5873,9 +4721,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     } // end encapsulatedPDF
     else if ([SOPClassUID isEqualToString:[DCMAbstractSyntaxUID cdaStorageClassUID]])
     {
-#ifdef OSIRIX_VIEWER
-        [self loadCustomImageAnnotationsPapyLink:-1 DCMLink:dcmObject];
-#endif
         
         [purgeCacheLock lock];
         [purgeCacheLock unlockWithCondition: [purgeCacheLock condition]-1];
@@ -5884,68 +4729,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     }
     else if( [SOPClassUID hasPrefix: @"1.2.840.10008.5.1.4.1.1.88"]) // DICOM SR
     {
-#ifdef OSIRIX_VIEWER
-        
-        @try
-        {
-            [[NSFileManager defaultManager] confirmDirectoryAtPath:@"/tmp/dicomsr_osirix/"];
-            
-            NSString *htmlpath = [[@"/tmp/dicomsr_osirix/" stringByAppendingPathComponent:self.srcFile.lastPathComponent] stringByAppendingPathExtension: @"xml"];
-            
-            if( [[NSFileManager defaultManager] fileExistsAtPath: htmlpath] == NO)
-            {
-                NSTask *aTask = [[[NSTask alloc] init] autorelease];
-                [aTask setEnvironment:[NSDictionary dictionaryWithObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/dicom.dic"] forKey:@"DCMDICTPATH"]];
-                [aTask setLaunchPath: [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: @"/dsr2html"]];
-                [aTask setArguments: [NSArray arrayWithObjects: @"+X1", @"--unknown-relationship", @"--ignore-constraints", @"--ignore-item-errors", @"--skip-invalid-items",self.srcFile, htmlpath, nil]];
-                [aTask launch];
-                while( [aTask isRunning])
-                    [NSThread sleepForTimeInterval: 0.1];
-                
-                //[aTask waitUntilExit];		// <- This is VERY DANGEROUS : the main runloop is continuing...
-                [aTask interrupt];
-            }
-            
-            if( [[NSFileManager defaultManager] fileExistsAtPath: [htmlpath stringByAppendingPathExtension: @"pdf"]] == NO)
-            {
-                if( [[NSFileManager defaultManager] fileExistsAtPath: [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/Decompress"]])
-                {
-                    NSTask *aTask = [[[NSTask alloc] init] autorelease];
-                    [aTask setLaunchPath: [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/Decompress"]];
-                    [aTask setArguments: [NSArray arrayWithObjects: htmlpath, @"pdfFromURL", nil]];
-                    [aTask launch];
-                    NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate];
-                    while( [aTask isRunning] && [NSDate timeIntervalSinceReferenceDate] - start < 10)
-                        [NSThread sleepForTimeInterval: 0.1];
-                    
-                    //[aTask waitUntilExit];		// <- This is VERY DANGEROUS : the main runloop is continuing...
-                    [aTask interrupt];
-                }
-            }
-            
-            NSPDFImageRep *rep = [NSPDFImageRep imageRepWithData: [NSData dataWithContentsOfFile: [htmlpath stringByAppendingPathExtension: @"pdf"]]];
-            
-            [rep setCurrentPage: frameNo];
-            
-            NSImage *pdfImage = [[[NSImage alloc] init] autorelease];
-            [pdfImage addRepresentation: rep];
-            
-            [self getDataFromNSImage: pdfImage];
-            
-            [self loadCustomImageAnnotationsPapyLink:-1 DCMLink:dcmObject];
-            
-            [purgeCacheLock lock];
-            [purgeCacheLock unlockWithCondition: [purgeCacheLock condition]-1];
-            [pool release];
-            return YES;
-        }
-        @catch (NSException * e)
-        {
-            N2LogExceptionWithStackTrace(e);
-        }
-#else
         [self getDataFromNSImage: [NSImage imageNamed: @"NSIconViewTemplate"]];
-#endif
     }
     else if ( [DCMAbstractSyntaxUID isNonImageStorage: SOPClassUID])
     {
@@ -5960,10 +4744,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
         
         for( int i = 0; i < 128*128; i++)
             fImage[ i ] = i%2;
-        
-#ifdef OSIRIX_VIEWER
-        [self loadCustomImageAnnotationsPapyLink:-1 DCMLink:dcmObject];
-#endif
         
         [purgeCacheLock lock];
         [purgeCacheLock unlockWithCondition: [purgeCacheLock condition]-1];
@@ -6815,10 +5595,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
             
             pixelRatio = pixelSpacingY / pixelSpacingX;
         }
-        
-#ifdef OSIRIX_VIEWER
-        [self loadCustomImageAnnotationsPapyLink:-1 DCMLink:dcmObject];
-#endif
     }
     @catch (NSException *e)
     {
@@ -6953,7 +5729,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
             {
                 height = TIFFRep.pixelsHigh;
                 width = TIFFRep.pixelsWide;
-                
+/*
 #ifdef OSIRIX_VIEWER
                 NSManagedObjectContext *iContext = nil;
                 
@@ -6987,6 +5763,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
                 
                 [iContext save: nil];
 #endif
+ */
                 unsigned char *srcImage = [TIFFRep bitmapData];
                 
                 unsigned char *argbImage = nil, *srcPtr = nil, *tmpPtr = nil;
@@ -7109,7 +5886,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 - (void) CheckLoadIn
 {
-    BOOL USECUSTOMTIFF = NO;
     
     if( fImage == nil)
     {
@@ -7124,7 +5900,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
         
         if (!self.srcFile) return;
         
-        
+//JF DCKV instead of papyrus
         if( [self isDICOMFile:self.srcFile])
         {
             // PLEASE, KEEP BOTH FUNCTIONS FOR TESTING PURPOSE. THANKS
@@ -7134,36 +5910,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
             {
                 if( gUSEPAPYRUSDCMPIX)
                 {
-                    success = [self loadDICOMPapyrus]; // always fail
-                    
-#ifdef OSIRIX_VIEWER
-                    if( success == NO)
-                    {
-                        // It failed with Papyrus : potential crash with DCMFramework with a corrupted file
-                        // Only do it, if it failed: writing a file takes time... and slow down reading performances
-                        
-                        NSString *recoveryPath = [[[[BrowserController currentBrowser] database] baseDirPath] stringByAppendingPathComponent:@"ThumbnailPath"];
-                        
-                        [[NSFileManager defaultManager] removeItemAtPath: recoveryPath error: nil];
-                        
-                        @try
-                        {
-                            [URIRepresentationAbsoluteString writeToFile: recoveryPath atomically: YES encoding: NSASCIIStringEncoding  error: nil];
-                            
-                            //only try again if it's strict DICOM
-                            if (success == NO && [DCMObject isDICOM:[NSData dataWithContentsOfFile:self.srcFile]])
-                            {
-                                success = [self loadDICOMDCMFramework];
-                            }
-                            
-                            [[NSFileManager defaultManager] removeItemAtPath: recoveryPath error: nil];
-                        }
-                        @catch (NSException * e)
-                        {
-                            NSLog( @"***** exception in %s: %@", __PRETTY_FUNCTION__, e);
-                        }
-                    }
-#endif
+                    success = [self loadDICOMPapyrus]; //JF always fail because pap3 static lib not present
                 }
                 else
                 {
@@ -7191,19 +5938,18 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
             
             [pool release];
         }
-        
+/*
         if( success == NO)	// Is it a NON-DICOM IMAGE ??
         {
             NSImage		*otherImage = nil;
             NSString	*extension = [[self.srcFile pathExtension] lowercaseString];
             
-#ifdef OSIRIX_VIEWER
             id fileFormatBundle;
             if ((fileFormatBundle = [[PluginManager fileFormatPlugins] objectForKey:[self.srcFile pathExtension]]))
             {
                 PluginFileFormatDecoder *decoder = [[[fileFormatBundle principalClass] alloc] init];
                 
-                [PluginManager startProtectForCrashWithFilter: decoder];
+ //JF               [PluginManager startProtectForCrashWithFilter: decoder];
                 
                 fImage = [decoder checkLoadAtPath:self.srcFile];
                 //NSLog(@"decoder width %d", [decoder width]);
@@ -7215,10 +5961,9 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
                 isRGB = [decoder isRGB];
                 [decoder release];
                 
-                [PluginManager endProtectForCrash];
+//JF                [PluginManager endProtectForCrash];
             }
             else
-#endif
                 
                 if( [extension isEqualToString:@"zip"])
                 {
@@ -7270,622 +6015,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
                     isRGB = YES;
                     [TIFFRep release];
                 }
-                else if( [extension isEqualToString:@"lsm"])
-                {
-                    [self LoadLSM];
-                }
-                else if( [extension isEqualToString:@"pic"])
-                {
-                    [self LoadBioradPic];
-                }
-                else if( [DicomFile isFVTiffFile:self.srcFile])
-                {
-                    [self LoadFVTiff];
-                }
-#ifndef DECOMPRESS_APP
-                else if( (( [extension isEqualToString:@"hdr"]) &&
-                          ([[NSFileManager defaultManager] fileExistsAtPath:[[self.srcFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"img"]] == YES)) ||
-                        ( [extension isEqualToString:@"nii"]))
-                {
-                    // NIfTI support developed by Zack Mahdavi at the Center for Neurological Imaging, a division of Harvard Medical School
-                    // For more information: http://cni.bwh.harvard.edu/
-                    // For questions or suggestions regarding NIfTI integration in OsiriX, please contact zmahdavi@bwh.harvard.edu
-                    long			totSize;
-                    struct nifti_1_header  *NIfTI;
-                    nifti_image *nifti_imagedata;
-                    NSData			*fileData;
-                    BOOL			swapByteOrder = NO;
-                    
-                    NIfTI = (nifti_1_header *) nifti_read_header([self.srcFile UTF8String], nil, 0);
-                    
-                    // Verify that this file should be treated as a NIfTI file.  If magic is not set to anything, we must assume it is analyze.
-                    if( (NIfTI->magic[0] == 'n')                           &&
-                       (NIfTI->magic[1] == 'i' || NIfTI->magic[1] == '+')   &&
-                       (NIfTI->magic[2] == '1')                           &&
-                       (NIfTI->magic[3] == '\0'))
-                    {
-                        width = NIfTI->dim[ 1];
-                        height = NIfTI->dim[ 2];
-                        
-                        pixelSpacingX = NIfTI->pixdim[ 1];
-                        pixelSpacingY = NIfTI->pixdim[ 2];
-                        sliceThickness = sliceInterval = NIfTI->pixdim[ 3];
-                        
-                        totSize = height * width * 2;
-                        //NSLog(@"totSize:  %d", totSize);
-                        oImage = malloc( totSize);
-                        
-                        // Transformation matrix
-                        short qform_code = NIfTI->qform_code;
-                        short sform_code = NIfTI->sform_code;
-                        
-                        // Read img file or read nii file after vox_offset
-                        nifti_imagedata = nifti_image_read([self.srcFile UTF8String], 1);
-                        
-                        if( (NIfTI->magic[0] == 'n')    &&
-                           (NIfTI->magic[1] == 'i')	&&
-                           (NIfTI->magic[2] == '1')    &&
-                           (NIfTI->magic[3] == '\0'))
-                        {
-                            // This is a "two file" nifti file.  Image file is separated from header.
-                            fileData = [[NSData alloc] initWithContentsOfFile: [[self.srcFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"img"]];
-                        }
-                        else
-                        {
-                            // Header and image file are together.
-                            fileData = [[NSData alloc] initWithBytesNoCopy:nifti_imagedata->data length:(nifti_imagedata->nvox * nifti_imagedata->nbyper)];
-                        }
-                        
-                        // This "datatype" portion is taken from the analyze code.
-                        short datatype = NIfTI->datatype;
-                        
-                        switch( datatype)
-                        {
-                            case 2:
-                            {
-                                unsigned char *bufPtr;
-                                short *ptr;
-                                long loop;
-                                
-                                bufPtr = (unsigned char*) [fileData bytes]+ frameNo*(height * width);
-                                ptr = oImage;
-                                
-                                loop = height * width;
-                                while( loop-- > 0)
-                                {
-                                    *ptr++ = *bufPtr++;
-                                }
-                                //NSLog(@"Loop is done for frame number %i \n", (int) frameNo);
-                            }
-                                break;
-                                
-                            case 4:
-                                memcpy( oImage, [fileData bytes] + frameNo*(height * width * 2), height * width * 2);
-                                if( swapByteOrder)
-                                {
-                                    long loop;
-                                    short *ptr = oImage;
-                                    
-                                    loop = height * width;
-                                    while( loop-- > 0)
-                                    {
-                                        *ptr = Endian16_Swap( *ptr);
-                                        ptr++;
-                                    }
-                                }
-                                break;
-                                
-                            case 8:
-                            {
-                                unsigned int *bufPtr;
-                                short *ptr;
-                                long loop;
-                                
-                                bufPtr = (unsigned int*) [fileData bytes];
-                                bufPtr += frameNo * (height * width);
-                                ptr    = oImage;
-                                
-                                loop = height * width;
-                                while( loop-- > 0)
-                                {
-                                    
-                                    if( swapByteOrder)  *ptr++ = Endian32_Swap( *bufPtr++);
-                                    else *ptr++ = *bufPtr++;
-                                }
-                            }
-                                break;
-                                
-                            case 16:
-                                if( fExternalOwnedImage)
-                                    fImage = fExternalOwnedImage;
-                                else
-                                    fImage = malloc( (width+1) * (height+1) * sizeof(float) + 100);
-                                
-                                if( [fileData length] < height * width * sizeof(float))
-                                    NSLog( @"****** [fileData length] < height * width * sizeof(float)");
-                                
-                                if( fImage)
-                                {
-                                    for(long i = 0; i < height;i++)
-                                        memcpy( fImage + i * width, [fileData bytes]+ frameNo * (height * width)*sizeof(float) + i*width*sizeof(float), width * sizeof(float));
-                                }
-                                else N2LogStackTrace( @"*** Not enough memory - malloc failed");
-                                
-                                free(oImage);
-                                oImage = nil;
-                                break;
-                                
-                            case 64: // double
-                                if( fExternalOwnedImage)
-                                    fImage = fExternalOwnedImage;
-                                else
-                                    fImage = malloc( (width+1) * (height+1) * sizeof(float) + 100);
-                                
-                                if( [fileData length] < height * width * sizeof(float))
-                                    NSLog( @"****** [fileData length] < height * width * sizeof(float)");
-                                
-                                if( fImage)
-                                {
-                                    double *bufPtr = (double*) [fileData bytes];
-                                    bufPtr += frameNo * (height * width);
-                                    float *ptr = fImage;
-                                    
-                                    long loop = height * width;
-                                    while( loop-- > 0)
-                                    {
-                                        if( swapByteOrder)  *ptr++ = Endian64_Swap( *bufPtr++);
-                                        else *ptr++ = *bufPtr++;
-                                        
-                                    }
-                                }
-                                else N2LogStackTrace( @"*** Not enough memory - malloc failed");
-                                
-                                free(oImage);
-                                oImage = nil;
-                                break;
-                                
-                            case 128: //128 - RGB24
-                                NSLog(@"unsupported... please send me this file");
-                                break;
-                                
-                            case 256: //256 - int8
-                            {
-                                char *bufPtr;
-                                short *ptr;
-                                long loop;
-                                
-                                bufPtr = (char*) [fileData bytes]+ frameNo*(height * width);
-                                ptr = oImage;
-                                
-                                loop = height * width;
-                                while( loop-- > 0)
-                                {
-                                    *ptr++ = *bufPtr++;
-                                }
-                            }
-                                break;
-                                
-                            case 512: //512 - uint16
-                                NSLog(@"unsupported... please send me this file");
-                                break;
-                                
-                            case 768: //768 - uint32
-                                NSLog(@"unsupported... please send me this file");
-                                break;
-                                
-                            case 1792: //1792 - complex128
-                                NSLog(@"unsupported... please send me this file");
-                                break;
-                        }
-                        
-                        [fileData release];
-                        
-                        // CONVERSION TO FLOAT
-                        
-                        if( oImage != nil && datatype != 16 && datatype != 64)
-                        {
-                            vImage_Buffer src16, dstf;
-                            
-                            dstf.height = src16.height = height;
-                            dstf.width = src16.width = width;
-                            src16.rowBytes = width*2;
-                            dstf.rowBytes = width*sizeof(float);
-                            
-                            src16.data = oImage;
-                            
-                            if( fExternalOwnedImage)
-                            {
-                                fImage = fExternalOwnedImage;
-                            }
-                            else
-                            {
-                                fImage = malloc(width*height*sizeof(float) + 100);
-                            }
-                            
-                            dstf.data = fImage;
-                            
-                            if( dstf.data)
-                            {
-                                vImageConvert_16SToF( &src16, &dstf, 0, 1, 0);
-                            }
-                            else N2LogStackTrace( @"*** Not enough memory - malloc failed");
-                            
-                            free(oImage);
-                            oImage = nil;
-                        }
-                        
-                        // Set up origins for nifti file.
-                        //   - This portion tells OsiriX which view is active for the image.  This allows OsiriX to determine whether the
-                        //	   image is axial, sagittal, or coronal.
-                        // Grab orientations for i, j, and k axes based on either qform or sform matrices.
-                        int icod, jcod, kcod;
-                        if(qform_code > 0)
-                        {
-                            nifti_mat44_to_orientation(nifti_imagedata->qto_xyz, &icod, &jcod, &kcod);
-                        }
-                        else if(sform_code > 0)
-                        {
-                            nifti_mat44_to_orientation(nifti_imagedata->sto_xyz, &icod, &jcod, &kcod);
-                        }
-                        
-                        if(jcod == NIFTI_A2P || jcod == NIFTI_P2A)
-                        {
-                            // This is axial by default, so set originZ.
-                            originX = 0;
-                            originY = 0;
-                            originZ = frameNo * pixelSpacingX;
-                            
-                            isOriginDefined = YES;
-                        }
-                        else if(jcod == NIFTI_S2I || jcod == NIFTI_I2S)
-                        {
-                            if(icod == NIFTI_A2P || icod == NIFTI_P2A)
-                            {
-                                // This is sagittal by default, so set originX.
-                                originX = frameNo * pixelSpacingX;
-                                originY = 0;
-                                originZ = 0;
-                                
-                                isOriginDefined = YES;
-                            }
-                            else if(icod == NIFTI_R2L || icod == NIFTI_L2R)
-                            {
-                                // This is coronal by default, so set originY.
-                                originX = 0;
-                                originY = frameNo * pixelSpacingX;
-                                originZ = 0;
-                                
-                                isOriginDefined = YES;
-                            }
-                        }
-                        
-                        
-                        
-                        // Adjust orientation of nifti file
-                        BOOL flipI = NO;
-                        BOOL flipJ = NO;
-                        int shiftNum = 0;
-                        
-                        // Grab orientations for i, j, and k axes based on either qform or sform matrices.
-                        if(qform_code > 0)
-                        {
-                            nifti_mat44_to_orientation(nifti_imagedata->qto_xyz, &icod, &jcod, &kcod);
-                        }
-                        else if(sform_code > 0)
-                        {
-                            nifti_mat44_to_orientation(nifti_imagedata->sto_xyz, &icod, &jcod, &kcod);
-                        }
-                        
-                        
-                        if(icod != NIFTI_L2R && icod != NIFTI_R2L)
-                        {
-                            // Must shift the orientation matrix so that icod, jcod, and kcod are
-                            // aligned with the orientation matrix.
-                            if(icod == NIFTI_A2P || icod == NIFTI_P2A)
-                            {
-                                shiftNum = 2;
-                            }
-                            else if(icod == NIFTI_S2I || icod == NIFTI_I2S)
-                            {
-                                shiftNum = 1;
-                            }
-                        }
-                        else
-                        {
-                            // verify that jcod is AP or PA
-                            if(jcod != NIFTI_A2P && jcod != NIFTI_P2A)
-                            {
-                                // this means that jcod is S2I or I2S.
-                                // So set orient[3,4,5] to orient[6,7,8]
-                                float	orient[ 9];
-                                for( int i = 0 ; i < 9; i ++) orient[ i] = orientation[ i];
-                                
-                                orient[ 3] = orient[ 6];
-                                orient[ 4] = orient[ 7];
-                                orient[ 5] = orient[ 8];
-                                
-                                [self setOrientation: orient];
-                            }
-                        }
-                        
-                        
-                        if(shiftNum > 0)
-                        {
-                            // Shift number of times specified.
-                            // orient[3,4,5] takes on orient[0,1,2], which takes on orient[6,7,8]
-                            // orient[6,7,8] is recalculated after setOrientation is called.
-                            while(shiftNum > 0)
-                            {
-                                // Shift.
-                                float	orient[ 9];
-                                int t6, t7, t8;
-                                
-                                for( int i = 0 ; i < 9; i ++) orient[ i] = orientation[ i];
-                                
-                                t6 = orient[ 6];
-                                t7 = orient[ 7];
-                                t8 = orient[ 8];
-                                
-                                orient[ 3] = orient[ 0];
-                                orient[ 4] = orient[ 1];
-                                orient[ 5] = orient[ 2];
-                                
-                                orient[ 0] = t6;
-                                orient[ 1] = t7;
-                                orient[ 2] = t8;
-                                
-                                [self setOrientation: orient];
-                                
-                                shiftNum--;
-                            }
-                        }
-                        
-                        if(icod == NIFTI_L2R)
-                        {
-                            // Need to flip horizontally.
-                            flipI = YES;
-                        }
-                        else if(icod == NIFTI_P2A)
-                        {
-                            // Need to flip horizontally.
-                            flipI = YES;
-                        }
-                        else if(icod == NIFTI_S2I)
-                        {
-                            // Need to flip vertically
-                            flipI = YES;
-                        }
-                        
-                        if(jcod == NIFTI_P2A)
-                        {
-                            // Need to flip vertically.
-                            flipJ = YES;
-                        }
-                        else if(jcod == NIFTI_L2R)
-                        {
-                            // Need to flip vertically.
-                            flipJ = YES;
-                        }
-                        else if(jcod == NIFTI_S2I)
-                        {
-                            // Need to flip vertically
-                            flipJ = YES;
-                        }
-                        
-                        if(flipI)
-                        {
-                            // Flip orientation horizontally
-                            float	orient[ 9];
-                            for( int i = 0 ; i < 9; i ++) orient[ i] = orientation[ i];
-                            
-                            orient[ 0] *= -1;
-                            orient[ 1] *= -1;
-                            orient[ 2] *= -1;
-                            [self setOrientation: orient];
-                            sliceInterval = 0;
-                            
-                            float	o[3];
-                            o[ 0] = originX;			o[ 1] = originY;			o[ 2] = originZ;
-                            o[ 0] -= width * pixelSpacingX;
-                            [self setOrigin: o];
-                        }
-                        
-                        if(flipJ)
-                        {
-                            // Flip orientation vertically
-                            float	orient[ 9];
-                            
-                            for( int i = 0 ; i < 9; i ++) orient[ i] = orientation[ i];
-                            
-                            orient[ 3] *= -1;
-                            orient[ 4] *= -1;
-                            orient[ 5] *= -1;
-                            [self setOrientation: orient];
-                            sliceInterval = 0;
-                            
-                            float	o[3];
-                            o[ 0] = originX;			o[ 1] = originY;			o[ 2] = originZ;
-                            o[ 1] -=  height * pixelSpacingY;
-                            [self setOrigin: o];
-                            
-                        }
-                    }
-                    else if( [extension isEqualToString:@"hdr"]) // 'old' ANALYZE
-                    {
-                        if ([[NSFileManager defaultManager] fileExistsAtPath:[[self.srcFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"img"]] == YES)
-                        {
-                            NSData		*file = [NSData dataWithContentsOfFile: self.srcFile];
-                            
-                            if( [file length] == 348)
-                            {
-                                long			totSize;
-                                struct dsr*		Analyze;
-                                NSData			*fileData;
-                                BOOL			swapByteOrder = NO;
-                                
-                                Analyze = (struct dsr*) [file bytes];
-                                
-                                short endian = Analyze->dime.dim[ 0];		// dim[0]
-                                if ((endian < 0) || (endian > 15))
-                                {
-                                    swapByteOrder = YES;
-                                }
-                                
-                                height = Analyze->dime.dim[ 2];
-                                if( swapByteOrder) height = Endian16_Swap( height);
-                                width = Analyze->dime.dim[ 1];
-                                if( swapByteOrder) width = Endian16_Swap( width);
-                                
-                                
-                                
-                                float pX = Analyze->dime.pixdim[ 1];
-                                if( swapByteOrder) SwitchFloat( &pX);
-                                pixelSpacingX = pX;
-                                
-                                pX = Analyze->dime.pixdim[ 2];
-                                if( swapByteOrder) SwitchFloat( &pX);
-                                pixelSpacingY = pX;
-                                
-                                pX = Analyze->dime.pixdim[ 3];
-                                if( swapByteOrder) SwitchFloat( &pX);
-                                sliceThickness = pX;
-                                sliceInterval = pX;
-                                
-                                totSize = height * width * 2;
-                                oImage = malloc( totSize);
-                                
-                                fileData = [[NSData alloc] initWithContentsOfFile: [[self.srcFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"img"]];
-                                
-                                short datatype = Analyze->dime.datatype;
-                                if( swapByteOrder) datatype = Endian16_Swap( datatype);
-                                
-                                switch( datatype)
-                                {
-                                    case 2:
-                                    {
-                                        unsigned char   *bufPtr;
-                                        short			*ptr;
-                                        long			loop;
-                                        
-                                        bufPtr = (unsigned char*) [fileData bytes]+ frameNo*(height * width);
-                                        ptr = oImage;
-                                        
-                                        loop = height * width;
-                                        while( loop-- > 0)
-                                        {
-                                            *ptr++ = *bufPtr++;
-                                        }
-                                    }
-                                        break;
-                                        
-                                    case 4:
-                                        memcpy( oImage, [fileData bytes] + frameNo*(height * width * 2), height * width * 2);
-                                        if( swapByteOrder)
-                                        {
-                                            long			loop;
-                                            short			*ptr = oImage;
-                                            
-                                            loop = height * width;
-                                            while( loop-- > 0)
-                                            {
-                                                *ptr = Endian16_Swap( *ptr);
-                                                ptr++;
-                                            }
-                                        }
-                                        break;
-                                        
-                                    case 8:
-                                    {
-                                        unsigned int   *bufPtr;
-                                        short			*ptr;
-                                        long			loop;
-                                        
-                                        bufPtr = (unsigned int*) [fileData bytes];
-                                        bufPtr += frameNo * (height * width);
-                                        ptr    = oImage;
-                                        
-                                        loop = height * width;
-                                        while( loop-- > 0)
-                                        {
-                                            
-                                            if( swapByteOrder)  *ptr++ = Endian32_Swap( *bufPtr++);
-                                            else *ptr++ = *bufPtr++;
-                                        }
-                                    }
-                                        break;
-                                        
-                                    case 16:
-                                        if( fExternalOwnedImage)
-                                        {
-                                            fImage = fExternalOwnedImage;
-                                        }
-                                        else
-                                        {
-                                            fImage = malloc(width*height*sizeof(float) + 100);
-                                        }
-                                        
-                                        if( fImage)
-                                        {
-                                            for(long i = 0; i < height;i++)
-                                            {
-                                                memcpy( fImage + i * width, [fileData bytes]+ frameNo * (height * width)*sizeof(float) + i*width*sizeof(float), width*sizeof(float));
-                                            }
-                                        }
-                                        else N2LogStackTrace( @"*** Not enough memory - malloc failed");
-                                        
-                                        free(oImage);
-                                        oImage = nil;
-                                        break;
-                                        
-                                    case 128:
-                                        //								fi.fileType = FileInfo.RGB_PLANAR; 		// DT_RGB
-                                        //								bitsallocated = 24;
-                                        NSLog(@"unsupported... please send me this file");
-                                        break;
-                                }
-                                
-                                [fileData release];
-                                
-                                
-                                // CONVERSION TO FLOAT
-                                
-                                if( datatype != 16)
-                                {
-                                    vImage_Buffer src16, dstf;
-                                    
-                                    dstf.height = src16.height = height;
-                                    dstf.width = src16.width = width;
-                                    src16.rowBytes = width*2;
-                                    dstf.rowBytes = width*sizeof(float);
-                                    
-                                    src16.data = oImage;
-                                    
-                                    if( fExternalOwnedImage)
-                                    {
-                                        fImage = fExternalOwnedImage;
-                                    }
-                                    else
-                                    {
-                                        fImage = malloc(width*height*sizeof(float) + 100);
-                                    }
-                                    
-                                    dstf.data = fImage;
-                                    
-                                    if( dstf.data)
-                                        vImageConvert_16SToF( &src16, &dstf, 0, 1, 0);
-                                    else N2LogStackTrace( @"*** Not enough memory - malloc failed");
-                                    
-                                    free(oImage);
-                                    oImage = nil;
-                                }
-                            }
-                        }
-                    }
-                    
-                    free( NIfTI);
-                    NIfTI = nil;
-                }
-#endif
                 else if( [extension isEqualToString:@"jpg"] ||
                         [extension isEqualToString:@"jp2"] ||
                         [extension isEqualToString:@"jpeg"] ||
@@ -7897,49 +6026,8 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
                     otherImage = [[NSImage alloc] initWithContentsOfFile: self.srcFile];
                 }
             
-                else if( [extension isEqualToString:@"tiff"] ||
-                        [extension isEqualToString:@"stk"] ||
-                        [extension isEqualToString:@"tif"])
-                {
-#ifndef STATIC_DICOM_LIB
-                    
-                    TIFF* tif = TIFFOpen([self.srcFile UTF8String], "r");
-                    if( tif)
-                    {
-                        short   bpp, count, tifspp;
-                        
-                        TIFFGetField(tif, TIFFTAG_BITSPERSAMPLE, &bpp);
-                        TIFFGetField(tif, TIFFTAG_SAMPLESPERPIXEL, &tifspp);
-                        
-                        if( bpp == 16 || bpp == 32 || bpp == 8)
-                        {
-                            if( tifspp == 1)
-                                USECUSTOMTIFF = YES;
-                        }
-                        
-                        count = 1;
-                        while (TIFFReadDirectory(tif))
-                            count++;
-                        
-                        if( count != 1) USECUSTOMTIFF = YES;
-                        
-                        TIFFClose(tif);
-                    }
-#endif
-                    if( USECUSTOMTIFF == NO)
-                    {
-                        otherImage = [[NSImage alloc] initWithContentsOfFile: self.srcFile];
-                    }
-                }
-            
-            if( otherImage != nil || USECUSTOMTIFF == YES)
+            if( otherImage != nil)
             {
-                if( USECUSTOMTIFF) // Is it a 16/32-bit TIFF not supported by Apple???
-                {
-                    [self LoadTiff:frameNo];
-                }
-                else
-                {
                     [otherImage setBackgroundColor: [NSColor whiteColor]];
                     
                     if( [extension isEqualToString:@"pdf"])
@@ -7955,7 +6043,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
                     }
                     
                     [self getDataFromNSImage: otherImage];
-                }
                 
                 [otherImage release];
             }
@@ -7993,7 +6080,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
                                 CVImageBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBufferRef);
                                 
                                 CVPixelBufferLockBaseAddress(pixelBuffer,0);
-                                /*Get information about the image*/
+                                //Get information about the image
                                 uint8_t *baseAddress = (uint8_t *)CVPixelBufferGetBaseAddress(pixelBuffer);
                                 size_t bytesPerRow = CVPixelBufferGetBytesPerRow(pixelBuffer);
                                 size_t w = CVPixelBufferGetWidth(pixelBuffer);
@@ -8025,7 +6112,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
                                 fImage = (float*) argbImage;
                                 isRGB = YES;
                                 
-                                /*We unlock the  image buffer*/
+                                //We unlock the  image buffer
                                 CVPixelBufferUnlockBaseAddress(pixelBuffer,0);
                             }
                             
@@ -8041,11 +6128,8 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
                 }
             }
             
-#ifdef OSIRIX_VIEWER
-            [self loadCustomImageAnnotationsPapyLink:-1 DCMLink:nil];
-#endif
         }
-        
+*/
         if( fImage == nil)
         {
             NSLog(@"not able to load the image : %@", self.srcFile);
@@ -10549,7 +8633,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 #pragma mark -
 #pragma mark Image Annotations
 
-
+/*
 #ifdef OSIRIX_VIEWER
 
 - (NSString*) getDICOMFieldValueForGroup:(int)group element:(int)element DCMLink:(DCMObject*)dcmObject
@@ -10720,175 +8804,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 
 #endif
 }
-
-- (void)loadCustomImageAnnotationsPapyLink:(int)fileNb DCMLink:(DCMObject*)dcmObject
-{
-    @try
-    {
-        NSDictionary *annotationsForModality = nil;
-        @synchronized( gCUSTOM_IMAGE_ANNOTATIONS)
-        {
-            annotationsForModality = [gCUSTOM_IMAGE_ANNOTATIONS objectForKey: self.modalityString];
-            
-            if(!annotationsForModality) annotationsForModality = [gCUSTOM_IMAGE_ANNOTATIONS objectForKey:@"Default"];
-            if([[annotationsForModality objectForKey:@"sameAsDefault"] intValue]==1) annotationsForModality = [gCUSTOM_IMAGE_ANNOTATIONS objectForKey:@"Default"];
-            
-            annotationsForModality = [[annotationsForModality copy] autorelease];
-        }
-        
-        // image sides (LowerLeft, LowerMiddle, LowerRight, MiddleLeft, MiddleRight, TopLeft, TopMiddle, TopRight) & sameAsDefault
-        NSArray *keys = [annotationsForModality allKeys];
-        
-        for( NSString *key in keys)
-        {
-            if(![key isEqualToString:@"sameAsDefault"])
-            {
-                NSArray *annotations = [annotationsForModality objectForKey: key];
-                NSMutableArray *annotationsOUT = [NSMutableArray array];
-                
-                @try
-                {
-                    for ( NSDictionary *annot in annotations)
-                    {
-                        NSArray *content = [annot objectForKey:@"fullContent"];
-                        NSMutableArray *contentOUT = [NSMutableArray array];
-                        
-                        BOOL contentForLine = NO;
-                        for ( int f=0; f<[content count]; f++)
-                        {
-                            @try
-                            {
-                                NSDictionary *field = [content objectAtIndex:f];
-                                NSString *type = [field objectForKey:@"type"];
-                                NSString *value = nil;
-                                
-                                if( [type isEqualToString:@"DICOM"])
-                                {
-                                    if([[field objectForKey:@"group"] intValue] == 0x0018 &&
-                                       [[field objectForKey:@"element"] intValue] == 0x0080 && repetitiontime != 0L)	// RepetitionTime
-                                    {
-                                        value = [NSString stringWithFormat:@"%.6g", [repetitiontime floatValue]];
-                                    }
-                                    else if([[field objectForKey:@"group"] intValue] == 0x0018 &&
-                                            [[field objectForKey:@"element"] intValue] == 0x0081 && echotime != 0L)	// Echotime
-                                    {
-                                        value = [NSString stringWithFormat:@"%.6g", [echotime floatValue]];;
-                                    }
-                                    else if (dcmObject)
-                                        value = [self getDICOMFieldValueForGroup:[[field objectForKey:@"group"] intValue] element:[[field objectForKey:@"element"] intValue] DCMLink:dcmObject];
-                                    else
-                                        value = nil;
-                                    
-                                    if( [[field objectForKey:@"group"] intValue] == 0x0010 && [[field objectForKey:@"element"] intValue] == 0x0010)
-                                        value = @"PatientName";
-                                    
-                                    if( [[field objectForKey:@"group"] intValue] == 0x0002 && [[field objectForKey:@"element"] intValue] == 0x0010)
-                                        value = [BrowserController compressionString: value];
-                                    
-                                    if(value==nil || [value length] == 0) value = @"-";
-                                    else contentForLine = YES;
-                                }
-                                else if([type isEqualToString:@"DB"])
-                                {
-                                    @try
-                                    {
-                                        NSString *fieldName = [field objectForKey:@"field"];
-                                        NSString *level = [field objectForKey:@"level"];
-                                        
-                                        value = [annotationsDBFields objectForKey: [NSString stringWithFormat:@"%@ %@", fieldName, level]];
-                                        
-                                        if( (id) value == [NSNull null])
-                                            value = nil;
-                                        
-                                        if(value==nil) value = @"-";
-                                        else contentForLine = YES;
-                                        
-                                        if( [value isKindOfClass: [NSDate class]])
-                                        {
-                                            //value = [value description];
-                                            
-                                            if([fieldName isEqualToString:@"dateOfBirth"])
-                                                value = [[NSUserDefaults dateFormatter] stringFromDate:(NSDate*)value];
-                                            else
-                                                value = [BrowserController DateTimeWithSecondsFormat: (NSDate *) value];
-                                        }
-                                        else
-                                        {
-                                            value = [value description];
-                                            if( [value length] == 0) value = @"-";
-                                        }
-                                    }
-                                    @catch (NSException *e)
-                                    {
-                                        NSLog(@"CustomImageAnnotations DB Exception: %@", e);
-                                        value = @"ERROR IN ANNOTATIONS - See Preferences->Annotations";
-                                    }
-                                }
-                                else if([type isEqualToString:@"Special"])
-                                {
-                                    @try
-                                    {
-                                        value = [field objectForKey:@"field"];
-                                        
-                                        if ([value isEqualToString: NSLocalizedString(@"Patient's Actual Age", nil)] || [value isEqualToString: (@"Patient's Actual Age")])
-                                            value = yearOld;
-                                        
-                                        if ([value isEqualToString: NSLocalizedString(@"Patient's Age At Acquisition", nil)] || [value isEqualToString: (@"Patient's Age At Acquisition")])
-                                            value = yearOldAcquisition;
-                                        
-                                        if(value==nil || [value length] == 0) value = @"-";
-                                        else contentForLine = YES;
-                                    }
-                                    @catch (NSException *e)
-                                    {
-                                        NSLog(@"CustomImageAnnotations Special Exception: %@", e);
-                                        value = @"ERROR IN ANNOTATIONS - See Preferences->Annotations";
-                                    }
-                                }
-                                else if([type isEqualToString:@"Manual"])
-                                {
-                                    value = [field objectForKey:@"field"];
-                                    if(value==nil || [value length] == 0) value = @"-";
-                                    
-                                    if(![value isEqualToString:@""]) value = [value stringByAppendingString:@" "];
-                                }
-                                
-                                if( value) [contentOUT addObject:value];
-                            }
-                            
-                            @catch (NSException *e)
-                            {
-                                NSLog(@"CustomImageAnnotations Exception: %@", e);
-                            }
-                        }
-                        
-                        if( contentForLine)
-                        {
-                            if( contentOUT)
-                                [annotationsOUT addObject:contentOUT];
-                        }
-                    }
-                }
-                @catch( NSException *e) {
-                    NSLog(@"CustomImageAnnotations Exception: %@", e);
-                }
-                
-                if( annotationsOUT)
-                {
-                    @synchronized( annotationsDictionary)
-                    {
-                        [annotationsDictionary setObject:annotationsOUT forKey: key];
-                    }
-                }
-            }
-        }
-    }
-    @catch( NSException *e)
-    {
-        NSLog(@"CustomImageAnnotations Exception: %@", e);
-    }
-}
-
 - (NSMutableDictionary*) annotationsDBFields
 {
     NSMutableDictionary *d = nil;
@@ -10942,5 +8857,5 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 }
 
 #endif
-
+*/
 @end

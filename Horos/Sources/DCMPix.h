@@ -672,7 +672,6 @@ extern "C"
 /** Custom Annotations */
 - (void)loadCustomImageAnnotationsDBFields: (DicomImage*) imageObj;
 
-- (void)loadCustomImageAnnotationsPapyLink:(int)fileNb DCMLink:(DCMObject*)dcmObject;
 
 - (NSString*) getDICOMFieldValueForGroup:(int)group element:(int)element DCMLink:(DCMObject*)dcmObject;
 #endif

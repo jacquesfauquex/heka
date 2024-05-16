@@ -1,4 +1,4 @@
-
+#import <Foundation/Foundation.h>
 /*
 static NSString *DCM_AmbulatoryECGWaveformStorage = @"1.2.840.10008.5.1.4.1.1.9.1.3";
 static NSString *DCM_BasicAnnotationBox = @"1.2.840.10008.5.1.1.15";

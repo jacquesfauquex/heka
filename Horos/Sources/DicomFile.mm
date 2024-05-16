@@ -3,7 +3,6 @@
 #include "options.h"
 #import "DCMUIDs.h"
 
-#include "FVTiff.h"
 #import "MutableArrayCategory.h"
 #import "SRAnnotation.h"
 #import "SRAnnotation.h"
@@ -16,7 +15,7 @@
 #import "DICOMToNSString.h"
 #import "DefaultsOsiriX.h"
 
-#import <vtk_tiff.h>
+//JF #import <vtk_tiff.h>
 
 #import "DicomFileDCMTKCategory.h"
 #import "PluginManager.h"
@@ -26,10 +25,6 @@
 
 #import <AVFoundation/AVFoundation.h>
 
-#ifndef DECOMPRESS_APP
-#include "nifti1.h"
-#include "nifti1_io.h"
-#endif
 
 #ifdef OSIRIX_VIEWER
 #import "DicomStudy.h"
@@ -589,84 +584,7 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
     }
 }
 
-+ (BOOL) isTiffFile:(NSString *) file
-{
-    int success = NO;
-    
-#ifndef STATIC_DICOM_LIB
-    NSString *extension = [[file pathExtension] lowercaseString];
-    
-    if( [extension isEqualToString:@"tiff"] ||
-       [extension isEqualToString:@"stk"] ||
-       [extension isEqualToString:@"tif"])
-    {
-        TIFF* tif = TIFFOpen([file UTF8String], "r");
-        if(tif)
-        {
-            success = YES;
-            TIFFClose(tif);
-        }
-    }
-#endif
-    return success;
-}
 
-+ (BOOL) isFVTiffFile:(NSString *) file
-{
-    int success = NO;
-    
-#ifndef STATIC_DICOM_LIB
-    NSString *extension = [[file pathExtension] lowercaseString];
-    
-    if( [extension isEqualToString:@"tiff"] ||
-       [extension isEqualToString:@"tif"])
-    {
-        short head_size = 0;
-        char* head_data = 0;
-        TIFF* tif = TIFFOpen([file UTF8String], "r");
-        if(tif)
-        {
-            success = TIFFGetField(tif, TIFFTAG_FV_MMHEADER, &head_size, &head_data);
-            TIFFClose(tif);
-        }
-    }
-#endif
-    return success;
-}
-
-#ifndef DECOMPRESS_APP
-+ (BOOL) isNIfTIFile:(NSString *) file
-{
-    // NIfTI support developed by Zack Mahdavi at the Center for Neurological Imaging, a division of Harvard Medical School
-    // For more information: http://cni.bwh.harvard.edu/
-    // For questions or suggestions regarding NIfTI integration in OsiriX, please contact zmahdavi@bwh.harvard.edu
-    
-    int success = NO;
-    NSString	*extension = [[file pathExtension] lowercaseString];
-    struct nifti_1_header  *NIfTI;
-    
-    if( [extension isEqualToString:@"hdr"] ||
-       [extension isEqualToString:@"nii"])
-    {
-        NIfTI = (nifti_1_header *) nifti_read_header([file UTF8String], nil, 0);
-        
-        if( (NIfTI->magic[0] != 'n')                           ||
-           (NIfTI->magic[1] != 'i' && NIfTI->magic[1] != '+')   ||
-           (NIfTI->magic[2] != '1')                           ||
-           (NIfTI->magic[3] != '\0'))
-        {
-            success = NO;
-        }
-        else
-        {
-            success = YES;
-        }
-        
-        NIfTI = nil;
-    }
-    return success;
-}
-#endif
 
 
 + (BOOL) isDICOMFile:(NSString *) filePath compressed:(BOOL*) compressed image:(BOOL*) image
@@ -798,148 +716,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
     return readable;
 }
 
--(short) getFVTiffFile
-{
-    int success = 0;
-    
-#ifndef STATIC_DICOM_LIB
-    NSString *extension = [[filePath pathExtension] lowercaseString];
-    
-    if( [extension isEqualToString:@"tiff"] ||
-       [extension isEqualToString:@"tif"])
-    {
-        TIFF* tif = TIFFOpen( [filePath UTF8String], "r");
-        
-        short head_size = 0;
-        char* head_data = 0;
-        
-        if(tif)
-            success = TIFFGetField(tif, TIFFTAG_FV_MMHEADER, &head_size, &head_data);
-        
-        if (success)
-        {
-            int i, j;
-            
-            
-            int w = 0, h = 0;
-            FV_MM_HEAD mm_head;
-            NSXMLDocument *xmlDocument;
-            xmlDocument = XML_from_FVTiff(filePath);
-            
-            FV_Read_MM_HEAD(head_data, &mm_head);
-            NoOfFrames = 1;
-            NoOfSeries = 1;
-            for(i = 0; i < FV_SPATIAL_DIMENSION; i++)
-            {
-                if (*(mm_head.DimInfo[i].Name) == 'Z')
-                    NoOfFrames = mm_head.DimInfo[i].Size;
-                else if (*(mm_head.DimInfo[i].Name) != 'X' && *(mm_head.DimInfo[i].Name) != 'Y')
-                    NoOfSeries *= mm_head.DimInfo[i].Size;
-            }
-            
-            TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &w);
-            TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &h);
-            
-            width = w;
-            height = h;
-            
-            name = [[NSString alloc] initWithString: [filePath lastPathComponent]];
-            //			name = [[NSString alloc] initWithCString:mm_head.Name encoding:NSWindowsCP1252StringEncoding];
-            patientID = [[NSString alloc] initWithString:name];
-            studyID = [[NSString alloc] initWithString:name];
-            self.serieID = name;
-            imageID = [[NSString alloc] initWithString:name];
-            study = [[NSString alloc] initWithString:name];
-            serie = [[NSString alloc] initWithString:name];
-            Modality = [[NSString alloc] initWithString:@"FV300"];
-            fileType = [@"FVTiff" retain];
-            
-            // set the comments and date fields
-            NSXMLElement* rootElement = [xmlDocument rootElement];
-            NSString* datetime_string = [NSString string];
-            for (i = 0; i < [rootElement childCount]; i++)
-            {
-                NSXMLNode* theNode = [rootElement childAtIndex:i];
-                if ([[theNode name] isEqualToString:@"Description"])
-                    [dicomElements setObject:[theNode stringValue] forKey:@"studyComments"];
-                
-                if ([[theNode name] isEqualToString:@"Acquisition Parameters"])
-                    for (j = 0; j < [theNode childCount]; j++)
-                    {
-                        NSXMLNode* theSubNode = [theNode childAtIndex:j];
-                        if ([[theSubNode name] isEqualToString:@"Date"])
-                            datetime_string = [NSString stringWithFormat:@"%@ %@", datetime_string, [theSubNode stringValue]];
-                        if ([[theSubNode name] isEqualToString:@"Time"])
-                            datetime_string = [NSString stringWithFormat:@"%@ %@", datetime_string, [theSubNode stringValue]];
-                    }
-            }
-            
-            
-            date = [[NSDate dateWithNaturalLanguageString:datetime_string] retain];
-            if (date == nil)
-                date = [[[[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:NULL] valueForKey:NSFileCreationDate] retain];
-            if( date == nil) date = [[NSDate date] retain];
-            
-            [dicomElements setObject:studyID forKey:@"studyID"];
-            [dicomElements setObject:study forKey:@"studyDescription"];
-            
-            [dicomElements setObject:date forKey:@"studyDate"];
-            
-            [dicomElements setObject:Modality forKey:@"modality"];
-            [dicomElements setObject:patientID forKey:@"patientID"];
-            [dicomElements setObject:name forKey:@"patientName"];
-            [dicomElements setObject:[self patientUID] forKey:@"patientUID"];
-            [dicomElements setObject:fileType forKey:@"fileType"];
-            
-            for (i = 0; i < NoOfSeries; i++)
-            {
-                NSString* SeriesNum;
-                if (i)
-                    SeriesNum = [NSString stringWithFormat:@"%d",i];
-                else
-                    SeriesNum = @"";
-                
-                [dicomElements setObject:[SeriesNum stringByAppendingString: self.serieID] forKey:[@"seriesID" stringByAppendingString:SeriesNum]];
-                //				[dicomElements setObject:[SeriesNum stringByAppendingString:name] forKey:[@"seriesDescription" stringByAppendingString:SeriesNum]];
-                [dicomElements setObject:[NSNumber numberWithInt: i] forKey:[@"seriesNumber" stringByAppendingString:SeriesNum]];
-                [dicomElements setObject:[imageID stringByAppendingString:SeriesNum] forKey:[@"SOPUID" stringByAppendingString:SeriesNum]];
-                [dicomElements setObject:[NSNumber numberWithInt: i] forKey:[@"imageID" stringByAppendingString:SeriesNum]];
-                
-                // seriesDescription stuff
-                int pos = i;
-                NSString* seriesDesc = @"FV ";
-                int largestDimSize = 1;
-                int j;
-                for (j = 0; j < FV_SPATIAL_DIMENSION; j++)
-                    if (*(mm_head.DimInfo[j].Name) != 'X' && *(mm_head.DimInfo[j].Name) != 'Y' && *(mm_head.DimInfo[j].Name) != 'Z')
-                        largestDimSize *= mm_head.DimInfo[j].Size;
-                for (j = FV_SPATIAL_DIMENSION - 1; j >= 0; j--)
-                {
-                    if (mm_head.DimInfo[j].Size > 1 && *(mm_head.DimInfo[j].Name) != 'X' && *(mm_head.DimInfo[j].Name) != 'Y' && *(mm_head.DimInfo[j].Name) != 'Z')
-                    {
-                        if (![seriesDesc isEqualToString:@"FV "])
-                            seriesDesc = [seriesDesc stringByAppendingString:@", "];
-                        
-                        
-                        largestDimSize /= mm_head.DimInfo[j].Size;
-                        seriesDesc = [seriesDesc stringByAppendingFormat:@"%s %d", mm_head.DimInfo[j].Name, pos / largestDimSize];
-                        pos %= largestDimSize;
-                    }
-                }
-                [dicomElements setObject:seriesDesc forKey:[@"seriesDescription" stringByAppendingString:SeriesNum]];
-            }
-            [xmlDocument release];
-        }
-        if(tif) TIFFClose(tif);
-    }
-#endif
-    
-    if (success)
-        return 0;
-    else
-        return -1;
-}
-
 // For testing purposes only. Can quickly generate very large database to test performances
 -(short) getRandom
 {
@@ -1004,43 +780,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
             char				strNo[ 5];
             NSString			*tempString = [[filePath lastPathComponent] stringByDeletingPathExtension];
             
-#ifndef STATIC_DICOM_LIB
-            if( [extension isEqualToString:@"tiff"] ||
-               [extension isEqualToString:@"stk"] ||
-               [extension isEqualToString:@"tif"])
-            {
-                TIFF* tif = TIFFOpen([filePath UTF8String], "r");
-                if( tif)
-                {
-                    long count = 0;
-                    int w = 0, h = 0;
-                    
-                    width = 0;
-                    height = 0;
-                    
-                    count = 0;
-                    do
-                    {
-                        TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &w);
-                        TIFFGetField(tif, TIFFTAG_IMAGELENGTH, &h);
-                        
-                        if( w > width) width = w;
-                        if( h > height) height = h;
-                        
-                        count++;
-                    }
-                    while (TIFFReadDirectory(tif));
-                    
-                    NoOfFrames = count;
-                    
-                    //						NSLog( @"TIFF NoOfFrames: %d", NoOfFrames);
-                    
-                    TIFFClose(tif);
-                }
-            }
-            else
-#endif
-            {
                 @autoreleasepool
                 {
                     CGImageRef cgRef = [otherImage CGImageForProposedRect:NULL context:nil hints:nil];
@@ -1052,7 +791,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
                     width = TIFFRep.pixelsWide;
                     height = TIFFRep.pixelsHigh;
                 }
-            }
             
             if( [tempString length] >= 4) strNo[ 0] = [tempString characterAtIndex: [tempString length] -4];	else strNo[ 0]= 0;
             if( [tempString length] >= 3) strNo[ 1] = [tempString characterAtIndex: [tempString length] -3];	else strNo[ 1]= 0;
@@ -1744,244 +1482,9 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
     return -1;
 }
 
-#include "Analyze.h"
-
--(short) getAnalyze
-{
-    struct dsr  *Analyze;
-    BOOL		intelByteOrder = NO;
-    NSData		*file;
-    NSString	*extension = [[filePath pathExtension] lowercaseString];
-    
-    if( [extension isEqualToString:@"hdr"])
-    {
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[[filePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"img"]] == YES)
-        {
-            file = [NSData dataWithContentsOfFile: filePath];
-            if( [file length] == 348)
-            {
-                fileType = [@"ANALYZE" retain];
-                
-                Analyze = (struct dsr*) [file bytes];
-                
-                name = [[NSString alloc] initWithCString: replaceBadCharacter(Analyze->hk.db_name, NSISOLatin1StringEncoding) encoding: NSASCIIStringEncoding];
-                patientID = [[NSString alloc] initWithString:name];
-                studyID = [[NSString alloc] initWithString:name];
-                self.serieID = [[filePath lastPathComponent] stringByDeletingPathExtension];
-                imageID = [[NSString alloc] initWithString:name];
-                study = [[NSString alloc] initWithString:[[filePath lastPathComponent] stringByDeletingPathExtension]];
-                serie = [[NSString alloc] initWithString:[[filePath lastPathComponent] stringByDeletingPathExtension]];
-                Modality = [[NSString alloc] initWithString:@"ANZ"];
-                
-                date = [[Horos dateWithString:[NSString stringWithCString: Analyze->hist.exp_date encoding: NSISOLatin1StringEncoding] calendarFormat:@"%Y%m%d"] retain];
-                if(date == nil) date = [[[[NSFileManager defaultManager] attributesOfItemAtPath: filePath error: nil] fileCreationDate] retain];
-                if( date == nil) date = [[NSDate date] retain];
-                
-                short endian = Analyze->dime.dim[ 0];		// dim[0]
-                if ((endian < 0) || (endian > 15))
-                {
-                    intelByteOrder = YES;
-                }
-                
-                height = Analyze->dime.dim[ 1];
-                if( intelByteOrder) height = Endian16_Swap( height);
-                width = Analyze->dime.dim[ 2];
-                if( intelByteOrder) width = Endian16_Swap( width);
-                
-                NoOfFrames = Analyze->dime.dim[ 3];
-                if( intelByteOrder) NoOfFrames = Endian16_Swap( NoOfFrames);
-                NoOfSeries = 1;
-                
-                [dicomElements setObject:studyID forKey:@"studyID"];
-                [dicomElements setObject:study forKey:@"studyDescription"];
-                [dicomElements setObject:date forKey:@"studyDate"];
-                [dicomElements setObject:Modality forKey:@"modality"];
-                [dicomElements setObject:patientID forKey:@"patientID"];
-                [dicomElements setObject:name forKey:@"patientName"];
-                [dicomElements setObject:[self patientUID] forKey:@"patientUID"];
-                [dicomElements setObject:self.serieID forKey:@"seriesID"];
-                [dicomElements setObject:name forKey:@"seriesDescription"];
-                [dicomElements setObject:[NSNumber numberWithInt: 0] forKey:@"seriesNumber"];
-                [dicomElements setObject:imageID forKey:@"SOPUID"];
-                [dicomElements setObject:[NSNumber numberWithInt:[imageID intValue]] forKey:@"imageID"];
-                [dicomElements setObject:fileType forKey:@"fileType"];
-                
-                if( name != nil && studyID != nil && self.serieID != nil && imageID != nil)
-                {
-                    return 0;   // success
-                }
-            }
-        }
-    }
-    
-    return -1;
-}
-
-#ifndef DECOMPRESS_APP
--(short) getNIfTI
-{
-    // NIfTI support developed by Zack Mahdavi at the Center for Neurological Imaging, a division of Harvard Medical School
-    // For more information: http://cni.bwh.harvard.edu/
-    // For questions or suggestions regarding NIfTI integration in OsiriX, please contact zmahdavi@bwh.harvard.edu
-    
-    struct nifti_1_header  *NIfTI;
-    
-    NSString	*extension = [[filePath pathExtension] lowercaseString];
-    
-    if( (( [extension isEqualToString:@"hdr"]) &&
-         ([[NSFileManager defaultManager] fileExistsAtPath:[[filePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"img"]] == YES)) ||
-       ( [extension isEqualToString:@"nii"]))
-    {
-        NIfTI = (nifti_1_header *) nifti_read_header([filePath UTF8String], nil, 0);
-        
-        if( NIfTI == nil)
-            return -1;
-        
-        fileType = [@"NIfTI" retain];
-        
-        if( (NIfTI->magic[0] == 'n') &&
-           (NIfTI->magic[1] == 'i' || NIfTI->magic[1] == '+') &&
-           (NIfTI->magic[2] == '1') &&
-           (NIfTI->magic[3] == '\0'))
-        {
-            name = [[DicomFile NSreplaceBadCharacter: [filePath lastPathComponent]] retain];
-            patientID = [[NSString alloc] initWithString:name];
-            studyID = [[NSString alloc] initWithString:name];
-            self.serieID = [[filePath lastPathComponent] stringByDeletingPathExtension];
-            imageID = [[NSString alloc] initWithString:name];
-            study = [[NSString alloc] initWithString:[[filePath lastPathComponent] stringByDeletingPathExtension]];
-            serie = [[NSString alloc] initWithString:[[filePath lastPathComponent] stringByDeletingPathExtension]];
-            Modality = [[NSString alloc] initWithString:@"NIfTI"];
-            date = [[[[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:NULL] fileCreationDate] retain];
-            if( date == nil) date = [[NSDate date] retain];
-            
-            width = NIfTI->dim[ 1];
-            
-            height = NIfTI->dim[ 2];
-            
-            NoOfFrames = NIfTI->dim[ 3];
-            NoOfSeries = 1;
-            
-            [dicomElements setObject:studyID forKey:@"studyID"];
-            [dicomElements setObject:study forKey:@"studyDescription"];
-            [dicomElements setObject:date forKey:@"studyDate"];
-            [dicomElements setObject:Modality forKey:@"modality"];
-            [dicomElements setObject:patientID forKey:@"patientID"];
-            [dicomElements setObject:name forKey:@"patientName"];
-            [dicomElements setObject:[self patientUID] forKey:@"patientUID"];
-            [dicomElements setObject:self.serieID forKey:@"seriesID"];
-            [dicomElements setObject:name forKey:@"seriesDescription"];
-            [dicomElements setObject:[NSNumber numberWithInt: 0] forKey:@"seriesNumber"];
-            [dicomElements setObject:imageID forKey:@"SOPUID"];
-            [dicomElements setObject:[NSNumber numberWithInt:[imageID intValue]] forKey:@"imageID"];
-            [dicomElements setObject:fileType forKey:@"fileType"];
-            
-            
-            if( name != nil && studyID != nil && self.serieID != nil && imageID != nil)
-            {
-                return 0;   // success
-            }
-        }
-        
-        free( NIfTI);
-    }
-    
-    return -1;
-}
-
-+(NSXMLDocument *) getNIfTIXML : (NSString *) file
-{
-    NSString	*returnString;
-    nifti_image *NIfTI;
-    
-    NSXMLDocument *xmlDoc;
-    
-    NSXMLElement *rootElement = [[[NSXMLElement alloc] initWithName:@"NIfTIObject"] autorelease];
-    xmlDoc = [[[NSXMLDocument alloc] initWithRootElement: rootElement] autorelease];
-    
-    // Process NIfTI header
-    
-    if([self isNIfTIFile: file])
-    {
-        NIfTI = nifti_image_read( [file UTF8String], 0);
-        
-        returnString = [[[NSString alloc] initWithCString:nifti_image_to_ascii(NIfTI) encoding:NSUTF8StringEncoding] autorelease];
-        NSLog(@"NIFTI INFO:  %@", returnString);
-        
-        // Now build the XML document
-        
-        // Cycle through string, and parse out key and value from each line.  Then store in XML document.
-        NSArray *allLines = [returnString componentsSeparatedByString:@"\n"];
-        
-        if([allLines count] > 0)
-        {
-            NSLog(@"allLines Count:  %d", (int) [allLines count]);
-            for(id loopItem1 in allLines)
-            {
-                NSString* aLine = (NSString *) loopItem1;
-                
-                // Now split string based on location of equals (=) sign
-                NSArray *splitLine = [aLine componentsSeparatedByString:@" = '"];
-                NSLog(@"splitLine %@", splitLine);
-                
-                if([splitLine count] == 2)
-                {
-                    // Expected value
-                    NSString * key = (NSString *) [splitLine objectAtIndex:0];
-                    key = [key substringFromIndex: 2];
-                    NSString * value = (NSString *) [splitLine objectAtIndex:1];
-                    value = [value substringToIndex:[value length] - 1];
-                    
-                    NSLog(@"key value %@,%@", key, value);
-                    
-                    // Create node, then add to xml
-                    NSXMLElement *node = [[[NSXMLElement alloc] initWithName: key] autorelease];
-                    [node addAttribute:[NSXMLNode attributeWithName:@"group" stringValue:@""]];
-                    [node addAttribute:[NSXMLNode attributeWithName:@"element" stringValue:@""]];
-                    [node addAttribute:[NSXMLNode attributeWithName:@"vr" stringValue:@""]];
-                    [node addAttribute:[NSXMLNode attributeWithName:@"attributeTag" stringValue:@""]];
-                    
-                    NSXMLElement *childNode = [[[NSXMLElement alloc] initWithName:@"value" stringValue:value] autorelease];
-                    [childNode addAttribute:[NSXMLNode attributeWithName:@"number" stringValue:@"0"]];
-                    [node addChild:childNode];
-                    
-                    [rootElement addChild:node];
-                }
-            }
-        }
-        
-        // Review the NIfTI extension list and add any elements to list.
-        if( NIfTI->num_ext > 0 && NIfTI->ext_list != NULL)
-        {
-            int c = 0;
-            nifti1_extension * ext;
-            ext = NIfTI->ext_list;
-            for ( c = 0; c < NIfTI->num_ext; c++)
-            {
-                NSXMLElement *node = [[[NSXMLElement alloc] initWithName:
-                                       [@"extension: ecode " stringByAppendingString:[NSString stringWithFormat:@"%i", ext->ecode]]] autorelease];
-                [node addAttribute:[NSXMLNode attributeWithName:@"group" stringValue:@""]];
-                [node addAttribute:[NSXMLNode attributeWithName:@"element" stringValue:@""]];
-                [node addAttribute:[NSXMLNode attributeWithName:@"vr" stringValue:@""]];
-                [node addAttribute:[NSXMLNode attributeWithName:@"attributeTag" stringValue:@""]];
-                
-                NSXMLElement *childNode = [[[NSXMLElement alloc] initWithName:@"value" stringValue:[NSString stringWithUTF8String:ext->edata]] autorelease];
-                [childNode addAttribute:[NSXMLNode attributeWithName:@"number" stringValue:@"0"]];
-                [node addChild:childNode];
-                
-                [rootElement addChild:node];
-                
-                ext++;
-            }
-        }
-    }
-    return xmlDoc;
-}
-#endif
 
 - (NSPDFImageRep*) PDFImageRep
 {
-#ifdef OSIRIX_VIEWER
     
     [[NSFileManager defaultManager] confirmDirectoryAtPath:@"/tmp/dicomsr_osirix/"];
     
@@ -2019,7 +1522,6 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
     }
     
     return [NSPDFImageRep imageRepWithData: [NSData dataWithContentsOfFile: [htmlpath stringByAppendingPathExtension: @"pdf"]]];
-#endif
     
     return nil;
 }
@@ -2118,41 +1620,7 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
         }
         else
         {
-            if( [self getFVTiffFile] == 0) // this needs to happen before getImageFile, since a FVTiff is a legal tiff and getImageFile will try to read it
-            {
-                returnVal = self;
-            }
-            else if( [self getImageFile] == 0)
-            {
-                returnVal = self;
-            }
-            else if ([self getPluginFile] == 0)
-            {
-                returnVal = self;
-            }
-            else if( [self getBioradPicFile] == 0)
-            {
-                returnVal = self;
-            }
-            else if( [self getAnalyze] == 0)
-            {
-                returnVal = self;
-            }
-#ifndef DECOMPRESS_APP
-            else if( [self getNIfTI] == 0)
-            {
-                returnVal = self;
-            }
-#endif
-            else if( [self getLSM] == 0)
-            {
-                returnVal = self;
-            }
-            else if( [self getNRRDFile] == 0)
-            {
-                returnVal = self;
-            }
-            else if( [self getDicomFile] == 0)
+            if( [self getDicomFile] == 0)
             {
                 returnVal = self;
             }
