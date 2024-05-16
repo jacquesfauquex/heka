@@ -320,6 +320,8 @@
 		4A07513C2BF64F5E001D4B8F /* echoscu in Resources */ = {isa = PBXBuildFile; fileRef = 4A07512A2BF64F5E001D4B8F /* echoscu */; };
 		4A07513D2BF64F5E001D4B8F /* dcm2xml in Resources */ = {isa = PBXBuildFile; fileRef = 4A07512B2BF64F5E001D4B8F /* dcm2xml */; };
 		4A07513E2BF64F5E001D4B8F /* dcmgpdir in Resources */ = {isa = PBXBuildFile; fileRef = 4A07512C2BF64F5E001D4B8F /* dcmgpdir */; };
+		4A0751C92BF66C40001D4B8F /* prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4A0751C72BF66C40001D4B8F /* prefix.pch */; };
+		4A0751CA2BF66C40001D4B8F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4A0751C82BF66C40001D4B8F /* Info.plist */; };
 		4A4DDD182BEF70B0005BBA89 /* hekaBadge.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4A4DDD162BEF70B0005BBA89 /* hekaBadge.icns */; };
 		4A4DDD192BEF70B0005BBA89 /* heka.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4A4DDD172BEF70B0005BBA89 /* heka.icns */; };
 		4A4DDD872BF1205B005BBA89 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4A4DDD862BF1205B005BBA89 /* LICENSE.txt */; };
@@ -3527,6 +3529,8 @@
 		4A07512A2BF64F5E001D4B8F /* echoscu */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = echoscu; sourceTree = "<group>"; };
 		4A07512B2BF64F5E001D4B8F /* dcm2xml */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dcm2xml; sourceTree = "<group>"; };
 		4A07512C2BF64F5E001D4B8F /* dcmgpdir */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = dcmgpdir; sourceTree = "<group>"; };
+		4A0751C72BF66C40001D4B8F /* prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
+		4A0751C82BF66C40001D4B8F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4A4DDCF52BEF69F7005BBA89 /* TODO.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		4A4DDD162BEF70B0005BBA89 /* hekaBadge.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = hekaBadge.icns; sourceTree = "<group>"; };
 		4A4DDD172BEF70B0005BBA89 /* heka.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = heka.icns; sourceTree = "<group>"; };
@@ -3860,7 +3864,6 @@
 		71AA5A2C1611F1EB006A6A5F /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		71AA5A2D1611F1EB006A6A5F /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		71BC461B1F272CA400FD6CCF /* TargetScripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TargetScripts; sourceTree = "<group>"; };
-		71C99EA41D1A7E9F00208F3B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Horos/Info.plist; sourceTree = "<group>"; };
 		71CE3C18157F489C00AC0112 /* List.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = List.pdf; sourceTree = "<group>"; };
 		71E6C0881FB5995100FF75B6 /* BlackBody.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = BlackBody.plist; sourceTree = "<group>"; };
 		71E6C0891FB5995100FF75B6 /* VR Muscles-Bones.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VR Muscles-Bones.plist"; sourceTree = "<group>"; };
@@ -5855,9 +5858,10 @@
 				4A4DDCF52BEF69F7005BBA89 /* TODO.txt */,
 				F3EFB87A2895825C0012A622 /* README.txt */,
 				F3A24302289570ED00E2547B /* Changelog.md */,
-				71C99EA41D1A7E9F00208F3B /* Info.plist */,
 				4AF8F58A2BEEDA6100AF4A5D /* log.h */,
 				434B46151A19F2A3008CF8CF /* options.h */,
+				4A0751C72BF66C40001D4B8F /* prefix.pch */,
+				4A0751C82BF66C40001D4B8F /* Info.plist */,
 				4A4DDD152BEF7088005BBA89 /* Icons */,
 				99BA4CC620A4ACF300B5CD02 /* EmbeddedPlugins */,
 				8B15E1602347CA600010A147 /* heka.entitlements */,
@@ -9674,6 +9678,7 @@
 				BF18A85B09E0BF00005DEFB6 /* AppControllerDCMTKCategory.h in Headers */,
 				BF432BCD09E313EF00AC322E /* DCMTKQueryNode.h in Headers */,
 				BF432BDB09E31B9B00AC322E /* DCMTKStudyQueryNode.h in Headers */,
+				4A0751C92BF66C40001D4B8F /* prefix.pch in Headers */,
 				BF432BE509E31BE800AC322E /* DCMTKSeriesQueryNode.h in Headers */,
 				BF432BF109E31C0F00AC322E /* DCMTKImageQueryNode.h in Headers */,
 				BF432BFC09E31CD800AC322E /* DCMTKRootQueryNode.h in Headers */,
@@ -10238,6 +10243,7 @@
 				4A0750D62BF64F1D001D4B8F /* weasis-dicom-qr-3.6.0.jar.xz in Resources */,
 				ABF09BBA0642FD220044FE6C /* Stereo.icns in Resources */,
 				AB0F20AD06460F7F0075465D /* Burner.icns in Resources */,
+				4A0751CA2BF66C40001D4B8F /* Info.plist in Resources */,
 				AB73E14A0649839300545980 /* Studies.tif in Resources */,
 				AB746744065938DB005838D5 /* Pencil.tif in Resources */,
 				BF398B8B065B124700AD1F25 /* InArrow.tif in Resources */,
@@ -13263,10 +13269,10 @@
 				);
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Horos/prefix.pch;
+				GCC_PREFIX_HEADER = prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = Horos/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				KEEP_PRIVATE_EXTERNS = YES;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -13284,7 +13290,7 @@
 					"-sectcreate",
 					__TEXT,
 					__info_plist,
-					Horos/Info.plist,
+					Info.plist,
 					"-lssl",
 					"-lcrypto",
 					"-lGDCM",
@@ -13545,10 +13551,10 @@
 					"$(PROJECT_DIR)/Binaries",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Horos/prefix.pch;
+				GCC_PREFIX_HEADER = prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = Horos/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					$CONFIGURATION_TEMP_DIR/OpenSSL.build/Install/lib,
@@ -13565,7 +13571,7 @@
 					"-sectcreate",
 					__TEXT,
 					__info_plist,
-					Horos/Info.plist,
+					Info.plist,
 					"-lssl",
 					"-lcrypto",
 					"-lGDCM",
