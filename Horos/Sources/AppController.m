@@ -736,12 +736,6 @@ void exceptionHandler(NSException *exception)
     return thumbnailsListPanel[i];
 }
 
-#ifdef WITH_IMPORTANT_NOTICE
-+ (void) displayImportantNotice:(id) sender
-{
-	
-}
-#endif
 
 + (void) checkForPreferencesUpdate: (BOOL) b
 {

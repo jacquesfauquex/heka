@@ -7512,11 +7512,7 @@ static ViewerController *draggedController = nil;
 }
 
 - (id) initWithPix:(NSMutableArray*)f withFiles:(NSMutableArray*)d withVolume:(NSData*) v
-{
-#ifdef WITH_IMPORTANT_NOTICE
-    [AppController displayImportantNotice: self];
-#endif
-    
+{    
     //	*(long*)0 = 0xDEADBEEF; // ILCrashReporter test -- DO NOT ACTIVATE THIS LINE
     
     DicomImage* dicomImage = [d objectAtIndex:0];

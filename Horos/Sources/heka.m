@@ -83,7 +83,7 @@
 }
 
 + (NSArray<NSString *> *)WeasisCustomizationPaths {
-    return @[ [@"~/Library/Application Support/Horos/Weasis" stringByExpandingTildeInPath], @"/Library/Application Support/Horos/Weasis" ];
+    return @[ [@"~/Library/Application Support/heka/Weasis" stringByExpandingTildeInPath], @"/Library/Application Support/heka/Weasis" ];
 }
 
 @end

@@ -5692,7 +5692,6 @@
 				4A4DDD862BF1205B005BBA89 /* LICENSE.txt */,
 				4A4DDD852BF1201A005BBA89 /* INSTALL.txt */,
 				4A4DDCF52BEF69F7005BBA89 /* TODO.txt */,
-				4AF8F5892BEEDA3B00AF4A5D /* heka */,
 				F3EFB87A2895825C0012A622 /* README.txt */,
 				F3A24302289570ED00E2547B /* Changelog.md */,
 				F3C3F0702893A429004B2F61 /* Horos.xcconfig */,
@@ -5711,6 +5710,7 @@
 		29B97315FDCFA39411CA2CEA /* heka */ = {
 			isa = PBXGroup;
 			children = (
+				4A4DDD152BEF7088005BBA89 /* Icons */,
 				710EF1F11FD00E28000B555B /* heka.h */,
 				710EF1F21FD00E29000B555B /* heka.m */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -5751,17 +5751,10 @@
 			name = OpenJPEG;
 			sourceTree = "<group>";
 		};
-		4A4DDD142BEF6FAC005BBA89 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				4A4DDD152BEF7088005BBA89 /* Icons */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		4A4DDD152BEF7088005BBA89 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				4AF8F58A2BEEDA6100AF4A5D /* log.h */,
 				4A4DDD5B2BEF7D9E005BBA89 /* heka */,
 				4A4DDD172BEF70B0005BBA89 /* heka.icns */,
 				4A4DDD162BEF70B0005BBA89 /* hekaBadge.icns */,
@@ -5790,15 +5783,6 @@
 			children = (
 			);
 			path = icon.iconset;
-			sourceTree = "<group>";
-		};
-		4AF8F5892BEEDA3B00AF4A5D /* heka */ = {
-			isa = PBXGroup;
-			children = (
-				4A4DDD142BEF6FAC005BBA89 /* Resources */,
-				4AF8F58A2BEEDA6100AF4A5D /* log.h */,
-			);
-			path = heka;
 			sourceTree = "<group>";
 		};
 		4F832D2213FA5E9E00511070 /* PluginSDK */ = {

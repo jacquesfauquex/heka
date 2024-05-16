@@ -366,11 +366,7 @@
                         
                         if (image.frameID)
                             frame = image.frameID.intValue;
-                        
-                        NSString *recoveryPath = [[[DicomDatabase databaseForContext:self.managedObjectContext] baseDirPath] stringByAppendingPathComponent:@"ThumbnailPath"];
-                        [[NSFileManager defaultManager] removeItemAtPath: recoveryPath error:NULL];
-                        [[[[self.study objectID] URIRepresentation] absoluteString] writeToFile: recoveryPath atomically: YES encoding: NSASCIIStringEncoding  error: nil];
-                        
+                                                
                         NSImage *thumbnail = nil;
                         NSString *seriesSOPClassUID = self.seriesSOPClassUID;
                         
@@ -429,8 +425,6 @@
                             thumbnail = [NSImage imageNamed: @"FileNotFound.tif"];
                             thumbnailData = [[thumbnail TIFFRepresentation] retain]; // autoreleased when returning
                         }
-                        
-                        [[NSFileManager defaultManager] removeItemAtPath: recoveryPath error:NULL];
                     }
                 }
 
