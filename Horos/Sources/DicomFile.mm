@@ -32,7 +32,7 @@
 
 #include <GDCM/gdcmScanner.h>
 
-#include "heka.h"
+//#include "heka.h"
 
 extern NSString * convertDICOM( NSString *inputfile);
 extern NSRecursiveLock *PapyrusLock;
@@ -48,7 +48,7 @@ static int combineProjectionSeriesMode = NO;
 //static int CHECKFORLAVIM = -1;
 static int COMMENTSGROUP = NO, COMMENTSGROUP2 = NO, COMMENTSGROUP3 = NO, COMMENTSGROUP4 = NO;
 static int COMMENTSELEMENT = NO, COMMENTSELEMENT2 = NO, COMMENTSELEMENT3 = NO, COMMENTSELEMENT4 = NO;
-static BOOL gUsePatientIDForUID = YES, gUsePatientBirthDateForUID = YES, gUsePatientNameForUID = YES;
+static BOOL gUsePatientIDForUID = YES, gUsePatientBirthDateForUID = NO, gUsePatientNameForUID = YES;
 static BOOL SEPARATECARDIAC4D = NO;
 //static BOOL SeparateCardiacMR = NO;
 //static int SeparateCardiacMRMode = 0;
@@ -1694,9 +1694,10 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
         if( firstRepresentation.length)
             patientName = firstRepresentation;
     }
-    
+    /*
     if( gUsePatientBirthDateForUID)
         patientBirthDate = [Horos:[NSDate dateWithTimeIntervalSinceReferenceDate:[[src valueForKey:@"patientBirthDate"] timeIntervalSinceReferenceDate]] descriptionWithCalendarFormat:@"%Y%m%d"];
+     */
 
     if( gUsePatientIDForUID)
         patientID = [src valueForKey:@"patientID"];

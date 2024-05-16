@@ -39,7 +39,7 @@
 #import "N2Alignment.h"
 #import "AppController.h"
 #import "PluginManager.h"
-#import "heka.h"
+//#import "heka.h"
 
 #import "JSON.h"
 
@@ -459,6 +459,7 @@ NSString* const SessionDicomCStorePortKey = @"DicomCStorePort"; // NSNumber (int
 	if ([self.requestedPath hasPrefix:@"/weasis/"])
 	{
         BOOL assigned = false;
+        /*
         for (NSString *dir in [Horos WeasisCustomizationPaths]) {
             NSString *path = [dir stringByAppendingPathComponent:[self.requestedPath substringFromIndex:8]];
             BOOL isDir;
@@ -468,6 +469,7 @@ NSString* const SessionDicomCStorePortKey = @"DicomCStorePort"; // NSNumber (int
                     break;
                 }
         }
+         */
         if (!assigned)
             response.data = [NSData dataWithContentsOfFile:[[[AppController sharedAppController] weasisBasePath] stringByAppendingPathComponent:self.requestedPath]];
 	}

@@ -24,7 +24,7 @@
 #import "DicomFileDCMTKCategory.h"
 #import "DCMUIDs.h"
 #import "DicomDatabase+DCMTK.h"
-#import "heka.h"
+//#import "heka.h"
 
 @implementation BurnerWindowController
 
@@ -1006,76 +1006,6 @@
             thread.status = NSLocalizedString( @"Writing DICOMDIR...", nil);
             [self addDICOMDIRUsingDCMTK_forFilesAtPaths:newFiles dicomImages:dbObjects];
             
-            if( [[NSUserDefaults standardUserDefaults] boolForKey: @"BurnWeasis"] && cancelled == NO)
-            {
-                thread.name = NSLocalizedString( @"Burning...", nil);
-                thread.status = NSLocalizedString( @"Adding Weasis...", nil);
-                
-                NSString* weasisPath = [[AppController sharedAppController] weasisBasePath];
-                for (NSString* subpath in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:weasisPath error:NULL])
-                    [[NSFileManager defaultManager] copyItemAtPath:[weasisPath stringByAppendingPathComponent:subpath] toPath:[burnFolder stringByAppendingPathComponent:subpath] error:NULL];
-                
-                NSString *burnWeasisPath = [burnFolder stringByAppendingPathComponent:@"weasis"];
-                NSArray *skips = @[ @".DS_Store" ];
-                for (NSString *weasisPath in [[Horos WeasisCustomizationPaths] reverseObjectEnumerator]) { // reversed to mimic the WebPortal priorities
-                    NSDirectoryEnumerator *de = [[NSFileManager defaultManager] enumeratorAtPath:weasisPath];
-                    for (NSString *subpath in de)
-                        if (![skips containsObject:subpath.lastPathComponent]) {
-                            NSString *dest = [burnWeasisPath stringByAppendingPathComponent:subpath];
-                            if ([de.fileAttributes[NSFileType] isEqual:NSFileTypeDirectory]) {
-                                [[NSFileManager defaultManager] createDirectoryAtPath:dest withIntermediateDirectories:YES attributes:nil error:NULL];
-                            } else {
-                                if ([[NSFileManager defaultManager] fileExistsAtPath:dest])
-                                    [[NSFileManager defaultManager] removeItemAtPath:dest error:NULL];
-                                [[NSFileManager defaultManager] copyItemAtPath:[weasisPath stringByAppendingPathComponent:subpath] toPath:dest error:NULL];
-                            }
-                        }
-                }
-                
-                // Change Label in Autorun.inf
-                NSStringEncoding encoding;
-                NSString *autorunInf = [NSString stringWithContentsOfFile: [burnFolder stringByAppendingPathComponent: @"Autorun.inf"] usedEncoding: &encoding error: nil];
-                
-                if( autorunInf.length)
-                {
-                    autorunInf = [autorunInf stringByReplacingOccurrencesOfString: @"Label=Weasis" withString: [NSString stringWithFormat: @"Label=%@", cdName]];
-                    
-                    [[NSFileManager defaultManager] removeItemAtPath: [burnFolder stringByAppendingPathComponent: @"Autorun.inf"] error: nil];
-                    [autorunInf writeToFile: [burnFolder stringByAppendingPathComponent: @"Autorun.inf"] atomically: YES encoding: encoding  error: nil];
-                }
-            }
-            
-            /*
-             
-            FAUZE - 24-Mar-2018 - Light viewer does not exist.
-             
-            if( [[NSUserDefaults standardUserDefaults] boolForKey: @"BurnOsirixApplication"] && cancelled == NO)
-            {
-                thread.name = NSLocalizedString( @"Burning...", nil);
-                thread.status = NSLocalizedString( @"Adding Horos Lite...", nil);
-                // unzip the file
-                NSTask *unzipTask = [[NSTask alloc] init];
-                [unzipTask setLaunchPath: @"/usr/bin/unzip"];
-                [unzipTask setCurrentDirectoryPath: burnFolder];
-                [unzipTask setArguments: [NSArray arrayWithObjects: @"-o", [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: @"Horos Launcher.zip"], nil]]; // -o to override existing report w/ same name
-                [unzipTask launch];
-                
-                while( [unzipTask isRunning])
-                    [NSThread sleepForTimeInterval: 0.1];
-                
-                //[unzipTask waitUntilExit];		// <- This is VERY DANGEROUS : the main runloop is continuing...
-                
-                [unzipTask release];
-            }
-            */
-            
-            if(  [[NSUserDefaults standardUserDefaults] boolForKey: @"BurnHtml"] == YES && [[NSUserDefaults standardUserDefaults] boolForKey:@"anonymizedBeforeBurning"] == NO && cancelled == NO)
-            {
-                thread.name = NSLocalizedString( @"Burning...", nil);
-                thread.status = NSLocalizedString( @"Adding HTML pages...", nil);
-                [self produceHtml: burnFolder dicomObjects: originalDbObjects];
-            }
-            
             if( [[NSUserDefaults standardUserDefaults] stringForKey: @"SupplementaryBurnPath"].length <= 1)
                 [[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"BurnSupplementaryFolder"];
             
@@ -1189,15 +1119,6 @@
 		size += [fattrs fileSize]/1024;
 	}
 	
-	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"BurnWeasis"])
-	{
-		size += 17 * 1024; // About 17MB
-	}
-	
-	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"BurnOsirixApplication"])
-	{
-		size += 8 * 1024; // About 8MB
-	}
 	
     if( [[NSUserDefaults standardUserDefaults] stringForKey: @"SupplementaryBurnPath"].length <= 1)
         [[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"BurnSupplementaryFolder"];

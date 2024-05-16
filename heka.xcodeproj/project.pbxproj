@@ -155,7 +155,6 @@
 		433F9A811A1B18A500E52C6C /* VTKView.h in Headers */ = {isa = PBXBuildFile; fileRef = 433F9A7F1A1B18A500E52C6C /* VTKView.h */; };
 		433F9A891A1B7C1C00E52C6C /* vtkHorosFixedPointVolumeRayCastMapper.cxx in Sources */ = {isa = PBXBuildFile; fileRef = 433F9A871A1B7C1C00E52C6C /* vtkHorosFixedPointVolumeRayCastMapper.cxx */; };
 		433F9A8A1A1B7C1C00E52C6C /* vtkHorosFixedPointVolumeRayCastMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 433F9A881A1B7C1C00E52C6C /* vtkHorosFixedPointVolumeRayCastMapper.h */; };
-		434499B21A1D70840047F0F2 /* options.h in Headers */ = {isa = PBXBuildFile; fileRef = 434B46151A19F2A3008CF8CF /* options.h */; };
 		434B46161A19F2E5008CF8CF /* options.h in Headers */ = {isa = PBXBuildFile; fileRef = 434B46151A19F2A3008CF8CF /* options.h */; };
 		434B461D1A19F631008CF8CF /* OPJSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 434B461B1A19F631008CF8CF /* OPJSupport.cpp */; };
 		434B461E1A19F631008CF8CF /* OPJSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 434B461C1A19F631008CF8CF /* OPJSupport.h */; };
@@ -406,9 +405,6 @@
 		5FCC11F22423D0220039EE8F /* dicom.dic in Resources */ = {isa = PBXBuildFile; fileRef = ABBB639E0635874D00D9531F /* dicom.dic */; };
 		5FCC11F32423D0220039EE8F /* dsr2html in Resources */ = {isa = PBXBuildFile; fileRef = 84B5EA4211A2BC0900193FDB /* dsr2html */; };
 		5FCC11F42423D0220039EE8F /* echoscu in Resources */ = {isa = PBXBuildFile; fileRef = CE9C73490B34946B0062FCCC /* echoscu */; };
-		710EF1F31FD00E29000B555B /* heka.h in Headers */ = {isa = PBXBuildFile; fileRef = 710EF1F11FD00E28000B555B /* heka.h */; };
-		710EF1F41FD00E29000B555B /* heka.m in Sources */ = {isa = PBXBuildFile; fileRef = 710EF1F21FD00E29000B555B /* heka.m */; };
-		710EF1F61FD025BC000B555B /* heka.m in Sources */ = {isa = PBXBuildFile; fileRef = 710EF1F21FD00E29000B555B /* heka.m */; };
 		711849771590A377006AB447 /* SMTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 711849751590A377006AB447 /* SMTPClient.h */; };
 		711849781590A377006AB447 /* SMTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 711849761590A377006AB447 /* SMTPClient.m */; };
 		7128FD771487D54A00AB54A1 /* N2UnclickableSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7128FD751487D54A00AB54A1 /* N2UnclickableSplitView.h */; };
@@ -3574,8 +3570,6 @@
 		59FB652912312D8900EBA136 /* weasis */ = {isa = PBXFileReference; lastKnownFileType = folder; name = weasis; path = Binaries/weasis; sourceTree = SOURCE_ROOT; };
 		5F92185F23F45592000B8754 /* dcmpsprt */ = {isa = PBXFileReference; lastKnownFileType = text; name = dcmpsprt; path = DCMTK/dcmpsprt; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F92186123F455A8000B8754 /* dcmprscu */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = dcmprscu; path = DCMTK/dcmprscu; sourceTree = BUILT_PRODUCTS_DIR; };
-		710EF1F11FD00E28000B555B /* heka.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = heka.h; sourceTree = "<group>"; };
-		710EF1F21FD00E29000B555B /* heka.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = heka.m; sourceTree = "<group>"; };
 		711849751590A377006AB447 /* SMTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTPClient.h; sourceTree = "<group>"; };
 		711849761590A377006AB447 /* SMTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMTPClient.m; sourceTree = "<group>"; };
 		7128FD751487D54A00AB54A1 /* N2UnclickableSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = N2UnclickableSplitView.h; sourceTree = "<group>"; };
@@ -5616,6 +5610,7 @@
 				F3A24302289570ED00E2547B /* Changelog.md */,
 				71C99EA41D1A7E9F00208F3B /* Info.plist */,
 				4AF8F58A2BEEDA6100AF4A5D /* log.h */,
+				434B46151A19F2A3008CF8CF /* options.h */,
 				4A4DDD152BEF7088005BBA89 /* Icons */,
 				710EF1F51FD014E8000B555B /* Horos */,
 				AB10FA9611293361009EB238 /* N2 */,
@@ -5627,11 +5622,11 @@
 			name = OsiriX;
 			sourceTree = "<group>";
 		};
-		29B97315FDCFA39411CA2CEA /* heka */ = {
+		29B97315FDCFA39411CA2CEA /* Sources2 */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = heka;
+			name = Sources2;
 			path = Sources;
 			sourceTree = "<group>";
 		};
@@ -5962,15 +5957,12 @@
 		710EF1F51FD014E8000B555B /* Horos */ = {
 			isa = PBXGroup;
 			children = (
-				29B97315FDCFA39411CA2CEA /* heka */,
-				710EF1F11FD00E28000B555B /* heka.h */,
-				710EF1F21FD00E29000B555B /* heka.m */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				32E422140C97301600E193CA /* altivecFunctions.h */,
-				434B46151A19F2A3008CF8CF /* options.h */,
 				8B15E1602347CA600010A147 /* Horos.entitlements */,
 				71BC461B1F272CA400FD6CCF /* Scripts */,
 				719D3F1A1FB461CA004CFB27 /* Sources */,
+				29B97315FDCFA39411CA2CEA /* Sources2 */,
 				719D3F261FB46892004CFB27 /* Resources */,
 				324AD88708B23B0500101139 /* Models */,
 				A98795CA16DB9FD100926023 /* Unit Tests */,
@@ -6525,7 +6517,7 @@
 				597BB95812A7FB8700D0A172 /* Deprecated */,
 			);
 			name = N2;
-			path = Nitrogen/Sources;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		AB10FAC91129338A009EB238 /* Controls */ = {
@@ -8754,7 +8746,6 @@
 				CE4440A31165D1B70034BF18 /* jerror16.h in Headers */,
 				CE4440AB1165D1B70034BF18 /* jinclude16.h in Headers */,
 				CE4440AC1165D1B70034BF18 /* jlossls16.h in Headers */,
-				434499B21A1D70840047F0F2 /* options.h in Headers */,
 				CE4440AD1165D1B70034BF18 /* jlossy16.h in Headers */,
 				CE4440B01165D1B70034BF18 /* jmemsys16.h in Headers */,
 				CE4440B11165D1B70034BF18 /* jmorecfg16.h in Headers */,
@@ -9070,7 +9061,6 @@
 				BFBF415009B6828D00545F5E /* dcmqropt.h in Headers */,
 				BFBF415409B6828D00545F5E /* dcmqrsrv.h in Headers */,
 				BFBF415809B6828D00545F5E /* dcsignat.h in Headers */,
-				710EF1F31FD00E29000B555B /* heka.h in Headers */,
 				BFBF415909B6828D00545F5E /* sialgo.h in Headers */,
 				BFBF415B09B6828D00545F5E /* siautopr.h in Headers */,
 				BFBF415D09B6828D00545F5E /* sibrsapr.h in Headers */,
@@ -11275,7 +11265,6 @@
 				BFBF41C909B6828D00545F5E /* dsrtncsr.cc in Sources */,
 				BFBF41CB09B6828D00545F5E /* dsrtree.cc in Sources */,
 				BFBF41CD09B6828D00545F5E /* dsrtypes.cc in Sources */,
-				710EF1F41FD00E29000B555B /* heka.m in Sources */,
 				BFBF41CF09B6828D00545F5E /* dsruidtn.cc in Sources */,
 				BFBF41D109B6828D00545F5E /* dsrwavch.cc in Sources */,
 				BFBF41D309B6828D00545F5E /* dsrwavtn.cc in Sources */,
@@ -11755,7 +11744,6 @@
 				AB724FE20ADE6ECB00A212A0 /* jidctfst.c in Sources */,
 				AB724FE30ADE6ECB00A212A0 /* jidctint.c in Sources */,
 				AB724FE40ADE6ECB00A212A0 /* jidctred.c in Sources */,
-				710EF1F61FD025BC000B555B /* heka.m in Sources */,
 				AB724FE50ADE6ECB00A212A0 /* jmemmgr.c in Sources */,
 				AB724FE60ADE6ECB00A212A0 /* jmemnobs.c in Sources */,
 				AB724FE70ADE6ECB00A212A0 /* jquant1.c in Sources */,
