@@ -1,6 +1,6 @@
 # Release Notes
 
-New branch of Horos based on  [frnext's updates published on april 7th 2024](https://github.com/horosproject/horos/pull/762) upon request of Purview
+New branch of OsiriX opensourece based on  [frnext's updates published on april 7th 2024](https://github.com/horosproject/horos/pull/762) upon request of Purview
 
 > Added
 > 
