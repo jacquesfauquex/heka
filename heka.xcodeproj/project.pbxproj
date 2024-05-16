@@ -5615,8 +5615,10 @@
 				F3EFB87A2895825C0012A622 /* README.txt */,
 				F3A24302289570ED00E2547B /* Changelog.md */,
 				71C99EA41D1A7E9F00208F3B /* Info.plist */,
+				4AF8F58A2BEEDA6100AF4A5D /* log.h */,
+				4A4DDD152BEF7088005BBA89 /* Icons */,
 				710EF1F51FD014E8000B555B /* Horos */,
-				AB10FA9611293361009EB238 /* Nitrogen */,
+				AB10FA9611293361009EB238 /* N2 */,
 				AB724F1C0ADE6CFC00A212A0 /* Plugins */,
 				7E0B3A08067525FD00908593 /* DCM */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
@@ -5628,12 +5630,6 @@
 		29B97315FDCFA39411CA2CEA /* heka */ = {
 			isa = PBXGroup;
 			children = (
-				4A4DDD152BEF7088005BBA89 /* Icons */,
-				710EF1F11FD00E28000B555B /* heka.h */,
-				710EF1F21FD00E29000B555B /* heka.m */,
-				29B97316FDCFA39411CA2CEA /* main.m */,
-				32E422140C97301600E193CA /* altivecFunctions.h */,
-				434B46151A19F2A3008CF8CF /* options.h */,
 			);
 			name = heka;
 			path = Sources;
@@ -5669,21 +5665,20 @@
 		4A4DDD152BEF7088005BBA89 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				4AF8F58A2BEEDA6100AF4A5D /* log.h */,
-				4A4DDD5B2BEF7D9E005BBA89 /* heka */,
+				4A4DDD5B2BEF7D9E005BBA89 /* heka.build */,
 				4A4DDD172BEF70B0005BBA89 /* heka.icns */,
 				4A4DDD162BEF70B0005BBA89 /* hekaBadge.icns */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
 		};
-		4A4DDD5B2BEF7D9E005BBA89 /* heka */ = {
+		4A4DDD5B2BEF7D9E005BBA89 /* heka.build */ = {
 			isa = PBXGroup;
 			children = (
 				4A4DDD5D2BEF7DD6005BBA89 /* icon.iconset */,
 				4A4DDD5C2BEF7DAB005BBA89 /* png */,
 			);
-			path = heka;
+			path = heka.build;
 			sourceTree = "<group>";
 		};
 		4A4DDD5C2BEF7DAB005BBA89 /* png */ = {
@@ -5968,6 +5963,11 @@
 			isa = PBXGroup;
 			children = (
 				29B97315FDCFA39411CA2CEA /* heka */,
+				710EF1F11FD00E28000B555B /* heka.h */,
+				710EF1F21FD00E29000B555B /* heka.m */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+				32E422140C97301600E193CA /* altivecFunctions.h */,
+				434B46151A19F2A3008CF8CF /* options.h */,
 				8B15E1602347CA600010A147 /* Horos.entitlements */,
 				71BC461B1F272CA400FD6CCF /* Scripts */,
 				719D3F1A1FB461CA004CFB27 /* Sources */,
@@ -6487,7 +6487,7 @@
 			path = dcmpstat;
 			sourceTree = "<group>";
 		};
-		AB10FA9611293361009EB238 /* Nitrogen */ = {
+		AB10FA9611293361009EB238 /* N2 */ = {
 			isa = PBXGroup;
 			children = (
 				7154B80E14ED5402000EF7E4 /* N2Stuff.h */,
@@ -6524,7 +6524,7 @@
 				AB10FAC91129338A009EB238 /* Controls */,
 				597BB95812A7FB8700D0A172 /* Deprecated */,
 			);
-			name = Nitrogen;
+			name = N2;
 			path = Nitrogen/Sources;
 			sourceTree = "<group>";
 		};
