@@ -15,7 +15,8 @@ int runStoreSCU(const char *myAET, const char*peerAET, const char*hostname, int 
 @interface DCMTKStoreSCU : NSObject {
 	BOOL _threadStatus;
 	
-	NSString *_callingAET;
+//conf
+   NSString *_callingAET;
 	NSString *_calledAET;
 	int _port;
 	NSString *_hostname;
@@ -23,15 +24,13 @@ int runStoreSCU(const char *myAET, const char*peerAET, const char*hostname, int 
 	int _transferSyntax;
 	float _compression;
 
-	NSMutableArray *_filesToSend;
+//filePath array
+	NSArray *_filesToSend;
 	int _numberOfFiles;
 	int _numberSent;
 	int _numberErrors;
-	NSString *_patientName;
-	NSString *_studyDescription; 
-	id _logEntry;
 	
-	//TLS settings
+//TLS settings
 	BOOL _secureConnection;
 	BOOL _doAuthenticate;
 	int  _keyFileFormat;

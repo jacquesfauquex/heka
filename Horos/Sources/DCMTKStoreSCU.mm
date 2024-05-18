@@ -768,100 +768,84 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 
 @implementation DCMTKStoreSCU
 
+//*JF
 + (int) sendSyntaxForListenerSyntax: (int) listenerSyntax
 {
 	switch( listenerSyntax)
 	{
-		case EXS_LittleEndianExplicit:				return SendExplicitLittleEndian;	break;
-		case EXS_JPEG2000:							return SendJPEG2000Lossless;	break;
-		case EXS_JPEGProcess14SV1TransferSyntax:	return SendJPEGLossless;	break;
-		case EXS_JPEGProcess1TransferSyntax:		return SendJPEGLossless;	break;
-		case EXS_JPEGProcess2_4TransferSyntax:		return SendJPEGLossless;	break;
-		case EXS_RLELossless:						return SendRLE;	break;
-		case EXS_LittleEndianImplicit:				return SendImplicitLittleEndian;	break;
-		case EXS_JPEG2000LosslessOnly:				return SendJPEG2000Lossless;	break;
-        case EXS_JPEGLSLossless:                    return SendJPEGLSLossless;	break;
-        case EXS_JPEGLSLossy:                       return SendJPEGLSLossless;	break;
+		case EXS_LittleEndianExplicit:			  return SendExplicitLittleEndian;
+		case EXS_JPEG2000:							  return SendJPEG2000Lossless;
+		case EXS_JPEGProcess14SV1TransferSyntax: return SendJPEGLossless;
+		case EXS_JPEGProcess1TransferSyntax:	  return SendJPEGLossless;
+		case EXS_JPEGProcess2_4TransferSyntax:	  return SendJPEGLossless;
+		case EXS_RLELossless:						  return SendRLE;
+		case EXS_LittleEndianImplicit:			  return SendImplicitLittleEndian;
+		case EXS_JPEG2000LosslessOnly:			  return SendJPEG2000Lossless;
+      case EXS_JPEGLSLossless:                 return SendJPEGLSLossless;
+      case EXS_JPEGLSLossy:                    return SendJPEGLSLossless;
 	}
-	
 	return SendExplicitLittleEndian;
 }
+// */
 
 - (id) initWithCallingAET:(NSString *)myAET
-			calledAET:(NSString *)theirAET  
-			hostname:(NSString *)hostname 
-			port:(int)port 
-			filesToSend:(NSArray *)filesToSend
-			transferSyntax:(int)transferSyntax
-			compression: (float)compression
-			extraParameters:(NSDictionary *)extraParameters
+			       calledAET:(NSString *)theirAET
+			        hostname:(NSString *)hostname
+			            port:(int)port
+              filesToSend:(NSArray *)filesToSend
+			  transferSyntax:(int)transferSyntax
+			     compression: (float)compression
+			 extraParameters:(NSDictionary *)extraParameters
 {
 	if (self = [super init])
 	{
-		_threadStatus = YES;
-		if ([extraParameters objectForKey:@"threadStatus"])
-			_threadStatus = [[extraParameters objectForKey:@"threadStatus"] boolValue];
-		
+//TLS
+      _extraParameters = [extraParameters retain];
+      _secureConnection = [[extraParameters objectForKey:@"TLSEnabled"] boolValue];
+      _doAuthenticate = NO;
+      _cipherSuites = nil;
+      _dhparam = NULL;
+      if (_secureConnection)
+      {
+         _doAuthenticate = [[extraParameters objectForKey:@"TLSAuthenticated"] boolValue];
+         _keyFileFormat = SSL_FILETYPE_PEM;
+         certVerification = (TLSCertificateVerificationType)[[extraParameters objectForKey:@"TLSCertificateVerification"] intValue];
+               
+         NSArray *suites = [extraParameters objectForKey:@"TLSCipherSuites"];
+         NSMutableArray *selectedCipherSuites = [NSMutableArray array];
+               
+         for (NSDictionary *suite in suites)
+         {
+            if ([[suite objectForKey:@"Supported"] boolValue])
+               [selectedCipherSuites addObject:[suite objectForKey:@"Cipher"]];
+         }
+               
+         _cipherSuites = [[NSArray arrayWithArray:selectedCipherSuites] retain];
+               
+         if([[extraParameters objectForKey:@"TLSUseDHParameterFileURL"] boolValue])
+            _dhparam = [[extraParameters objectForKey:@"TLSDHParameterFileURL"] cStringUsingEncoding:NSUTF8StringEncoding];
+               
+         _readSeedFile = [TLS_SEED_FILE cStringUsingEncoding:NSUTF8StringEncoding];
+         _writeSeedFile = TLS_WRITE_SEED_FILE;
+      }
+
+//conf
 		_callingAET = [myAET retain];
 		_calledAET = [theirAET retain];
+      _hostname = [hostname retain];
 		_port = port;
-		_hostname = [hostname retain];
-		_extraParameters = [extraParameters retain];
+      _filesToSend = [filesToSend retain];
+      
 		_transferSyntax = transferSyntax;
 		_compression = compression;
+        
 		
-        
-        if( extraParameters == nil)
-            NSLog( @"--- DCMTKStoreSCU extraParameters == nil : TLS support not available");
-        
-		//TLS
-		_secureConnection = [[extraParameters objectForKey:@"TLSEnabled"] boolValue];
-		_doAuthenticate = NO;
-		_cipherSuites = nil;
-		_dhparam = NULL;
-		
-		if (_secureConnection)
-		{
-			_doAuthenticate = [[extraParameters objectForKey:@"TLSAuthenticated"] boolValue];
-			_keyFileFormat = SSL_FILETYPE_PEM;
-			certVerification = (TLSCertificateVerificationType)[[extraParameters objectForKey:@"TLSCertificateVerification"] intValue];
-			
-			NSArray *suites = [extraParameters objectForKey:@"TLSCipherSuites"];
-			NSMutableArray *selectedCipherSuites = [NSMutableArray array];
-			
-			for (NSDictionary *suite in suites)
-			{
-				if ([[suite objectForKey:@"Supported"] boolValue])
-					[selectedCipherSuites addObject:[suite objectForKey:@"Cipher"]];
-			}
-			
-			_cipherSuites = [[NSArray arrayWithArray:selectedCipherSuites] retain];
-			
-			if([[extraParameters objectForKey:@"TLSUseDHParameterFileURL"] boolValue])
-				_dhparam = [[extraParameters objectForKey:@"TLSDHParameterFileURL"] cStringUsingEncoding:NSUTF8StringEncoding];
-			
-			_readSeedFile = [TLS_SEED_FILE cStringUsingEncoding:NSUTF8StringEncoding];
-			_writeSeedFile = TLS_WRITE_SEED_FILE;
-		}
-		
-		_filesToSend = [[NSMutableArray arrayWithArray: filesToSend] retain];
-        
-        NSMutableArray *toBeRemoved = [NSMutableArray array];
-        for( NSString *f in _filesToSend)
-        {
-            if( [[NSFileManager defaultManager] fileExistsAtPath: f] == NO)
-            {
-                [toBeRemoved addObject: f];
-                NSLog( @"**** DCMTKStoreSCU: file not available: %@", f);
-            }
-        }
-        [_filesToSend removeObjectsInArray: toBeRemoved];
-        
+//results stats
+
 		_numberOfFiles = _filesToSend.count;
 		_numberSent = 0;
 		_numberErrors = 0;
 	}
-	
 	return self;
 }
 
@@ -872,30 +856,17 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 	[_hostname release];
 	[_extraParameters release];
 	[_filesToSend release];
-	[_logEntry release];
-    
-	// TLS
 	[_cipherSuites release];
-	
-//	NSLog( @"dealloc DICOM Send");
-	
 	[super dealloc];
 }
 	
 - (void)run:(NSOperation*) operation
 {
-	NSException* localException = nil;
+   NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+   //popup error for user
+   NSException* operationException = nil;
 	
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-//	NSString *tempFolder = [NSString stringWithFormat:@"/tmp/DICOMSend_%@-%@", _callingAET, [[NSDate date] description]];
-	NSMutableArray *paths = [[NSMutableArray alloc] init];
-	
-	//delete if necessary and create temp folder. Allows us to compress and deompress files. Wish we could do on the fly
-//	NSFileManager *fileManager = [NSFileManager defaultManager];
-//	if ([fileManager fileExistsAtPath:tempFolder]) [fileManager removeItemAtPath:tempFolder error:NULL];
-//	
-//	if ([fileManager createDirectoryAtPath:tempFolder attributes:nil]) NSLog(@"created Folder: %@", tempFolder);
 	
 	OFCondition cond;
 	const char *opt_peer = NULL;
@@ -903,11 +874,9 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
     const char *opt_peerTitle = PEERAPPLICATIONTITLE;
     const char *opt_ourTitle = APPLICATIONTITLE;
 	
-	if (_callingAET)
-		opt_ourTitle = [_callingAET UTF8String];
+	if (_callingAET) opt_ourTitle = [_callingAET UTF8String];
 		
-	if (_calledAET)
-		opt_peerTitle = [_calledAET UTF8String];
+	if (_calledAET) opt_peerTitle = [_calledAET UTF8String];
     
     OFList<OFString> fileNameList;       // list of files to transfer to SCP
     OFList<OFString> sopClassUIDList;    // the list of sop classes
@@ -1081,8 +1050,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
                                 NSLog(@"%s", DcmTLSTransportLayer::getTLSCipherSuiteName(cs));
                             }
                             
-                            localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat:@"Ciphersuite '%s' is unknown.", current] userInfo:nil] retain];
-                            [localException raise];
+                            operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat:@"Ciphersuite '%s' is unknown.", current] userInfo:nil] retain];
+                            [operationException raise];
                         }
                         else
                         {
@@ -1109,13 +1078,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 		 /* finally parse filenames */
 		  for (int i=0; i < paramCount; i++)
 		  {
-			[paths addObject:[_filesToSend objectAtIndex:i]];
-		  }
-		  
-		  for (int i=0; i < paramCount; i++)
-		  {
 			ignoreName = OFFalse;
-			currentFilename = [[paths objectAtIndex:i] UTF8String];
+			currentFilename = [[_filesToSend objectAtIndex:i] UTF8String];
 			
 			if (access(currentFilename, R_OK) < 0)
 			{
@@ -1184,8 +1148,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 		if (cond.bad())
 		{
 			DimseCondition::dump(cond);
-			localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"ASC_initializeNetwork %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
-			[localException raise];
+			operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"ASC_initializeNetwork %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+			[operationException raise];
 			//return;
 		}
 	
@@ -1199,8 +1163,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
                 if (tLayer == NULL)
                 {
                     NSLog(@"unable to create TLS transport layer");
-                    localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:@"unable to create TLS transport layer" userInfo:nil] retain];
-                    [localException raise];
+                    operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:@"unable to create TLS transport layer" userInfo:nil] retain];
+                    [operationException raise];
                 }
                 
                 if(certVerification==VerifyPeerCertificate || certVerification==RequirePeerCertificate)
@@ -1213,8 +1177,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
                     {
                         if (TCS_ok != tLayer->addTrustedCertificateFile([[trustedCertificatesDir stringByAppendingPathComponent:cert] cStringUsingEncoding:NSUTF8StringEncoding], _keyFileFormat))
                         {
-                            localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat:@"Unable to load certificate file %@", [trustedCertificatesDir stringByAppendingPathComponent:cert]] userInfo:nil] retain];
-                            [localException raise];
+                            operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat:@"Unable to load certificate file %@", [trustedCertificatesDir stringByAppendingPathComponent:cert]] userInfo:nil] retain];
+                            [operationException raise];
                         }
                     }
                         
@@ -1237,8 +1201,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
                 
                 if (_dhparam && ! (tLayer->setTempDHParameters(_dhparam)))
                 {
-                    localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat:@"Unable to load temporary DH parameter file %s", _dhparam] userInfo:nil] retain];
-                    [localException raise];
+                    operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat:@"Unable to load temporary DH parameter file %s", _dhparam] userInfo:nil] retain];
+                    [operationException raise];
                 }
                 
                 if (_doAuthenticate)
@@ -1252,27 +1216,27 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
                     
                     if (TCS_ok != tLayer->setPrivateKeyFile([_privateKeyFile cStringUsingEncoding:NSUTF8StringEncoding], SSL_FILETYPE_PEM))
                     {
-                        localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat:@"Unable to load private TLS key from %@", _privateKeyFile] userInfo:nil] retain];
-                        [localException raise];
+                        operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat:@"Unable to load private TLS key from %@", _privateKeyFile] userInfo:nil] retain];
+                        [operationException raise];
                     }
                     
                     if (TCS_ok != tLayer->setCertificateFile([_certificateFile cStringUsingEncoding:NSUTF8StringEncoding], SSL_FILETYPE_PEM))
                     {
-                        localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat:@"Unable to load certificate from %@", _certificateFile] userInfo:nil] retain];
-                        [localException raise];
+                        operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat:@"Unable to load certificate from %@", _certificateFile] userInfo:nil] retain];
+                        [operationException raise];
                     }
                     
                     if (!tLayer->checkPrivateKeyMatchesCertificate())
                     {
-                        localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat:@"private key '%@' and certificate '%@' do not match", _privateKeyFile, _certificateFile] userInfo:nil] retain];
-                        [localException raise];
+                        operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat:@"private key '%@' and certificate '%@' do not match", _privateKeyFile, _certificateFile] userInfo:nil] retain];
+                        [operationException raise];
                     }
                 }
                 
                 if (TCS_ok != tLayer->setCipherSuites(opt_ciphersuites.c_str()))
                 {
-                    localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:@"Unable to set selected cipher suites" userInfo:nil] retain];
-                    [localException raise];
+                    operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:@"Unable to set selected cipher suites" userInfo:nil] retain];
+                    [operationException raise];
                 }
                 
                 DcmCertificateVerification _certVerification;
@@ -1290,8 +1254,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
                 if (cond.bad())
                 {
                     DimseCondition::dump(cond);
-                    localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat: @"ASC_setTransportLayer - %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
-                    [localException raise];
+                    operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU TLS)" reason:[NSString stringWithFormat: @"ASC_setTransportLayer - %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+                    [operationException raise];
                 }
             }
         }
@@ -1302,8 +1266,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
         if (cond.bad())
         {
             DimseCondition::dump(cond);
-            localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"ASC_createAssociationParameters %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
-            [localException raise];
+            operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"ASC_createAssociationParameters %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+            [operationException raise];
             //return;
         }
         
@@ -1318,8 +1282,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
         if (cond.bad())
         {
             DimseCondition::dump(cond);
-            localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"ASC_setTransportLayerType %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
-            [localException raise];
+            operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"ASC_setTransportLayerType %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+            [operationException raise];
             //return;
         }
         
@@ -1337,8 +1301,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
         if (cond.bad())
         {
             DimseCondition::dump(cond);
-            localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"addStoragePresentationContexts %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
-            [localException raise];
+            operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"addStoragePresentationContexts %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+            [operationException raise];
             //return;
         }
 
@@ -1364,14 +1328,14 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
                 ASC_getRejectParameters(params, &rej);
                 errmsg("Association Rejected:");
                 ASC_printRejectParameters(stderr, &rej);
-                localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"Association Rejected %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
-                [localException raise];
+                operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"Association Rejected %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+                [operationException raise];
 
             } else {
                 errmsg("Association Request Failed:");
                 DimseCondition::dump(cond);
-                localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"Association Request Failed %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
-                [localException raise];
+                operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"Association Request Failed %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+                [operationException raise];
             }
         }
         
@@ -1396,8 +1360,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
         if (ASC_countAcceptedPresentationContexts(params) == 0)
         {
             errmsg("No Acceptable Presentation Contexts");
-            localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:@"No acceptable presentation contexts" userInfo:nil] retain];
-            [localException raise];
+            operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:@"No acceptable presentation contexts" userInfo:nil] retain];
+            [operationException raise];
             //return;
         }
 
@@ -1439,8 +1403,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
                 {
                     errmsg("Association Abort Failed:");
                     DimseCondition::dump(cond);
-                    localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"Association Abort Failed %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
-                    [localException raise];
+                    operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"Association Abort Failed %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+                    [operationException raise];
                 }
             } else
             {
@@ -1452,8 +1416,8 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
                 {
                     errmsg("Association Release Failed:");
                     DimseCondition::dump(cond);
-                    localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"Association Release Failed %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
-                    [localException raise];
+                    operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"Association Release Failed %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+                    [operationException raise];
                 }
             }
         }
@@ -1462,14 +1426,14 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
             errmsg("Protocol Error: peer requested release (Aborting)");
             if (opt_verbose)
                 printf("Aborting Association\n");
-            localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"Protocol Error: peer requested release (Aborting) %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+            operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"Protocol Error: peer requested release (Aborting) %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
             cond = ASC_abortAssociation(assoc);
             if (cond.bad())
             {
                 errmsg("Association Abort Failed:");
                 DimseCondition::dump(cond);
             }
-            [localException raise];
+            [operationException raise];
         }
         else if (cond == DUL_PEERABORTEDASSOCIATION)
         {
@@ -1482,7 +1446,7 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
             if (opt_verbose)
                 printf("Aborting Association\n");
             
-            localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"SCU Failed %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+            operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"SCU Failed %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
             cond = ASC_abortAssociation(assoc);
             if (cond.bad())
             {
@@ -1490,7 +1454,7 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
                 DimseCondition::dump(cond);
                 
             }
-            [localException raise];
+            [operationException raise];
         }
     }
 	@catch ( NSException *e)
@@ -1510,7 +1474,7 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 		if (cond.bad())
 		{
 			DimseCondition::dump(cond);
-			localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"ASC_destroyAssociation %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+			operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"ASC_destroyAssociation %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
 		}
 	}
 	
@@ -1523,7 +1487,7 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 		if (cond.bad())
 		{
 			DimseCondition::dump(cond);
-			localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"ASC_dropNetwork %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
+			operationException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:[NSString stringWithFormat: @"ASC_dropNetwork %04x:%04x %s", cond.module(), cond.code(), cond.text()] userInfo:nil] retain];
 		}
 	}
 	
@@ -1563,19 +1527,6 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
     }
 #endif
 
-//    if (opt_haltOnUnsuccessfulStore && unsuccessfulStoreEncountered)
-//	{
-//        if (lastStatusCode == STATUS_Success)
-//		{
-//           
-//        }
-//		else
-//		{
-//           
-//        }
-//		
-//		localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:@"Unsuccessful Store Encountered" userInfo:nil] retain];
-//    }
 
 #ifdef ON_THE_FLY_COMPRESSION
     // deregister JPEG codecs
@@ -1591,30 +1542,11 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 //    dcmDataDict.clear();  /* useful for debugging with dmalloc */
 //#endif
 
-	{
-		NSMutableDictionary  *userInfo = [NSMutableDictionary dictionary];
-		[userInfo setObject:[NSNumber numberWithInt:_numberOfFiles] forKey:@"SendTotal"];
-		[userInfo setObject:[NSNumber numberWithInt:_numberSent] forKey:@"NumberSent"];
-		[userInfo setObject:[NSNumber numberWithInt:_numberErrors] forKey:@"ErrorCount"];
-		[userInfo setObject:[NSNumber numberWithInt:NO] forKey:@"Sent"];
-		
-		if( _numberSent != _numberOfFiles || localException != nil)
-		{
-			if( [operation isCancelled] || (operation == nil && [[NSThread currentThread] isCancelled]))
-                [userInfo setObject:@"Aborted" forKey:@"Message"];
-			else
-                [userInfo setObject:@"Incomplete" forKey:@"Message"];
-		}
-		else
-			[userInfo setObject:@"Complete" forKey:@"Message"];
-	}
-
-	[paths release];
-	[pool release];
 	
-	[localException autorelease];
-	
-	[localException raise];
+	[operationException autorelease];
+	[operationException raise];
+   
+   [pool release];
 }
 
 
