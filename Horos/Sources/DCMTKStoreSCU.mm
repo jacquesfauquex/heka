@@ -1,14 +1,7 @@
-#import "LogManager.h"
-#import "AppController.h"
 #import "DCMTKStoreSCU.h"
-#import "BrowserController.h"
-#import "DicomFile.h"
-#import "Notifications.h"
-#import "MutableArrayCategory.h"
-#import "NSThread+N2.h"
-#import "DicomDatabase.h"
-#import "N2Debug.h"
-#import "N2Stuff.h"
+#import "DCM.h"
+#import "SendController.h"
+
 #undef verify
 #include "osconfig.h" /* make sure OS specific configuration is included first */
 
@@ -70,15 +63,6 @@ END_EXTERN_C
 #include <zlib.h>          /* for zlibVersion() */
 #endif
 
-#import "BrowserController.h"
-#import "DICOMToNSString.h"
-#import "DCMObject.h"
-#import "DCM.h"
-#import "DCMTransferSyntax.h"
-#import "SendController.h"
-
-#import "OpenGLScreenReader.h"
-
 #define OFFIS_CONSOLE_APPLICATION "storescu"
 
 //static char rcsid[] = "$dcmtk: " OFFIS_CONSOLE_APPLICATION " v"
@@ -102,9 +86,6 @@ static OFBool opt_proposeOnlyRequiredPresentationContexts = OFFalse;
 static OFBool opt_combineProposedTransferSyntaxes = OFFalse;
 
 static OFCmdUnsignedInt opt_repeatCount = 1;
-//static OFCmdUnsignedInt opt_inventPatientCount = 25;
-//static OFCmdUnsignedInt opt_inventStudyCount = 50;
-//static OFCmdUnsignedInt opt_inventSeriesCount = 100;
 static OFBool opt_correctUIDPadding = OFFalse;
 //static OFBool opt_inventSOPInstanceInformation = OFFalse;
 //static OFString patientNamePrefix("OSIRIX^PN_");   // PatientName is PN (maximum 16 chars)
@@ -178,8 +159,10 @@ isaListMember(OFList<OFString>& lst, OFString& s)
 }
 
 static OFCondition
-addPresentationContext(T_ASC_Parameters *params,
-    int presentationContextId, const OFString& abstractSyntax,
+addPresentationContext(
+    T_ASC_Parameters *params,
+    int presentationContextId,
+    const OFString& abstractSyntax,
     const OFString& transferSyntax,
     T_ASC_SC_ROLE proposedRole = ASC_SC_ROLE_DEFAULT)
 {
@@ -190,8 +173,10 @@ addPresentationContext(T_ASC_Parameters *params,
 }
 
 static OFCondition
-addPresentationContext(T_ASC_Parameters *params,
-    int presentationContextId, const OFString& abstractSyntax,
+addPresentationContext(
+    T_ASC_Parameters *params,
+    int presentationContextId,
+    const OFString& abstractSyntax,
     const OFList<OFString>& transferSyntaxList,
     T_ASC_SC_ROLE proposedRole = ASC_SC_ROLE_DEFAULT)
 {
@@ -213,7 +198,9 @@ addPresentationContext(T_ASC_Parameters *params,
 }
 
 static OFCondition
-addStoragePresentationContexts(T_ASC_Parameters *params, OFList<OFString>& sopClasses)
+addStoragePresentationContexts(
+   T_ASC_Parameters *params,
+   OFList<OFString>& sopClasses)
 {
     /*
      * Each SOP Class will be proposed in two presentation contexts (unless
@@ -332,141 +319,11 @@ addStoragePresentationContexts(T_ASC_Parameters *params, OFList<OFString>& sopCl
     return cond;
 }
 
-//static int
-//secondsSince1970()
-//{
-//    time_t t = time(NULL);
-//    return (int)t;
-//}
 
-//static OFString
-//intToString(int i)
-//{
-//    char numbuf[32];
-//    sprintf(numbuf, "%d", i);
-//    return numbuf;
-//}
-
-//static OFString
-//makeUID(OFString basePrefix, int counter)
-//{
-//    OFString prefix = basePrefix + "." + intToString(counter);
-//    char uidbuf[65];
-//    OFString uid = dcmGenerateUniqueIdentifier(uidbuf, prefix.c_str());
-//    return uid;
-//}
-//
-//static OFBool
-//updateStringAttributeValue(DcmItem* dataset, const DcmTagKey& key, OFString& value)
-//{
-//    DcmStack stack;
-//    DcmTag tag(key);
-//
-//    OFCondition cond = EC_Normal;
-//    cond = dataset->search(key, stack, ESM_fromHere, OFFalse);
-//    if (cond != EC_Normal) {
-//        CERR << "error: updateStringAttributeValue: cannot find: " << tag.getTagName()
-//             << " " << key << ": "
-//             << cond.text() << endl;
-//        return OFFalse;
-//    }
-//
-//    DcmElement* elem = (DcmElement*) stack.top();
-//
-//    DcmVR vr(elem->ident());
-//    if (elem->getLength() > vr.getMaxValueLength()) {
-//        CERR << "error: updateStringAttributeValue: INTERNAL ERROR: " << tag.getTagName()
-//             << " " << key << ": value too large (max "
-//            << vr.getMaxValueLength() << ") for " << vr.getVRName() << " value: " << value << endl;
-//        return OFFalse;
-//    }
-//
-//    cond = elem->putOFStringArray(value);
-//    if (cond != EC_Normal) {
-//        CERR << "error: updateStringAttributeValue: cannot put string in attribute: " << tag.getTagName()
-//             << " " << key << ": "
-//             << cond.text() << endl;
-//        return OFFalse;
-//    }
-//
-//    return OFTrue;
-//}
-
-//static void
-//replaceSOPInstanceInformation(DcmDataset* dataset)
-//{
-//    static OFCmdUnsignedInt patientCounter = 0;
-//    static OFCmdUnsignedInt studyCounter = 0;
-//    static OFCmdUnsignedInt seriesCounter = 0;
-//    static OFCmdUnsignedInt imageCounter = 0;
-//    static OFString seriesInstanceUID;
-//    static OFString seriesNumber;
-//    static OFString studyInstanceUID;
-//    static OFString studyID;
-//    static OFString accessionNumber;
-//    static OFString patientID;
-//    static OFString patientName;
-//
-//    if (seriesInstanceUID.length() == 0) seriesInstanceUID=makeUID(SITE_SERIES_UID_ROOT, (int)seriesCounter);
-//    if (seriesNumber.length() == 0) seriesNumber = intToString((int)seriesCounter);
-//    if (studyInstanceUID.length() == 0) studyInstanceUID = makeUID(SITE_STUDY_UID_ROOT, (int)studyCounter);
-//    if (studyID.length() == 0) studyID = studyIDPrefix + intToString((int)secondsSince1970()) + intToString((int)studyCounter);
-//    if (accessionNumber.length() == 0) accessionNumber = accessionNumberPrefix + intToString(secondsSince1970()) + intToString((int)studyCounter);
-//    if (patientID.length() == 0) patientID = patientIDPrefix + intToString(secondsSince1970()) + intToString((int)patientCounter);
-//    if (patientName.length() == 0) patientName = patientNamePrefix + intToString(secondsSince1970()) + intToString((int)patientCounter);
-//
-//    if (imageCounter >= opt_inventSeriesCount) {
-//        imageCounter = 0;
-//        seriesCounter++;
-//        seriesInstanceUID = makeUID(SITE_SERIES_UID_ROOT, (int)seriesCounter);
-//        seriesNumber = intToString((int)seriesCounter);
-//    }
-//    if (seriesCounter >= opt_inventStudyCount) {
-//        seriesCounter = 0;
-//        studyCounter++;
-//        studyInstanceUID = makeUID(SITE_STUDY_UID_ROOT, (int)studyCounter);
-//        studyID = studyIDPrefix + intToString(secondsSince1970()) + intToString((int)studyCounter);
-//        accessionNumber = accessionNumberPrefix + intToString(secondsSince1970()) + intToString((int)studyCounter);
-//    }
-//    if (studyCounter >= opt_inventPatientCount) {
-//        // we create as many patients as necessary */
-//        studyCounter = 0;
-//        patientCounter++;
-//        patientID = patientIDPrefix + intToString(secondsSince1970()) + intToString((int)patientCounter);
-//        patientName = patientNamePrefix + intToString(secondsSince1970()) + intToString((int)patientCounter);
-//    }
-//
-//    OFString sopInstanceUID = makeUID(SITE_INSTANCE_UID_ROOT, (int)imageCounter);
-//    OFString imageNumber = intToString((int)imageCounter);
-//
-//    if (opt_verbose) {
-//        COUT << "Inventing Identifying Information (" <<
-//            "pa" << patientCounter << ", st" << studyCounter <<
-//            ", se" << seriesCounter << ", im" << imageCounter << "): " << endl;
-//        COUT << "  PatientName=" << patientName << endl;
-//        COUT << "  PatientID=" << patientID << endl;
-//        COUT << "  StudyInstanceUID=" << studyInstanceUID << endl;
-//        COUT << "  StudyID=" << studyID << endl;
-//        COUT << "  SeriesInstanceUID=" << seriesInstanceUID << endl;
-//        COUT << "  SeriesNumber=" << seriesNumber << endl;
-//        COUT << "  SOPInstanceUID=" << sopInstanceUID << endl;
-//        COUT << "  ImageNumber=" << imageNumber << endl;
-//    }
-//
-//    updateStringAttributeValue(dataset, DCM_PatientsName, patientName);
-//    updateStringAttributeValue(dataset, DCM_PatientID, patientID);
-//    updateStringAttributeValue(dataset, DCM_StudyInstanceUID, studyInstanceUID);
-//    updateStringAttributeValue(dataset, DCM_StudyID, studyID);
-//    updateStringAttributeValue(dataset, DCM_SeriesInstanceUID, seriesInstanceUID);
-//    updateStringAttributeValue(dataset, DCM_SeriesNumber, seriesNumber);
-//    updateStringAttributeValue(dataset, DCM_SOPInstanceUID, sopInstanceUID);
-//    updateStringAttributeValue(dataset, DCM_InstanceNumber, imageNumber);
-//
-//    imageCounter++;
-//}
 
 static void
-progressCallback(void * /*callbackData*/,
+progressCallback(
+    void * /*callbackData*/,
     T_DIMSE_StoreProgress *progress,
     T_DIMSE_C_StoreRQ * /*req*/)
 {
@@ -483,7 +340,10 @@ progressCallback(void * /*callbackData*/,
     }
 }
 
-static OFBool decompressFile(DcmFileFormat fileformat, const char *fname, char *outfname)
+static OFBool decompressFile(
+   DcmFileFormat fileformat,
+   const char *fname,
+   char *outfname)
 {
 	OFBool status = YES;
 	OFCondition cond;
@@ -531,7 +391,10 @@ static OFBool decompressFile(DcmFileFormat fileformat, const char *fname, char *
 	return status;
 }
 
-static OFBool compressFile(DcmFileFormat fileformat, const char *fname, char *outfname)
+static OFBool compressFile(
+   DcmFileFormat fileformat,
+   const char *fname,
+   char *outfname)
 {
 	OFCondition cond;
 	OFBool status = YES;
@@ -900,6 +763,7 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
     return cond;
 }
 
+#pragma mark - objective-C
 
 
 @implementation DCMTKStoreSCU
@@ -923,7 +787,7 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 	return SendExplicitLittleEndian;
 }
 
-- (id) initWithCallingAET:(NSString *)myAET  
+- (id) initWithCallingAET:(NSString *)myAET
 			calledAET:(NSString *)theirAET  
 			hostname:(NSString *)hostname 
 			port:(int)port 
@@ -981,7 +845,6 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 		}
 		
 		_filesToSend = [[NSMutableArray arrayWithArray: filesToSend] retain];
-		[_filesToSend removeDuplicatedStrings];
         
         NSMutableArray *toBeRemoved = [NSMutableArray array];
         for( NSString *f in _filesToSend)
@@ -997,40 +860,6 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 		_numberOfFiles = _filesToSend.count;
 		_numberSent = 0;
 		_numberErrors = 0;
-		_logEntry = nil;
-		
-		DcmFileFormat fileformat;
-		if ([_filesToSend count])
-		{
-			OFCondition status = fileformat.loadFile([ [_filesToSend objectAtIndex:0] UTF8String]);
-			if (status.good())
-			{
-				const char *string = NULL;
-				NSStringEncoding encoding[ 10];
-				for( int i = 0; i < 10; i++) encoding[ i] = 0;
-				encoding[ 0] = NSISOLatin1StringEncoding;
-				
-				if (fileformat.getDataset()->findAndGetString(DCM_SpecificCharacterSet, string, OFFalse).good() && string != nil)
-				{
-					NSArray	*c = [[NSString stringWithUTF8String:string] componentsSeparatedByString:@"\\"];
-
-					if( [c count] >= 10) NSLog( @"Encoding number >= 10 ???");
-
-					if( [c count] < 10)
-					{
-						for( int i = 0; i < [c count]; i++) encoding[ i] = [NSString encodingForDICOMCharacterSet: [c objectAtIndex: i]];
-					}
-				}
-
-				if (fileformat.getDataset()->findAndGetString(DCM_PatientsName, string, OFFalse).good() && string != nil)
-					_patientName = [[DicomFile stringWithBytes: (char*) string encodings:encoding] retain];
-				else _patientName = [@"Unnamed" retain];
-				
-				if (fileformat.getDataset()->findAndGetString(DCM_StudyDescription, string, OFFalse).good() && string != nil)
-					_studyDescription = [[DicomFile stringWithBytes: (char*) string encodings:encoding] retain];
-				else _studyDescription = [@"Unnamed" retain];
-			}
-		}
 	}
 	
 	return self;
@@ -1043,8 +872,6 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 	[_hostname release];
 	[_extraParameters release];
 	[_filesToSend release];
-	[_patientName release];
-	[_studyDescription release];
 	[_logEntry release];
     
 	// TLS
@@ -1060,8 +887,6 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 	NSException* localException = nil;
 	
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	[[AppController sharedAppController] notificationTitle: NSLocalizedString( @"DICOM Send", nil) description: [NSString stringWithFormat: NSLocalizedString(@"Sending %@...\rTo: %@ - %@", nil), N2LocalizedSingularPluralCount( _filesToSend.count, NSLocalizedString(@"file", nil), NSLocalizedString(@"files", nil)), _calledAET, _hostname] name:@"send"];
 	
 //	NSString *tempFolder = [NSString stringWithFormat:@"/tmp/DICOMSend_%@-%@", _callingAET, [[NSDate date] description]];
 	NSMutableArray *paths = [[NSMutableArray alloc] init];
@@ -1598,29 +1423,6 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
                 _numberSent++;
             else
                 _numberErrors = _numberOfFiles - _numberSent;
-            
-            NSMutableDictionary  *userInfo = [NSMutableDictionary dictionary];
-            [userInfo setObject:[NSNumber numberWithInt:_numberOfFiles] forKey:@"SendTotal"];
-            [userInfo setObject:[NSNumber numberWithInt:_numberSent] forKey:@"NumberSent"];
-            [userInfo setObject:[NSNumber numberWithInt:_numberErrors] forKey:@"ErrorCount"];
-            [userInfo setObject:[NSNumber numberWithInt:NO] forKey:@"Sent"];
-            [userInfo setObject:@"In Progress" forKey:@"Message"];
-            
-            if( [operation isCancelled] || (operation == nil && [[NSThread currentThread] isCancelled]))
-                [userInfo setObject:@"Incomplete" forKey:@"Message"];
-            
-            [self updateLogEntry: userInfo];
-            
-            if( [[userInfo objectForKey: @"SendTotal"] floatValue] >= 1)
-            {
-                NSString *extraInfo = @"";
-                if( _secureConnection)
-                    extraInfo = NSLocalizedString(@" (TLS)", @"don't remove leading space");
-                NSInteger theNumber = [[userInfo objectForKey: @"SendTotal"] intValue] - [[userInfo objectForKey: @"NumberSent"] intValue];
-                [NSThread currentThread].status = [NSString stringWithFormat:@"%d %@%@", (int) theNumber, (theNumber != 1? NSLocalizedString(@"files", nil) : NSLocalizedString(@"file", nil)), extraInfo];
-                [NSThread currentThread].progress = [[userInfo objectForKey: @"NumberSent"] floatValue] / [[userInfo objectForKey: @"SendTotal"] floatValue];
-            }
-            
             if ([operation isCancelled] || (operation == nil && [[NSThread currentThread] isCancelled]))
                 break;
         }
@@ -1802,34 +1604,9 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
                 [userInfo setObject:@"Aborted" forKey:@"Message"];
 			else
                 [userInfo setObject:@"Incomplete" forKey:@"Message"];
-			
-			_numberErrors = _numberOfFiles - _numberSent;
-			
-			[userInfo setObject:[NSNumber numberWithInt:_numberErrors] forKey:@"ErrorCount"];
-			
-			[[AppController sharedAppController] notificationTitle: NSLocalizedString( @"DICOM Send", nil) description: [NSString stringWithFormat: NSLocalizedString(@"Errors ! %@ of %@ generated errors.", nil), N2LocalizedDecimal( _numberErrors) , N2LocalizedSingularPluralCount( _numberOfFiles, NSLocalizedString(@"file", nil), NSLocalizedString(@"files", nil))]  name:@"send"];
-            
-            NSLog( @"DCMTKStoreSCU: _numberSent: %d / _numberOfFiles : %d", _numberSent, _numberOfFiles);
-            
-            if( localException == nil)
-                localException = [[NSException exceptionWithName:@"DICOM Network Failure (STORE-SCU)" reason:@"Unsuccessful Store Encountered, see Applications/Utilities/Console.app for more detailed informations." userInfo:nil] retain];
 		}
 		else
 			[userInfo setObject:@"Complete" forKey:@"Message"];
-		
-		[self updateLogEntry: userInfo];
-		
-		if( [[userInfo objectForKey: @"SendTotal"] floatValue] >= 1)
-		{
-            NSString *extraInfo = @"";
-            if( _secureConnection)
-                extraInfo = @" (TLS Activated)";
-            
-			[NSThread currentThread].status = [NSString stringWithFormat: NSLocalizedString( @"%@%@", nil), N2LocalizedSingularPluralCount( [[userInfo objectForKey: @"SendTotal"] intValue] - [[userInfo objectForKey: @"NumberSent"] intValue], NSLocalizedString(@"file", nil), NSLocalizedString(@"files", nil)), extraInfo];
-			[NSThread currentThread].progress = [[userInfo objectForKey: @"NumberSent"] floatValue] / [[userInfo objectForKey: @"SendTotal"] floatValue];
-		}
-//		[self sendStatusNotification: userInfo];
-//		[[NSNotificationCenter defaultCenter] postNotificationName:OsirixDCMSendStatusNotification object:self userInfo:userInfo];
 	}
 
 	[paths release];
@@ -1840,46 +1617,5 @@ static OFCondition cstore(T_ASC_Association * assoc, const OFString& fname)
 	[localException raise];
 }
 
-//- (void) sendStatusNotification:(NSMutableDictionary*) userInfo
-//{
-//	[[NSNotificationCenter defaultCenter] postNotificationName:OsirixDCMSendStatusNotification object:self userInfo:userInfo];
-//}
-
-- (void) updateLogEntry: (NSMutableDictionary*) userInfo
-{
-	if( [[BrowserController currentBrowser] isNetworkLogsActive] == NO) return;
-	
-	@try
-	{
-		if (!_logEntry)
-		{
-			_logEntry = [[NSMutableDictionary dictionary] retain];
-            
-            [_logEntry setValue: [NSString stringWithFormat: @"%lf", [[NSDate date] timeIntervalSince1970]] forKey:@"logUID"];
-			[_logEntry setValue: [NSDate date] forKey:@"logStartTime"];
-			[_logEntry setValue:@"Send" forKey:@"logType"];
-			[_logEntry setValue:_calledAET forKey:@"logCalledAET"];
-			[_logEntry setValue:_callingAET forKey:@"logCallingAET"];
-			
-			if (_patientName)
-				[_logEntry setValue:_patientName forKey: @"logPatientName"];
-			
-			if (_studyDescription)
-				[_logEntry setValue:_studyDescription forKey:@"logStudyDescription"];
-		}
-		
-		[_logEntry setValue:[NSNumber numberWithInt: _numberOfFiles] forKey:@"logNumberTotal"];
-		[_logEntry setValue:[NSNumber numberWithInt: _numberSent] forKey:@"logNumberReceived"];
-		[_logEntry setValue:[NSNumber numberWithInt: _numberErrors] forKey:@"logNumberError"];
-		[_logEntry setValue:[NSDate date] forKey:@"logEndTime"];
-		[_logEntry setValue:[userInfo valueForKey:@"Message"] forKey:@"logMessage"];
-        
-        [[LogManager currentLogManager] addLogLine: _logEntry];
-	}
-	@catch (NSException* e) {
-		N2LogExceptionWithStackTrace(e);
-	} @finally {
-    }
-}
 
 @end

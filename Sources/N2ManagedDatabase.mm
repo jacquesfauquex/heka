@@ -9,22 +9,20 @@
 static int gTotalN2ManagedObjectContext = 0;
 
 @interface N2ManagedDatabase ()
-
 @property(readwrite,retain) NSString* sqlFilePath;
 @property(readwrite,retain) id mainDatabase;
-
 @end
+
 
 #define N2PersistentStoreCoordinator NSPersistentStoreCoordinator // for debug purposes, disable this #define and enable the commented N2PersistentStoreCoordinator implementation
 
+
 @interface N2ManagedObjectContext ()
-
 @property (strong) N2ManagedObjectContext *confinementParentContext;
-
 @end
 
-@implementation N2ManagedObjectContext
 
+@implementation N2ManagedObjectContext
 @synthesize database = _database;
 @synthesize confinementParentContext = _confinementParentContext;
 
@@ -56,15 +54,11 @@ static int gTotalN2ManagedObjectContext = 0;
 -(void)dealloc {
 #ifndef NDEBUG
     [_database checkForCorrectContextThread: self];
-    
     gTotalN2ManagedObjectContext--;
 #endif
-    
     [NSNotificationCenter.defaultCenter removeObserver:self];
-
     self.confinementParentContext = nil;
     _database = nil;
-	
     [super dealloc]; //test if db is deallocated
 }
 
@@ -83,9 +77,9 @@ static int gTotalN2ManagedObjectContext = 0;
     } @finally {
         [self unlock];
     }
-    
     return NO;
 }
+
 
 -(NSManagedObject*)existingObjectWithID:(NSManagedObjectID*)objectID error:(NSError**)error {
     [self lock];
@@ -99,9 +93,9 @@ static int gTotalN2ManagedObjectContext = 0;
     } @finally {
         [self unlock];
     }
-    
     return nil;
 }
+
 
 /*
  http://developer.apple.com/DOCUMENTATION/Cocoa/Conceptual/CoreData/Articles/cdMultiThreading.html#//apple_ref/doc/uid/TP40003385-SW2
